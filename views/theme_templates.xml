@@ -1,0 +1,10 @@
+<odoo>
+    <template id="ninja_quiz_template" name="Ninja Quiz Page">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Ninja Quiz</h1>
+                <p>Bienvenido al Ninja Quiz</p>
+            </div>
+        </t>
+    </template>
+</odoo>
