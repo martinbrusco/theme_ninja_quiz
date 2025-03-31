@@ -1,19 +1,25 @@
 {
     'name': 'Theme Ninja Quiz',
-    'version': '17.0.1.0.0',
-    'summary': 'Tema en Odoo 17',
-    'author': 'Martin Brusco',
-    'category': 'Website/Quiz',
-    'license': 'LGPL-3',
-    'depends': ['website'],
+    "version": "17.0.1.0",
+    'summary': 'Theme Ninja Quiz',
+    'description': "Tema Ninja para Quiz",
+    'category': 'Demo',
+    'author': 'Martin',
+    'images': ['static/description/icon.png'],
+    'website': 'https://www.google.com',
+    'license': 'AGPL-3',
+    'depends': ['base', 'web'],
     'data': [
-        'views/theme_templates.xml',
+        'views/quiz_dashboard.xml'
     ],
-    'assets': {
-        'web.assets_frontend': [
-            'theme_ninja_quiz/static/css/style.css',
-        ],
-    },
     'installable': True,
-    'application': False,
+    'auto_install': False,
+    'application': True,
+    'assets': {
+        'web.assets_backend': [
+            'theme_ninja_quiz/static/src/components/quiz_dashboard.js',
+            'theme_ninja_quiz/static/src/components/quiz_dashboard.xml',
+        ],
+    }
+
 }
