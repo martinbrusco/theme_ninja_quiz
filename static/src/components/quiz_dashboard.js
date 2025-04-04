@@ -7,7 +7,7 @@ const { Component, useState, onWillStart } = owl;
 export class OwlQuizDashboard extends Component {
     setup() {
         this.state = useState({
-            title: "",
+            title: " ",
         });
 
         onWillStart(async () => {
