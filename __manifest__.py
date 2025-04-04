@@ -6,7 +6,7 @@
     'category': 'Demo',
     'author': 'Martin',
     'images': ['static/description/icon.png'],
-    'website': 'https://www.google.com',
+    'website': 'https:s//www.google.com',
     'license': 'AGPL-3',
     'depends': ['base', 'web'],
     'data': [
