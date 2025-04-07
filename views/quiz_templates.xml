@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="theme_ninja_quiz.quiz_play_template" name="Quiz Play Page">
+        <t t-call="website.layout">
+            <div class="container" style="text-align:center; margin-top:100px;">
+                <h1>Bienvenido al Quiz!</h1>
+                <p>Ingresa el pin y juega como un Ninja</p>
+                <form action="/quiz/join" method="post">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="text" name="pin"/>
+                    <button type="submit">Unirme</button>
+                </form>
+
+            </div>
+        </t>
+    </template>
+
+    <template id="theme_ninja_quiz.quiz_join_template" name="Quiz Join Page">
+        <t t-call="website.layout">
+            <div class="container" style="text-align:center; margin-top:100px;">
+                <h1>gracias!</h1>
+                <p>tu PIN es: <strong t-esc="pin"/></p>
+            </div>
+        </t>
+    </template>
+</odoo>
