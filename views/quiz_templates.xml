@@ -1,25 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <template id="theme_ninja_quiz.quiz_play_template" name="Quiz Play Page">
+    <template id="quiz_play_template" name="Quiz Play Page">
         <t t-call="website.layout">
-            <div class="container" style="text-align:center; margin-top:100px;">
+            <!-- Aquí, el enlace del CSS debe estar dentro del bloque t-call -->
+            <t t-set="assets" t-value="{
+                'css': ['/ninja_quiz/static/src/css/quiz_styles.css'],
+                'js': []}"/>
+            <div class="quiz-container">
                 <h1>Bienvenido al Quiz!</h1>
                 <p>Ingresa el pin y juega como un Ninja</p>
-                <form action="/quiz/join" method="post">
+                <form action="/join" method="post">
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                    <input type="text" name="pin"/>
-                    <button type="submit">Unirme</button>
+                    <input type="text" name="pin" placeholder="Ingresa tu PIN" required="required"/>
+                    <button type="submit" class="btn btn-primary">Unirme</button>
                 </form>
-
             </div>
         </t>
     </template>
 
-    <template id="theme_ninja_quiz.quiz_join_template" name="Quiz Join Page">
+    <template id="quiz_join_template" name="Quiz Join Page">
         <t t-call="website.layout">
-            <div class="container" style="text-align:center; margin-top:100px;">
-                <h1>gracias!</h1>
-                <p>tu PIN es: <strong t-esc="pin"/></p>
+            <t t-set="assets" t-value="{
+                'css': ['/ninja_quiz/static/src/css/quiz_styles.css'],
+                'js': []}"/>
+            <div class="join-container">
+                <h1>¡Gracias por unirte!</h1>
+                <p>Tu PIN es: <strong t-esc="pin"/></p>
             </div>
         </t>
     </template>
