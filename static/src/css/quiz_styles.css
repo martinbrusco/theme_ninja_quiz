@@ -1,0 +1,19 @@
+.quiz-container {
+    max-width: 600px;
+    margin: 50px auto;
+    text-align: center;
+    background-color: #fbfbfb;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.quiz-container h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.quiz-container input,
+.quiz-container button {
+    padding: 10px;
+    font-size: 18px;
+}
