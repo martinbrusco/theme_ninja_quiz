@@ -12,15 +12,14 @@ html, body {
   background-size: cover;
 }
 
-.ninja-quiz-container {
+main.ninja-quiz-container {
+  flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
+  min-height: 100vh;
 }
+
 
 .ninja-quiz-card {
   background-color: white;
@@ -71,4 +70,21 @@ html, body {
 
 .join-button:hover {
   background-color: #1e1e1e;
+}
+
+.p-footer {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  text-align: center;
+  --safeAreaInsetTop: env(safe-area-inset-top);
+  --safeAreaInsetBottom: env(safe-area-inset-bottom);
+  color: #fff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  display: block;
+  margin: 0 0 0.625rem;
 }
