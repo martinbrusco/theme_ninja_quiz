@@ -1,0 +1,7 @@
+<odoo>
+  <template id="layout" inherit_id="website.layout" name="Ninja Quiz Layout">
+    <xpath expr="//title" position="replace">
+      <title>Ninja Quiz</title>
+    </xpath>
+  </template>
+</odoo>

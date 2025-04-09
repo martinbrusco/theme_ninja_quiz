@@ -1,0 +1,28 @@
+<odoo>
+  <template id="play_page_template" name="Ninja Quiz Play">
+    <t t-call="website.layout">
+    <t t-call="web.frontend_layout">
+      <div class="ninja-quiz-container">
+        <div class="ninja-quiz-card">
+          <h1 class="title">Ingresa tu PIN</h1>
+            <form t-attf-action="/show_pin" method="POST">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input class="pin-input" type="text" name="game_pin" maxlength="10" placeholder="PIN del juego" required="required"/>
+                <button type="submit" class="join-button">Unirse</button>
+            </form>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <template id="show_pin_template" name="Mostrar PIN">
+    <t t-call="website.layout">
+      <div class="ninja-quiz-container">
+        <div class="ninja-quiz-card">
+          <h2 class="title">PIN ingresado:</h2>
+          <p t-esc="pin" class="pin-output"/>
+        </div>
+      </div>
+    </t>
+  </template>
+</odoo>
