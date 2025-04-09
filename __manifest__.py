@@ -1,18 +1,21 @@
 {
-    'name': 'Quiz Game',
-    'version': '1.0',
-    'summary': 'Quiz game',
-    'category': 'Tools',
-    'author': 'Martin',
-    'depends': ['base', 'web', 'website'],
-    'data': [
-        'views/quiz_templates.xml',
+    "name": "Theme Ninja Quiz",
+    "description": "Un tema que emula una página de ingreso de PIN para un quiz",
+    "category": "Theme/Creative",
+    "version": "1.0",
+    "author": "Martin Brusco",
+    "license": "LGPL-3",
+    "depends": ["web", "website"],  # Asegúrate que "web" esté primero
+    "data": [
+        "views/layout.xml",
+        "views/homepage.xml",  # Elimina assets.xml de aquí
+        "views/play.xml"
     ],
-    'assets': {
-        'web.assets_frontend': [
-            'ninja_quiz/static/src/css/quiz_styles.css',
-        ],
+    "assets": {
+        "web.assets_frontend": [
+            "theme_ninja_quiz/static/src/scss/custom.scss"
+        ]
     },
-    'installable': True,
-    'application': True,
+    "application": False,
+    "auto_install": False
 }
