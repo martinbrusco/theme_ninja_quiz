@@ -1,4 +1,4 @@
-/* ===== Global Styles ===== */
+/* ===== Styles ===== */
 html, body {
   height: 100%;
   margin: 0;
@@ -93,4 +93,125 @@ main.ninja-quiz-container {
   margin-top: 24px;
   font-weight: 500;
   text-align: center;
+}
+
+
+/* === Botón Noticias === */
+.btn-news {
+  display: inline-block;
+  background-color: #0057FF;
+  color: white;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  margin-top: 8px;
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.notification-bubble {
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25em 0.5em;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+
+/* === Botón Play === */
+.btn-play {
+  display: inline-block;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  color: #0057FF;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  text-decoration: none;
+  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* === Botón Suscribirse === */
+.btn-subscribe {
+  display: inline-block;
+  background-color: #26890C;
+  color: white;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  margin-top: 8px;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+}
+
+/* === Botón Contacto Vendedor === */
+.btn-contact-sales {
+  text-transform: uppercase;
+  background-color: #ffffff;
+  color: #0057FF !important;
+  border: 1px solid #0057FF;
+  margin-left: .625rem;
+  text-decoration: none;
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  padding: clamp(.375rem, .66667vmin, .5rem) clamp(.875rem, 1.33333vmin, 1rem);
+  display: block;
+  border-radius: .25rem;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  font-family: 'Montserrat', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-contact-sales:hover {
+  background-color: #0057FF;
+  color: #ffffff !important;
+}
+
+
+/* === Botón Log in === */
+.btn-login {
+  color: #0057FF;
+  background-color: transparent;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  text-decoration: none;
+  display: block;
+  margin-top: 8px;
+  text-align: center;
+  position: relative;
+}
+
+/* === Botón Contextual Reutilizable (Work, School, etc.) === */
+.btn-context {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  font-weight: 700;
+  color: #333;
+  padding: 0.5rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  margin-top: 8px;
+  background-repeat: no-repeat;
+  background-position: 0.5rem center;
+  background-size: 0.875rem;
+  padding-left: 2rem;
+  //background-image: url(/wp-content/themes/kahoot2017/assets/img/icons/nav/work-nav-icon.svg?ver=2);
 }

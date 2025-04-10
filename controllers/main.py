@@ -17,4 +17,9 @@ class NinjaQuizController(http.Controller):
     @http.route('/components', type='http', auth="public", website=True)
     def components(self, **kw):
         return request.render("theme_ninja_quiz.components_library", {})
+    
+    
+    @http.route('/', type='http', auth="public", website=True)
+    def homepage(self, **kw):
+        return request.render("theme_ninja_quiz.homepage_template", {})
 

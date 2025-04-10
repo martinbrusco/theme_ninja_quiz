@@ -1,13 +1,7 @@
 <odoo>
   <template id="homepage_template" name="Ninja Quiz Homepage">
     <t t-call="website.layout">
-      <div class="ninja-quiz-container">
-        <div class="ninja-quiz-card">
-          <h1 class="title">Ingresa tu PIN</h1>
-          <input class="pin-input" type="text" maxlength="10" placeholder="PIN del juego"/>
-          <button class="join-button">Unirse</button>
-        </div>
-      </div>
+      <h1>hola</h1>
     </t>
   </template>
 </odoo>

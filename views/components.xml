@@ -5,25 +5,64 @@
         <div class="ninja-quiz-card">
           <h1 class="title">Catálogo de Componentes</h1>
 
-          <!-- ========== TITULOS ========= -->
+          <!-- ========== TITULOS  -->
           <section>
             <h1 class="title">Título h1</h1>
           </section>
 
-          <!-- ========== INPUTS ========= -->
+          <!-- ========== INPUTS  -->
           <section>
             <input type="text" class="pin-input" placeholder="PIN del juego"/>
           </section>
 
-          <!-- ========== BOTONES ========= -->
+
+          <!-- ========== BOTONES  -->
           <section>
             <h1 class="title">Botones</h1>
-            <button class="join-button">Unirse</button>
+            <button class="join-button">Ingresa</button>
             <a href="#" class="join-button">Ver más</a>
             <button class="btn btn-primary">Botón Bootstrap</button>
+
+            <!-- Botón Noticias -->
+            <a href="#" class="btn-news">
+              <span class="menu-news-icon"></span>
+              <span>News</span>
+              <span class="notification-bubble">3</span>
+            </a>
+
+            <!-- Botón Play -->
+            <a href="#" class="btn-play">
+              <span class="menu-item-text">Play</span>
+            </a>
+
+            <!-- Botón Suscribirse -->
+            <a href="#" class="btn-subscribe" data-tracking-id="sign-up-top-bar" itemprop="url">Sign up FREE</a>
+
+            <!-- Botón Contacto Vendedor -->
+            <a href="#" class="btn-contact-sales" itemprop="url">Contact sales</a>
+
+            <!-- Botón Inicio de Sesión -->
+            <a href="#" class="btn-login">
+              <span class="menu-item-text">Log in</span>
+            </a>
+
+            <!-- Botón Reutilizable para Work/School/Home -->
+            <a href="#" class="btn-context" itemprop="url">
+              <span class="menu-item-text">
+                <span class="desktop-hidden">Ninja Quiz!</span>Work
+              </span>
+            </a>
+
+                        <!-- Botón Reutilizable para Work/School/Home -->
+            <a href="#" class="btn-context" itemprop="url">
+              <span class="menu-item-text">
+                <span class="desktop-hidden">Ninja Quiz! </span>School
+              </span>
+            </a>
           </section>
 
-          <!-- ========== FOOTER ========= -->
+
+          <!-- ========== FOOTER  -->
           <section>
             <p class="p-footer">Crea tu propio Quiz como un Ninja</p>
           </section>
