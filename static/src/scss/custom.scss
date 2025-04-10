@@ -1,3 +1,4 @@
+/* ===== Global Styles ===== */
 html, body {
   height: 100%;
   margin: 0;
@@ -21,6 +22,8 @@ main.ninja-quiz-container {
 }
 
 
+/* ===== Componentes ===== */
+
 .ninja-quiz-card {
   background-color: white;
   border-radius: 8px;
@@ -31,6 +34,7 @@ main.ninja-quiz-container {
   text-align: center;
 }
 
+/* --- Títulos --- */
 .title {
   font-size: 28px;
   color: #222;
@@ -38,6 +42,7 @@ main.ninja-quiz-container {
   font-weight: bold;
 }
 
+/* --- Inputs --- */
 .pin-input {
   width: 100%;
   padding: 12px;
@@ -55,6 +60,7 @@ main.ninja-quiz-container {
   border-color: #7b61ff;
 }
 
+/* --- Botones --- */
 .join-button {
   width: 100%;
   padding: 12px;
@@ -72,19 +78,12 @@ main.ninja-quiz-container {
   background-color: #1e1e1e;
 }
 
+/* --- Footer --- */
 .p-footer {
-  background-color: transparent;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  text-align: center;
-  --safeAreaInsetTop: env(safe-area-inset-top);
-  --safeAreaInsetBottom: env(safe-area-inset-bottom);
   color: #fff;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 500;
-  display: block;
+  text-align: center;
   margin: 0 0 0.625rem;
 }

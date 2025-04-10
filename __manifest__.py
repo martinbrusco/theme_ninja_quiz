@@ -5,10 +5,11 @@
     "version": "1.0",
     "author": "Martin Brusco",
     "license": "LGPL-3",
-    "depends": ["web", "website"],  # Asegúrate que "web" esté primero
+    "depends": ["web", "website"],  
     "data": [
         "views/layout.xml",
-        "views/homepage.xml",  # Elimina assets.xml de aquí
+        "views/homepage.xml",  
+        "views/components.xml",
         "views/play.xml"
     ],
     "assets": {

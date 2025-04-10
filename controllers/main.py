@@ -13,3 +13,8 @@ class NinjaQuizController(http.Controller):
         return request.render("theme_ninja_quiz.show_pin_template", {
             'pin': pin
         })
+    
+    @http.route('/components', type='http', auth="public", website=True)
+    def components(self, **kw):
+        return request.render("theme_ninja_quiz.components_library", {})
+
