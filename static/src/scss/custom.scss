@@ -14,20 +14,18 @@ html, body {
 }
 
 main.ninja-quiz-container {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  padding: 16px;
 }
 
-
 /* ===== Componentes ===== */
-
 .ninja-quiz-card {
   background-color: white;
   border-radius: 8px;
-  padding: 20px;
+  padding: 32px 24px;
   width: 100%;
   max-width: 320px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -38,8 +36,13 @@ main.ninja-quiz-container {
 .title {
   font-size: 28px;
   color: #222;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   font-weight: bold;
+}
+
+/* --- Input Container --- */
+.input-container {
+  margin-bottom: 8px;
 }
 
 /* --- Inputs --- */
@@ -47,13 +50,15 @@ main.ninja-quiz-container {
   width: 100%;
   padding: 12px;
   font-size: 18px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 16px;
   box-sizing: border-box;
   text-align: center;
   outline: none;
   transition: border-color 0.3s ease;
+  font-weight: bold;
+  color: rgb(51, 51, 51);
+  background-color: rgb(255, 255, 255);
 }
 
 .pin-input:focus {
@@ -72,6 +77,9 @@ main.ninja-quiz-container {
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  margin-top: 8px;
+  height: 48px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px, rgba(0, 0, 0, 0.25) 0px -4px inset;
 }
 
 .join-button:hover {
@@ -80,10 +88,9 @@ main.ninja-quiz-container {
 
 /* --- Footer --- */
 .p-footer {
-  color: #fff;
+  color: #fafafa;
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  margin-top: 24px;
   font-weight: 500;
   text-align: center;
-  margin: 0 0 0.625rem;
 }
