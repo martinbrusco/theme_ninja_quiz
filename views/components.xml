@@ -9,58 +9,123 @@
           <section>
             <h1 class="title">Título h1</h1>
           </section>
+          <br/>
 
           <!-- ========== INPUTS  -->
           <section>
             <input type="text" class="pin-input" placeholder="PIN del juego"/>
           </section>
-
+          <br/>
 
           <!-- ========== BOTONES  -->
           <section>
             <h1 class="title">Botones</h1>
-            <button class="join-button">Ingresa</button>
-            <a href="#" class="join-button">Ver más</a>
-            <button class="btn btn-primary">Botón Bootstrap</button>
 
+            <br/>
+
+            <!-- Botón personalizado -->
+            <button class="join-button">Ingresa</button>
+            <br/>
+            <a href="#" class="join-button">Ver más</a>
+            <br/>
+            <!-- Botón Bootstrap -->
+            <button class="btn btn-primary">Botón Bootstrap</button>
+            <br/>
             <!-- Botón Noticias -->
             <a href="#" class="btn-news">
               <span class="menu-news-icon"></span>
               <span>News</span>
               <span class="notification-bubble">3</span>
             </a>
-
+            <br/>
             <!-- Botón Play -->
             <a href="#" class="btn-play">
               <span class="menu-item-text">Play</span>
             </a>
-
+            <br/>
             <!-- Botón Suscribirse -->
             <a href="#" class="btn-subscribe" data-tracking-id="sign-up-top-bar" itemprop="url">Sign up FREE</a>
-
+            <br/>
             <!-- Botón Contacto Vendedor -->
             <a href="#" class="btn-contact-sales" itemprop="url">Contact sales</a>
-
+            <br/>
             <!-- Botón Inicio de Sesión -->
             <a href="#" class="btn-login">
               <span class="menu-item-text">Log in</span>
             </a>
 
-            <!-- Botón Reutilizable para Work/School/Home -->
+            <!-- Botones Reutilizables: Work y School -->
             <a href="#" class="btn-context" itemprop="url">
               <span class="menu-item-text">
                 <span class="desktop-hidden">Ninja Quiz!</span>Work
               </span>
             </a>
-
-                        <!-- Botón Reutilizable para Work/School/Home -->
             <a href="#" class="btn-context" itemprop="url">
               <span class="menu-item-text">
                 <span class="desktop-hidden">Ninja Quiz! </span>School
               </span>
             </a>
-          </section>
 
+            <!-- Botón Contactar Vendedores (Variante) -->
+            <a href="#" itemprop="url" class="btn-contact-sale">Contact sales</a>
+            <br/>
+            <br/>
+            <!-- Botón Join Game -->
+            <a href="#" class="btn-join-game toolbar__buttons__join">
+              <img src="https://kahoot.com/wp-content/themes/kahoot2017/assets/img/enter_pin_logo.png" alt="4-colored shapes"/>
+              Join game
+            </a>
+            <br/>
+            <!-- Botón Crear Kahoot -->
+            <a href="https://create.kahoot.it/creator" class="btn-create-kahoot toolbar__buttons__create">
+              <img src="https://kahoot.com/wp-content/themes/kahoot2017/assets/img/create_icon.png" alt="Plus icon"/>
+              Create a kahoot!
+            </a>
+            <br/>
+            <!-- Botón Buy Now -->
+            <a class="btn-buy-now btn btn--raised" href="https://kahoot.com/highered-campaign/" target="_self">Buy now</a>
+
+            <br/>
+            <!-- Botón Learn More -->
+            <a href="/schools" class="btn-learn-more">Learn more</a>
+            <br/>
+            <!-- Título H2 -->
+            <h2 class="mosaic-hero__title">Título h2</h2>
+            <br/>
+            <!-- Párrafo -->
+            <p class="custom-paragraph">Párrafo de ejemplo</p>
+            <br/>
+            <!-- Párrafo con strong y precios -->
+            <p class="paragraph-strong">
+              <strong>
+                Párrafo Strong
+                <span data-rcjs-exchange-usd="45" data-base-price="45" data-set="set">
+                  <small>€</small>45
+                </span> today, only 
+                <span data-rcjs-exchange-usd="25" data-base-price="25" data-set="set">
+                  <small>€</small>25
+                </span>/mo. Offer ends April 21.
+              </strong>
+            </p>
+            <br/>
+            <!-- Caja borde rojo -->
+            <div class="scta-box scta-box--red">
+              <!-- Contenido aquí -->
+            </div>
+            <br/>
+            <!-- Ícono con título -->
+            <div class="icon-title-wrap">
+              <img width="32" height="32" src="https://kahoot.com/files/2020/05/kahoot-for-schools-icon.png" alt="Icon illustration of a red book within a circle"/>
+              <!-- Agrega aquí el texto si lo deseas -->
+            </div>
+            <br/>
+
+            <br/>
+
+            <!-- Botón Contexto At Work -->
+            <a href="#" aria-controls="toolbar-1" class="btn-switch-context toolbar__switcher__item" data-target="1">At work</a>
+
+          </section>
 
           <!-- ========== FOOTER  -->
           <section>
