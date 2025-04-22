@@ -8,6 +8,7 @@
     "depends": ["web", "website"],  
     "data": [
         "views/layout.xml",
+        "views/footer.xml",
         "views/homepage.xml",  
         "views/components.xml",
         "views/play.xml"

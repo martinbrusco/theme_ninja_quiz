@@ -1,6 +1,6 @@
 <odoo>
 <template id="play_page_template" name="Ninja Quiz Play">
-  <t t-call="website.layout">
+  <t t-call="theme_ninja_quiz.layout">
     <main class="ninja-quiz-container">
       <div class="ninja-quiz-card">
         <h1 class="title">¡Ninja Quiz!</h1>
@@ -25,14 +25,14 @@
 
 
 <template id="show_pin_template" name="Mostrar PIN">
-  <t t-call="website.layout">
+  <t t-call="theme_ninja_quiz.layout">
     <main class="ninja-quiz-container">
       <div class="ninja-quiz-card">
         <h2 class="title">PIN ingresado:</h2>
         <p t-esc="pin" class="pin-output"/>
       </div>
     </main>
-  </t>
+   </t> 
 </template>
 
 </odoo>

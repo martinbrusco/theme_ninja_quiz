@@ -1,7 +1,14 @@
+
 <odoo>
   <template id="homepage_template" name="Ninja Quiz Homepage">
-    <t t-call="website.layout">
-      <h1>hola</h1>
+    <t t-call="theme_ninja_quiz.layout">
+      <div class="container mt-5">
+        <t t-placeholder="homepage_content">
+          <h1 class="title">¡Bienvenido a Ninja Quiz!</h1>
+        </t>
+
+      </div>
     </t>
   </template>
 </odoo>
+

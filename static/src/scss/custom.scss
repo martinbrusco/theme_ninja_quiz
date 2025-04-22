@@ -419,3 +419,199 @@ main.ninja-quiz-container {
   color: #333;
   font-family: 'Montserrat', sans-serif;
 }
+
+
+.login-title {
+  box-sizing: inherit;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  --real100vh: 100vh;
+  --dynamic100dvh: 100dvh;
+  --sat: env(safe-area-inset-top);
+  color: #470C13;
+}
+
+.login-label {
+  box-sizing: inherit;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  --real100vh: 100vh;
+  --dynamic100dvh: 100dvh;
+  --sat: env(safe-area-inset-top);
+}
+
+
+.login-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  color: #333;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  appearance: none;
+  text-overflow: ellipsis;
+  resize: none;
+  overflow: auto;
+  padding: 0 1rem;
+  white-space: nowrap;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: inherit;
+}
+.login-forgot-password {
+  box-sizing: inherit;
+  font-size: 0.875rem;
+  line-height: 17px;
+  margin: 0.5rem 0 1.5rem;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  --real100vh: 100vh;
+  --dynamic100dvh: 100dvh;
+  --sat: env(safe-area-inset-top);
+}
+
+.login-button {
+  position: relative;
+  content: "";
+  display: inline-block;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 16px 4px;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 4px;
+  background: rgb(19, 104, 206);
+  background-color: #9e9e9e;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: not-allowed;
+  box-sizing: border-box;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: inherit;
+  --real100vh: 100vh;
+  --dynamic100dvh: 100dvh;
+  --sat: env(safe-area-inset-top);
+}
+
+.google-login-button {
+  box-sizing: inherit;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  margin: 0.25rem 0;
+  border-radius: 4px;
+  color: #000;
+  border: 1px solid #000;
+  box-shadow: none;
+  padding: 0;
+  line-height: 1rem;
+  min-height: 42px;
+  min-width: 42px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: inherit;
+  --real100vh: 100vh;
+  --dynamic100dvh: 100dvh;
+  --sat: env(safe-area-inset-top);
+}
+
+.login-disclaimer {
+  box-sizing: inherit;
+  font-size: 0.6875rem;
+  line-height: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  color: #333;
+  max-width: 26rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  --real100vh: 100vh;
+  --dynamic100dvh: 100dvh;
+  --sat: env(safe-area-inset-top);
+}
+
+
+/* ====== Footer Titles (General) ====== */
+.footer-nav__title {
+  pointer-events: auto;
+  cursor: text;
+  font-size: clamp(.875rem, 1.33333vmin, 1rem);
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  display: block;
+  margin-bottom: clamp(1.125rem, 1.66667vmin, 1.25rem);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* ====== Footer Titles (Social / RRSS) ====== */
+.footer-nav__title.follow-us {
+  margin-bottom: 0;
+  width: auto;
+  margin-right: 1.25em;
+}
+
+/* ====== Footer List Links (li items) ====== */
+.footer-nav__link {
+  text-decoration: underline;
+  color: #fff;
+  font-size: clamp(.875rem, 1.33333vmin, 1rem);
+  list-style-type: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* ====== Social Media Link (e.g., Facebook) ====== */
+.footer-social-link {
+  background-image: url(/wp-content/themes/kahoot2017/assets/img/facebook.svg);
+  content: ' ';
+  display: inline-block;
+  width: clamp(1.875rem, 2.66667vmin, 2rem);
+  height: clamp(1.875rem, 2.66667vmin, 2rem);
+  margin-right: clamp(.5rem, .83333vmin, .625rem);
+  background-size: contain;
+  text-decoration: underline;
+  align-items: center;
+  display: flex;
+  -webkit-box-align: center;
+  color: #fff;
+  font-size: clamp(.875rem, 1.33333vmin, 1rem);
+  list-style-type: none;
+}
+
+/* ====== Copyright Footer ====== */
+.copyright {
+  margin-bottom: 0;
+  display: block;
+  color: #fff;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  font-family: 'Montserrat', sans-serif;
+}
