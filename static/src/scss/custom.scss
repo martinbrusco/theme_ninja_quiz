@@ -615,3 +615,73 @@ main.ninja-quiz-container {
   font-size: clamp(.75rem, 1.16667vmin, .875rem);
   font-family: 'Montserrat', sans-serif;
 }
+
+
+/* ===== GALERÍA DE COMPONENTES ===== */
+.components-gallery {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-section {
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border-radius: 8px;
+  
+  .section-title {
+    color: inherit;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid currentColor;
+  }
+}
+
+.dark-bg {
+  background: #431f99;
+  background-image:
+    radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
+    radial-gradient(circle at 80% 70%, #3b1c91 20%, transparent 20%),
+    radial-gradient(circle at 50% 50%, #4b1d98 50%, #431f99 51%);
+  
+  .section-title {
+    color: white;
+  }
+}
+
+.light-bg {
+  background: white;
+  
+  .section-title {
+    color: #333;
+  }
+}
+
+.component-container {
+  display: inline-block;
+  margin: 1rem;
+  vertical-align: top;
+}
+
+.component-preview {
+  padding: 1.5rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1); /* Ligero fondo para contrastar */
+  
+  .light-bg & {
+    background: rgba(0, 0, 0, 0.05); /* Ligero fondo oscuro para contrastar en fondos claros */
+  }
+}
+
+/* Etiqueta descriptiva para cada componente */
+.component-label {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #666;
+  
+  .dark-bg & {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
