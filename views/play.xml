@@ -2,15 +2,15 @@
 <template id="play_page_template" name="Ninja Quiz Play">
   <t t-call="theme_ninja_quiz.layout">
     <main class="ninja-quiz-container">
-      <div class="ninja-quiz-card">
-        <h1 class="title">¡Ninja Quiz!</h1>
-        <form t-attf-action="/show_pin" method="POST">
-          <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-          <div class="input-container">
-            <input type="text" class="pin-input" name="game_pin" maxlength="10" placeholder="PIN del juego" required="required"/>
-          </div>
-          <button type="submit" class="join-button">Ingresar</button>
-        </form>
+        <div class="ninja-quiz-card">
+          <h1 class="title">¡Ninja y Quiz!</h1>
+            <form t-attf-action="/show_pin" method="POST">
+              <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="input-container">
+                  <input type="text" class="pin-input" name="game_pin" maxlength="10" placeholder="PIN del juego" required="required"/>
+                </div>
+                <button type="submit" class="join-button">Ingresar</button>
+            </form>
 
       </div>
     </main>
@@ -28,11 +28,15 @@
   <t t-call="theme_ninja_quiz.layout">
     <main class="ninja-quiz-container">
       <div class="ninja-quiz-card">
-        <h2 class="title">PIN ingresado:</h2>
+        <div class="game-header">
+          <h2>PIN del juego: <span class="pin-number" t-esc="pin"/></h2>
+        </div>
         <p t-esc="pin" class="pin-output"/>
+        <div id="kahoot_survey_app"></div> 
       </div>
     </main>
-   </t> 
+  </t> 
 </template>
+
 
 </odoo>

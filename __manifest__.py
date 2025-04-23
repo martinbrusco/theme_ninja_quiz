@@ -15,8 +15,13 @@
     ],
     "assets": {
         "web.assets_frontend": [
-            "theme_ninja_quiz/static/src/scss/custom.scss"
-        ]
+            "theme_ninja_quiz/static/src/scss/custom.scss",
+            "theme_ninja_quiz/static/src/js/main.js",
+            "theme_ninja_quiz/static/src/components/**/*",
+        ],
+        "web.assets_qweb": [
+            "theme_ninja_quiz/static/src/xml/kahoot_survey_runner.xml",
+        ],
     },
     "application": False,
     "auto_install": False

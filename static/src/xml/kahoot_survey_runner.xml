@@ -1,0 +1,19 @@
+<templates xml:space="preserve">
+  <t t-name="theme_ninja_quiz.KahootSurveyRunner">
+    <div class="kahoot-runner-container">
+      <t t-if="state.loading">
+        <p>Cargando preguntas...</p>
+      </t>
+      <t t-else="">
+        <div class="question-card">
+          <h2 t-esc="state.currentQuestion.texto"/>
+          <div class="options">
+            <t t-foreach="state.currentQuestion.opciones" t-as="opcion" t-key="opcion">
+              <button t-on-click="() => selectAnswer(opcion)" class="option-button" t-esc="opcion"/>
+            </t>
+          </div>
+        </div>
+      </t>
+    </div>
+  </t>
+</templates>
