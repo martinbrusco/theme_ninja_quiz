@@ -1,6 +1,4 @@
 /** @odoo-module **/
 
-import { KahootSurveyRunner } from "./kahoot_survey_runner";
+export { KahootSurveyRunner } from "./kahoot_survey_runner.js";
 
-
-export default KahootSurveyRunner;
