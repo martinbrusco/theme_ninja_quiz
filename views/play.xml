@@ -17,6 +17,7 @@
         <footer class="mt-3">
           <p class="p-footer">Crea tu propio Quiz como un Ninja</p>
         </footer>
+        
   </t>
 </template>
 
@@ -35,6 +36,8 @@
         <div id="kahoot_survey_app"></div> 
       </div>
     </main>
+    <script type="module" src="/theme_ninja_quiz/static/src/js/main.js"/>
+
   </t> 
 </template>
 

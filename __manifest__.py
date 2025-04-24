@@ -6,12 +6,8 @@
     "version": "1.0",
     "author": "Martin Brusco",
     "license": "LGPL-3",
-    "depends": [
-        "web",
-        "website",
-    ],
+    "depends": ["web", "website"],
 
-    # 1️⃣ Vistas, plantillas y controllers que se cargan en la base de datos
     "data": [
         "views/layout.xml",
         "views/footer.xml",
@@ -20,24 +16,22 @@
         "views/play.xml",
     ],
 
-    # 2️⃣ Assets para el bundle público de Website
     "assets": {
-        # CSS y JS que se incrustan/enlazan en páginas frontend
+        # CSS
         "website.assets_frontend": [
-            # SCSS (se compila a CSS automáticamente)
             "theme_ninja_quiz/static/src/scss/custom.scss",
-            # Script principal que monta OWL
+        ],
+        # JS que debe cargarse al pintar la página
+        "website.assets_frontend_main": [
             "theme_ninja_quiz/static/src/js/main.js",
-            # Entrada a los componentes OWL (opcional si main.js ya lo importa)
             "theme_ninja_quiz/static/src/components/kahoot_survey_runner/index.js",
         ],
-        # Plantillas QWeb (cliente) necesarias para OWL
+        # QWeb cliente
         "website.assets_qweb": [
             "theme_ninja_quiz/static/src/xml/kahoot_survey_runner.xml",
         ],
     },
 
-    # 3️⃣ Opciones
     "application": False,
     "auto_install": False,
 }
