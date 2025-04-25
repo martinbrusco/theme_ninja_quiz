@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 import { Component, useState, xml, mount } from "@odoo/owl";
-import { jsonrpc } from "@web/core/network/rpc_service"; // Importamos jsonrpc directamente
+import { jsonrpc } from "@web/core/network/rpc_service";
 
 // Componente OWL para el quiz
 class KahootSurveyRunner extends Component {
@@ -9,7 +9,10 @@ class KahootSurveyRunner extends Component {
         <div class="survey-runner">
             <h2>Bienvenido al Quiz</h2>
             <t t-if="state.questions.length === 0">
-                <p>¡Cargando preguntas...</p>
+                <p t-if="!state.feedbackMessage">¡Cargando preguntas...</p>
+                <p t-if="state.feedbackMessage" class="feedback-message">
+                    <t t-esc="state.feedbackMessage"/>
+                </p>
             </t>
             <t t-else="">
                 <div class="question-container">
@@ -54,6 +57,7 @@ class KahootSurveyRunner extends Component {
     // Cargar preguntas desde el backend
     async loadQuestions() {
         try {
+            console.log("Loading surveys...");
             const result = await jsonrpc("/web/dataset/call_kw/survey.survey/search_read", {
                 model: "survey.survey",
                 method: "search_read",
@@ -61,40 +65,52 @@ class KahootSurveyRunner extends Component {
                 kwargs: { fields: ["id", "title", "question_ids"] },
             });
 
+            console.log("Surveys loaded:", result);
+
             if (result.length > 0) {
                 const survey = result[0];
                 this.state.surveyId = survey.id;
+                console.log("Selected survey ID:", this.state.surveyId);
+                console.log("Loading questions for survey...");
                 const questions = await jsonrpc("/web/dataset/call_kw/survey.question/search_read", {
                     model: "survey.question",
                     method: "search_read",
                     args: [[["id", "in", survey.question_ids]]],
-                    kwargs: { fields: ["title", "suggested_answer_ids", "is_scored_question", "correct_answer_ids"] },
+                    kwargs: { fields: ["title", "suggested_answer_ids", "is_scored_question"] },
                 });
+
+                console.log("Questions loaded:", questions);
 
                 const formattedQuestions = await Promise.all(
                     questions.map(async (question) => {
-                        const options = await jsonrpc("/web/dataset/call_kw/survey.label/search_read", {
-                            model: "survey.label",
+                        console.log("Loading options for question:", question.title);
+                        const options = await jsonrpc("/web/dataset/call_kw/survey.question.answer/search_read", {
+                            model: "survey.question.answer",
                             method: "search_read",
                             args: [[["id", "in", question.suggested_answer_ids]]],
-                            kwargs: { fields: ["value"] },
+                            kwargs: { fields: ["value", "is_correct"] },
                         });
+                        console.log("Options loaded for question", question.title, ":", options);
                         return {
                             id: question.id,
-                            title: question.title,
+                            title: typeof question.title === 'object' ? question.title['en_US'] : question.title, // Manejar el título como JSON
                             options: options.map((opt) => ({
                                 id: opt.id,
-                                text: opt.value,
+                                text: opt.value['en_US'], // Extraer el texto del JSON
+                                isCorrect: opt.is_correct || false,
                             })),
                             isScored: question.is_scored_question,
-                            correctAnswerIds: question.correct_answer_ids || [],
                         };
                     })
                 );
 
                 this.state.questions = formattedQuestions;
+                console.log("Formatted questions:", formattedQuestions);
                 if (formattedQuestions.length > 0) {
                     this.state.currentQuestion = formattedQuestions[0];
+                    console.log("Current question set:", this.state.currentQuestion);
+                } else {
+                    this.state.feedbackMessage = "No se encontraron preguntas para esta encuesta.";
                 }
             } else {
                 console.log("No surveys found.");
@@ -102,7 +118,11 @@ class KahootSurveyRunner extends Component {
             }
         } catch (error) {
             console.error("Error loading questions:", error);
-            this.state.feedbackMessage = "Error al cargar las preguntas.";
+            if (error.data && error.data.message) {
+                this.state.feedbackMessage = `Error al cargar las preguntas: ${error.data.message}`;
+            } else {
+                this.state.feedbackMessage = "Error al cargar las preguntas.";
+            }
         }
     }
 
@@ -111,7 +131,8 @@ class KahootSurveyRunner extends Component {
         this.state.selectedOption = optionId;
 
         if (this.state.currentQuestion.isScored) {
-            const isCorrect = this.state.currentQuestion.correctAnswerIds.includes(optionId);
+            const selectedOption = this.state.currentQuestion.options.find(opt => opt.id === optionId);
+            const isCorrect = selectedOption ? selectedOption.isCorrect : false;
             this.state.feedbackMessage = isCorrect ? "¡Correcto!" : "Incorrecto";
         } else {
             this.state.feedbackMessage = "Respuesta registrada";
