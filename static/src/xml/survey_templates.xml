@@ -1,0 +1,8 @@
+<templates xml:space="preserve">
+  <t t-name="theme_ninja_quiz.KahootSurveyAppTemplate">
+    <div class="survey-container">
+      <h2>¡Bienvenido al juego!</h2>
+      <p>Aquí aparecerán las preguntas en tiempo real.</p>
+    </div>
+  </t>
+</templates>

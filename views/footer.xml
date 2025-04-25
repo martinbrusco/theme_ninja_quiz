@@ -1,21 +1,17 @@
 <odoo>
   <template id="theme_ninja_quiz.footer_custom" inherit_id="website.footer_custom" name="Footer personalizado">
-
-    <!-- texto que aparece abajo a la izquierda -->
     <xpath expr="//div[contains(@class, 'o_footer_copyright')]" position="replace">
       <div class="o_footer_copyright text-center">
         <p>© 2025 Ninja Quiz - Todos los derechos reservados.</p>
       </div>
     </xpath>
-
-    <!--  redes sociales -->
     <xpath expr="//div[contains(@class, 'o_footer_copyright')]" position="after">
       <div class="text-center mt-2">
         <a href="https://twitter.com" target="_blank" class="mx-2">Twitter</a>
         <a href="https://facebook.com" target="_blank" class="mx-2">Facebook</a>
       </div>
     </xpath>
-
   </template>
 </odoo>
+
 
