@@ -1,9 +1,7 @@
 /** @odoo-module **/
 
-import { Component, useState, xml } from "@odoo/owl";
-import { registry } from "@web/core/registry";
-import { mount } from "@odoo/owl";
-import { rpc } from "@web/core/network/rpc";
+import { Component, useState, xml, mount } from "@odoo/owl";
+import { jsonrpc } from "@web/core/network/rpc_service"; // Importamos jsonrpc directamente
 
 // Componente OWL para el quiz
 class KahootSurveyRunner extends Component {
@@ -56,30 +54,30 @@ class KahootSurveyRunner extends Component {
     // Cargar preguntas desde el backend
     async loadQuestions() {
         try {
-            const result = await rpc({
+            const result = await jsonrpc("/web/dataset/call_kw/survey.survey/search_read", {
                 model: "survey.survey",
                 method: "search_read",
-                args: [[]],  // Buscar todos los surveys (puedes filtrar por ID si necesitas uno específico)
-                fields: ["id", "title", "question_ids"],
+                args: [[]],  // Buscar todos los surveys
+                kwargs: { fields: ["id", "title", "question_ids"] },
             });
 
             if (result.length > 0) {
                 const survey = result[0];
-                this.state.surveyId = survey.id;  // Almacenar el ID del survey
-                const questions = await rpc({
+                this.state.surveyId = survey.id;
+                const questions = await jsonrpc("/web/dataset/call_kw/survey.question/search_read", {
                     model: "survey.question",
                     method: "search_read",
                     args: [[["id", "in", survey.question_ids]]],
-                    fields: ["title", "suggested_answer_ids", "is_scored_question", "correct_answer_ids"],
+                    kwargs: { fields: ["title", "suggested_answer_ids", "is_scored_question", "correct_answer_ids"] },
                 });
 
                 const formattedQuestions = await Promise.all(
                     questions.map(async (question) => {
-                        const options = await rpc({
+                        const options = await jsonrpc("/web/dataset/call_kw/survey.label/search_read", {
                             model: "survey.label",
                             method: "search_read",
                             args: [[["id", "in", question.suggested_answer_ids]]],
-                            fields: ["value"],
+                            kwargs: { fields: ["value"] },
                         });
                         return {
                             id: question.id,
@@ -98,9 +96,13 @@ class KahootSurveyRunner extends Component {
                 if (formattedQuestions.length > 0) {
                     this.state.currentQuestion = formattedQuestions[0];
                 }
+            } else {
+                console.log("No surveys found.");
+                this.state.feedbackMessage = "No se encontraron encuestas.";
             }
         } catch (error) {
             console.error("Error loading questions:", error);
+            this.state.feedbackMessage = "Error al cargar las preguntas.";
         }
     }
 
@@ -108,7 +110,6 @@ class KahootSurveyRunner extends Component {
     async selectOption(optionId) {
         this.state.selectedOption = optionId;
 
-        // Verificar si la respuesta es correcta (si la pregunta es puntuada)
         if (this.state.currentQuestion.isScored) {
             const isCorrect = this.state.currentQuestion.correctAnswerIds.includes(optionId);
             this.state.feedbackMessage = isCorrect ? "¡Correcto!" : "Incorrecto";
@@ -116,16 +117,16 @@ class KahootSurveyRunner extends Component {
             this.state.feedbackMessage = "Respuesta registrada";
         }
 
-        // Enviar la respuesta al backend
         try {
-            await rpc({
+            await jsonrpc("/web/dataset/call_kw/survey.user_input/create", {
                 model: "survey.user_input",
-                method: "create_answer",
+                method: "create",
                 args: [{
                     survey_id: this.state.surveyId,
                     question_id: this.state.currentQuestion.id,
-                    answer_id: optionId,
+                    suggested_answer_ids: [optionId],
                 }],
+                kwargs: {},
             });
             console.log("Answer submitted successfully!");
         } catch (error) {
@@ -166,27 +167,15 @@ class KahootSurveyRunner extends Component {
     }
 }
 
-// Función para montar el componente
-function mountKahootSurveyRunner() {
-    console.log("Attempting to mount KahootSurveyRunner...");
+// Montar el componente manualmente
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM fully loaded, attempting to mount KahootSurveyRunner...");
     const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
     if (placeholder) {
         console.log("Placeholder found, mounting component...");
         mount(KahootSurveyRunner, placeholder);
         console.log("KahootSurveyRunner mounted!");
     } else {
-        console.log("Placeholder #kahoot-survey-runner-placeholder not found!");
+        console.error("Placeholder #kahoot-survey-runner-placeholder not found!");
     }
-}
-
-// Registrar el componente
-registry.category("public_components").add("kahoot_survey_runner", {
-    Component: KahootSurveyRunner,
-    mount: mountKahootSurveyRunner,
-});
-
-// Montar el componente al cargar la página
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM fully loaded, calling mountKahootSurveyRunner...");
-    mountKahootSurveyRunner();
 });
