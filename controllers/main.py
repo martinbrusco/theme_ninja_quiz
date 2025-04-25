@@ -23,3 +23,6 @@ class NinjaQuizController(http.Controller):
     def homepage(self, **kw):
         return request.render("theme_ninja_quiz.homepage_template", {})
 
+    @http.route('/quiz', type='http', auth="public", website=True)
+    def quiz_page(self, **kw):
+        return request.render("theme_ninja_quiz.play_page_template", {})
