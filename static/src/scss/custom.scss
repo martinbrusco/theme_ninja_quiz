@@ -685,3 +685,31 @@ main.ninja-quiz-container {
     color: rgba(255, 255, 255, 0.7);
   }
 }
+
+
+//////////////////////////////////////////
+/// teste
+/// 
+/// 
+/// 
+/// 
+.survey-runner {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.ninja-quiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.ninja-quiz-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
