@@ -20,7 +20,7 @@ class KahootSurveyRunner extends Component {
                     <ul class="options-list">
                         <t t-foreach="state.currentQuestion.options" t-as="option" t-key="option.id">
                             <li>
-                                <button t-on-click="() => selectOption(option.id)" t-att-class="getOptionClass(option.id)">
+                                <button t-on-click="selectOption" t-att-data-option-id="option.id" t-att-class="getOptionClass(option.id)">
                                     <t t-esc="option.text"/>
                                 </button>
                             </li>
@@ -38,6 +38,59 @@ class KahootSurveyRunner extends Component {
                 </div>
             </t>
         </div>
+    `;
+
+    static style = `
+        .survey-runner {
+            text-align: center;
+            padding: 20px;
+        }
+        .question-container {
+            margin: 20px 0;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+        .options-list li {
+            margin: 10px 0;
+        }
+        .options-list button {
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #333; /* Asegurar que el texto sea visible */
+            font-size: 16px;
+            width: 200px; /* Ancho fijo para los botones */
+        }
+        .options-list button:hover {
+            background-color: #e0e0e0;
+        }
+        .selected {
+            background-color: #d3d3d3;
+        }
+        .correct {
+            background-color: #90ee90;
+        }
+        .incorrect {
+            background-color: #ff6347;
+        }
+        .feedback-message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .feedback-message.correct {
+            color: green;
+        }
+        .feedback-message.incorrect {
+            color: red;
+        }
+        .navigation button {
+            margin: 5px;
+            padding: 5px 10px;
+        }
     `;
 
     setup() {
@@ -93,12 +146,15 @@ class KahootSurveyRunner extends Component {
                         console.log("Options loaded for question", question.title, ":", options);
                         return {
                             id: question.id,
-                            title: typeof question.title === 'object' ? question.title['en_US'] : question.title, // Manejar el título como JSON
-                            options: options.map((opt) => ({
-                                id: opt.id,
-                                text: opt.value['en_US'], // Extraer el texto del JSON
-                                isCorrect: opt.is_correct || false,
-                            })),
+                            title: typeof question.title === 'object' ? question.title['en_US'] : question.title,
+                            options: options.map((opt) => {
+                                console.log("Mapping option:", opt); // Depuración
+                                return {
+                                    id: opt.id,
+                                    text: typeof opt.value === 'object' ? opt.value['en_US'] : opt.value, // Manejar si value es JSON o cadena
+                                    isCorrect: opt.is_correct || false,
+                                };
+                            }),
                             isScored: question.is_scored_question,
                         };
                     })
@@ -127,7 +183,10 @@ class KahootSurveyRunner extends Component {
     }
 
     // Seleccionar una opción y enviar la respuesta al backend
-    async selectOption(optionId) {
+    async selectOption(ev) {
+        const optionId = parseInt(ev.currentTarget.dataset.optionId); // Obtener el ID desde el atributo data
+        console.log("Selected option ID:", optionId); // Depuración
+
         this.state.selectedOption = optionId;
 
         if (this.state.currentQuestion.isScored) {
