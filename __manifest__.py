@@ -5,7 +5,7 @@
     "version": "1.0",
     "author": "Martin Brusco",
     "license": "LGPL-3",
-    "depends": ["web", "website", "survey"],
+    "depends": ["web", "website", "survey"],  # Dependencias necesarias
     "data": [
         "views/layout.xml",
         "views/footer.xml",
@@ -15,8 +15,8 @@
     ],
     "assets": {
         "web.assets_frontend": [
-            "theme_ninja_quiz/static/src/scss/custom.scss",
-            "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
+            "theme_ninja_quiz/static/src/scss/custom.scss",  # Estilos y animaciones
+            "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",  # Componente OWL
         ],
     },
     "application": False,

@@ -14,11 +14,4 @@
             </footer>
         </t>
     </template>
-
-    <template id="KahootSurveyRunner" name="Kahoot Survey Runner">
-        <div class="survey-runner">
-            <h2>Bienvenido al Quiz</h2>
-            <p>¡Cargando preguntas...</p>
-        </div>
-    </template>
 </odoo>

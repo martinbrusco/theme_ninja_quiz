@@ -2,11 +2,13 @@ from odoo import http
 from odoo.http import request
 
 class NinjaQuizController(http.Controller):
-
-    @http.route('/play', type='http', auth="public", website=True)
-    def play_page(self, **kw):
-        return request.render("theme_ninja_quiz.play_page_template", {})
-
+    @http.route('/play', type='http', auth='public', website=True)
+    def play_page(self, **kwargs):
+        return request.render('theme_ninja_quiz.play_page_template', {})
+    
+    
+    
+    
     @http.route('/get_survey_questions', type='json', auth="public", website=True)
     def get_survey_questions(self, survey_id=None):
         # Por ahora, buscamos un survey de ejemplo. Más adelante usaremos el PIN.
