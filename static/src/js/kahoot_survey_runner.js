@@ -61,9 +61,9 @@ class KahootSurveyRunner extends Component {
             border: 1px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
-            color: #333; /* Asegurar que el texto sea visible */
+            color: #333;
             font-size: 16px;
-            width: 200px; /* Ancho fijo para los botones */
+            width: 200px;
         }
         .options-list button:hover {
             background-color: #e0e0e0;
@@ -95,12 +95,12 @@ class KahootSurveyRunner extends Component {
 
     setup() {
         this.state = useState({
-            questions: [],          // Lista de preguntas
-            currentQuestion: null,  // Pregunta actual
-            currentIndex: 0,        // Índice de la pregunta actual
-            selectedOption: null,   // Opción seleccionada por el usuario
-            feedbackMessage: null,  // Mensaje de feedback
-            surveyId: null,         // ID del survey
+            questions: [], // Lista de preguntas
+            currentQuestion: null, // Pregunta actual
+            currentIndex: 0, // Índice de la pregunta actual
+            selectedOption: null, // Opción seleccionada por el usuario
+            feedbackMessage: null, // Mensaje de feedback
+            surveyId: null, // ID del survey
         });
 
         console.log("KahootSurveyRunner component initialized!");
@@ -114,7 +114,7 @@ class KahootSurveyRunner extends Component {
             const result = await jsonrpc("/web/dataset/call_kw/survey.survey/search_read", {
                 model: "survey.survey",
                 method: "search_read",
-                args: [[]],  // Buscar todos los surveys
+                args: [[]], // Buscar todos los surveys
                 kwargs: { fields: ["id", "title", "question_ids"] },
             });
 
@@ -148,10 +148,10 @@ class KahootSurveyRunner extends Component {
                             id: question.id,
                             title: typeof question.title === 'object' ? question.title['en_US'] : question.title,
                             options: options.map((opt) => {
-                                console.log("Mapping option:", opt); // Depuración
+                                console.log("Mapping option:", opt);
                                 return {
                                     id: opt.id,
-                                    text: typeof opt.value === 'object' ? opt.value['en_US'] : opt.value, // Manejar si value es JSON o cadena
+                                    text: typeof opt.value === 'object' ? opt.value['en_US'] : opt.value,
                                     isCorrect: opt.is_correct || false,
                                 };
                             }),
@@ -184,34 +184,64 @@ class KahootSurveyRunner extends Component {
 
     // Seleccionar una opción y enviar la respuesta al backend
     async selectOption(ev) {
-        const optionId = parseInt(ev.currentTarget.dataset.optionId); // Obtener el ID desde el atributo data
-        console.log("Selected option ID:", optionId); // Depuración
+        const optionId = parseInt(ev.currentTarget.dataset.optionId);
+        console.log("Selected option ID:", optionId);
 
         this.state.selectedOption = optionId;
 
-        if (this.state.currentQuestion.isScored) {
-            const selectedOption = this.state.currentQuestion.options.find(opt => opt.id === optionId);
-            const isCorrect = selectedOption ? selectedOption.isCorrect : false;
-            this.state.feedbackMessage = isCorrect ? "¡Correcto!" : "Incorrecto";
-        } else {
-            this.state.feedbackMessage = "Respuesta registrada";
-        }
+        // Verificar si la opción seleccionada es correcta
+        const selectedOption = this.state.currentQuestion.options.find(opt => opt.id === optionId);
+        const isCorrect = selectedOption ? selectedOption.isCorrect : false;
+        this.state.feedbackMessage = isCorrect ? "¡Correcto!" : "Incorrecto";
 
         try {
-            await jsonrpc("/web/dataset/call_kw/survey.user_input/create", {
+            // Buscar un survey.user_input en progreso para la encuesta actual
+            let userInput = await jsonrpc("/web/dataset/call_kw/survey.user_input/search_read", {
                 model: "survey.user_input",
+                method: "search_read",
+                args: [[["survey_id", "=", this.state.surveyId], ["state", "=", "in_progress"]]],
+                kwargs: { fields: ["id"], limit: 1 },
+            });
+
+            let userInputId;
+            if (userInput.length === 0) {
+                // Crear un nuevo user_input si no existe
+                userInput = await jsonrpc("/web/dataset/call_kw/survey.user_input/create", {
+                    model: "survey.user_input",
+                    method: "create",
+                    args: [{
+                        survey_id: this.state.surveyId,
+                        state: "in_progress",
+                    }],
+                    kwargs: {},
+                });
+                userInputId = userInput;
+            } else {
+                userInputId = userInput[0].id;
+            }
+
+            // Registrar la respuesta en survey.user_input.line
+            await jsonrpc("/web/dataset/call_kw/survey.user_input.line/create", {
+                model: "survey.user_input.line", // Corregido: usar el modelo correcto
                 method: "create",
                 args: [{
-                    survey_id: this.state.surveyId,
+                    user_input_id: userInputId,
                     question_id: this.state.currentQuestion.id,
-                    suggested_answer_ids: [optionId],
+                    answer_type: "suggestion",
+                    suggested_answer_id: optionId,
                 }],
                 kwargs: {},
             });
+
             console.log("Answer submitted successfully!");
         } catch (error) {
             console.error("Error submitting answer:", error);
-            this.state.feedbackMessage = "Error al enviar la respuesta";
+            // Mostrar detalles del error para depuración
+            let errorMessage = "Error al enviar la respuesta";
+            if (error.data && error.data.message) {
+                errorMessage += `: ${error.data.message}`;
+            }
+            this.state.feedbackMessage = errorMessage;
         }
     }
 
