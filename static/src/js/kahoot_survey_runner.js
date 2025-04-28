@@ -40,59 +40,6 @@ class KahootSurveyRunner extends Component {
         </div>
     `;
 
-    static style = `
-        .survey-runner {
-            text-align: center;
-            padding: 20px;
-        }
-        .question-container {
-            margin: 20px 0;
-        }
-        .options-list {
-            list-style: none;
-            padding: 0;
-        }
-        .options-list li {
-            margin: 10px 0;
-        }
-        .options-list button {
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            color: #333;
-            font-size: 16px;
-            width: 200px;
-        }
-        .options-list button:hover {
-            background-color: #e0e0e0;
-        }
-        .selected {
-            background-color: #d3d3d3;
-        }
-        .correct {
-            background-color: #90ee90;
-        }
-        .incorrect {
-            background-color: #ff6347;
-        }
-        .feedback-message {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        .feedback-message.correct {
-            color: green;
-        }
-        .feedback-message.incorrect {
-            color: red;
-        }
-        .navigation button {
-            margin: 5px;
-            padding: 5px 10px;
-        }
-    `;
-
     setup() {
         this.state = useState({
             questions: [], // Lista de preguntas
@@ -222,7 +169,7 @@ class KahootSurveyRunner extends Component {
 
             // Registrar la respuesta en survey.user_input.line
             await jsonrpc("/web/dataset/call_kw/survey.user_input.line/create", {
-                model: "survey.user_input.line", // Corregido: usar el modelo correcto
+                model: "survey.user_input.line",
                 method: "create",
                 args: [{
                     user_input_id: userInputId,
@@ -236,7 +183,6 @@ class KahootSurveyRunner extends Component {
             console.log("Answer submitted successfully!");
         } catch (error) {
             console.error("Error submitting answer:", error);
-            // Mostrar detalles del error para depuración
             let errorMessage = "Error al enviar la respuesta";
             if (error.data && error.data.message) {
                 errorMessage += `: ${error.data.message}`;

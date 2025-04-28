@@ -1,7 +1,7 @@
 <odoo>
-  <template id="assets_frontend" inherit_id="web.assets_frontend">
-    <xpath expr="." position="inside">
-      <link rel="stylesheet" href="/theme_ninja_quiz/static/src/scss/custom.scss"/>
-    </xpath>
+  <template id="assets_ninja_quiz" name="Ninja Quiz Assets">
+    <t t-call-assets="web.assets_frontend" t-js="true"/>
+    <link rel="stylesheet" href="/theme_ninja_quiz/static/src/scss/custom.scss"/>
+    <script type="text/javascript" src="/theme_ninja_quiz/static/src/js/kahoot_survey_runner.js"/>
   </template>
 </odoo>

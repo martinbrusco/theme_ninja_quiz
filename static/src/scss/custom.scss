@@ -904,3 +904,91 @@ main.ninja-quiz-container {
       transform: translateY(0);
   }
 }
+
+
+////////////////////////////////////////////
+.survey-runner {
+  text-align: center;
+  padding: 20px;
+}
+
+.question-container {
+  margin: 20px 0;
+}
+
+.options-list {
+  list-style: none;
+  padding: 0;
+}
+
+.options-list li {
+  margin: 10px 0;
+}
+
+.options-list button {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+  width: 200px;
+  transition: background-color 0.3s ease;
+}
+
+.options-list button:hover {
+  background-color: #e0e0e0;
+}
+
+.selected {
+  background-color: #d3d3d3;
+}
+
+.correct {
+  background-color: #90ee90;
+}
+
+.incorrect {
+  background-color: #ff6347;
+}
+
+.feedback-message {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.feedback-message.correct {
+  color: green;
+}
+
+.feedback-message.incorrect {
+  color: red;
+}
+
+.navigation button {
+  margin: 5px;
+  padding: 5px 10px;
+  transition: transform 0.2s ease;
+}
+
+.ninja-quiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.ninja-quiz-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+}
+
+.title {
+  color: #333;
+  text-align: center;
+}
