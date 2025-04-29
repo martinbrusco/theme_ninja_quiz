@@ -15,6 +15,16 @@ class KahootSurveyRunner extends Component {
                 </p>
             </t>
             <t t-else="">
+                <!-- Barra de progreso general -->
+                <div class="progress-general">
+                    <span t-esc="'Pregunta ' + (state.currentIndex + 1) + ' de ' + state.questions.length"/>
+                    <div class="progress-bar-general">
+                        <t t-foreach="state.questions" t-as="question" t-key="question.id">
+                            <div t-att-class="'progress-segment ' + (question.answered ? 'answered' : 'unanswered') + (state.currentIndex === question_index ? ' current' : '')"/>
+                        </t>
+                    </div>
+                </div>
+                <!-- Temporizador por pregunta -->
                 <div class="progress-timer">
                     <span t-esc="'Tiempo restante: ' + state.timeLeft + 's'"/>
                     <div class="progress-bar">
@@ -129,6 +139,7 @@ class KahootSurveyRunner extends Component {
                             }),
                             isScored: question.is_scored_question,
                             explanation: question.explanation || "",
+                            answered: false, // Añadimos un campo para rastrear si la pregunta ha sido respondida
                         };
                     })
                 );
@@ -170,6 +181,9 @@ class KahootSurveyRunner extends Component {
         const selectedOption = this.state.currentQuestion.options.find(opt => opt.id === optionId);
         const isCorrect = selectedOption ? selectedOption.isCorrect : false;
         this.state.feedbackMessage = isCorrect ? "¡Correcto!" : "Incorrecto";
+
+        // Marcar la pregunta como respondida
+        this.state.questions[this.state.currentIndex].answered = true;
 
         // Log para depurar la explicación
         console.log("Current question explanation:", this.state.currentQuestion.explanation);
