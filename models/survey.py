@@ -20,3 +20,8 @@ class SurveyUserInput(models.Model):
         })
 
         return user_input.id
+
+class SurveyQuestion(models.Model):
+    _inherit = "survey.question"
+
+    explanation = fields.Text("Explicación", help="Explicación que se muestra después de responder la pregunta.")

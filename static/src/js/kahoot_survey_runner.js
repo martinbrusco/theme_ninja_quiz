@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import { Component, useState, xml, mount } from "@odoo/owl";
+import { Component, useState, xml, mount, useEffect } from "@odoo/owl";
 import { jsonrpc } from "@web/core/network/rpc_service";
 
 // Componente OWL para el quiz
@@ -15,6 +15,12 @@ class KahootSurveyRunner extends Component {
                 </p>
             </t>
             <t t-else="">
+                <div class="progress-timer">
+                    <span t-esc="'Tiempo restante: ' + state.timeLeft + 's'"/>
+                    <div class="progress-bar">
+                        <div class="progress-fill" t-att-style="'width:' + (state.timeLeft / 15 * 100) + '%'"/>
+                    </div>
+                </div>
                 <div class="question-container">
                     <h3 t-esc="state.currentQuestion.title"/>
                     <ul class="options-list">
@@ -48,10 +54,24 @@ class KahootSurveyRunner extends Component {
             selectedOption: null, // Opción seleccionada por el usuario
             feedbackMessage: null, // Mensaje de feedback
             surveyId: null, // ID del survey
+            timeLeft: 15, // Tiempo restante en segundos
         });
 
         console.log("KahootSurveyRunner component initialized!");
         this.loadQuestions();
+
+        // Iniciar temporizador
+        useEffect(() => {
+            const timer = setInterval(() => {
+                if (this.state.timeLeft > 0 && !this.state.selectedOption) {
+                    this.state.timeLeft -= 1;
+                } else if (this.state.timeLeft <= 0 && !this.state.selectedOption) {
+                    this.nextQuestion();
+                }
+            }, 1000);
+
+            return () => clearInterval(timer); // Limpiar al desmontar
+        }, () => [this.state.currentIndex, this.state.selectedOption]);
     }
 
     // Cargar preguntas desde el backend
@@ -209,6 +229,7 @@ class KahootSurveyRunner extends Component {
             this.state.currentQuestion = this.state.questions[this.state.currentIndex];
             this.state.selectedOption = null;
             this.state.feedbackMessage = null;
+            this.state.timeLeft = 15; // Reiniciar temporizador
         }
     }
 
@@ -219,6 +240,7 @@ class KahootSurveyRunner extends Component {
             this.state.currentQuestion = this.state.questions[this.state.currentIndex];
             this.state.selectedOption = null;
             this.state.feedbackMessage = null;
+            this.state.timeLeft = 15; // Reiniciar temporizador
         }
     }
 }
