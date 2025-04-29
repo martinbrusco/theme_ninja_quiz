@@ -13,6 +13,7 @@
         "views/components.xml",
         "views/play.xml",
         "views/assets.xml",
+        "views/survey_views.xml",  # Nueva vista
     ],
     "assets": {
         "web.assets_frontend": [

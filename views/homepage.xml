@@ -1,12 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="homepage_template" name="Ninja Quiz Homepage">
         <t t-call="theme_ninja_quiz.layout">
             <div class="container mt-5">
                 <t t-placeholder="homepage_content">
                     <h1 class="title">¡Bienvenido a Ninja Quiz!</h1>
+                    <p class="custom-paragraph">Participa en nuestro quiz y pon a prueba tus conocimientos.</p>
+                    <a href="/play" class="btn-subscribe">¡Jugar ahora!</a>
                 </t>
             </div>
         </t>
     </template>
 </odoo>
-

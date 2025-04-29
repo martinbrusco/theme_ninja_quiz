@@ -25,3 +25,8 @@ class SurveyQuestion(models.Model):
     _inherit = "survey.question"
 
     explanation = fields.Text("Explicación", help="Explicación que se muestra después de responder la pregunta.")
+
+class SurveyQuestion(models.Model):
+    _inherit = "survey.question"
+
+    explanation = fields.Text("Explicación", help="Explicación que se muestra después de responder la pregunta.")

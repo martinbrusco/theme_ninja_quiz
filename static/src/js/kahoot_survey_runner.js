@@ -36,6 +36,11 @@ class KahootSurveyRunner extends Component {
                         <p class="feedback-message" t-att-class="state.feedbackMessage.includes('Correct') ? 'correct' : 'incorrect'">
                             <t t-esc="state.feedbackMessage"/>
                         </p>
+                        <t t-if="state.currentQuestion.explanation">
+                            <p class="explanation">
+                                <t t-esc="state.currentQuestion.explanation"/>
+                            </p>
+                        </t>
                     </t>
                     <div class="navigation">
                         <button t-on-click="previousQuestion" t-att-disabled="state.currentIndex === 0">Anterior</button>
@@ -96,7 +101,7 @@ class KahootSurveyRunner extends Component {
                     model: "survey.question",
                     method: "search_read",
                     args: [[["id", "in", survey.question_ids]]],
-                    kwargs: { fields: ["title", "suggested_answer_ids", "is_scored_question"] },
+                    kwargs: { fields: ["title", "suggested_answer_ids", "is_scored_question", "explanation"] },
                 });
 
                 console.log("Questions loaded:", questions);
@@ -123,12 +128,17 @@ class KahootSurveyRunner extends Component {
                                 };
                             }),
                             isScored: question.is_scored_question,
+                            explanation: question.explanation || "",
                         };
                     })
                 );
 
                 this.state.questions = formattedQuestions;
                 console.log("Formatted questions:", formattedQuestions);
+                // Log adicional para depurar las explicaciones
+                formattedQuestions.forEach((q, index) => {
+                    console.log(`Question ${index + 1} explanation:`, q.explanation);
+                });
                 if (formattedQuestions.length > 0) {
                     this.state.currentQuestion = formattedQuestions[0];
                     console.log("Current question set:", this.state.currentQuestion);
@@ -160,6 +170,9 @@ class KahootSurveyRunner extends Component {
         const selectedOption = this.state.currentQuestion.options.find(opt => opt.id === optionId);
         const isCorrect = selectedOption ? selectedOption.isCorrect : false;
         this.state.feedbackMessage = isCorrect ? "¡Correcto!" : "Incorrecto";
+
+        // Log para depurar la explicación
+        console.log("Current question explanation:", this.state.currentQuestion.explanation);
 
         try {
             // Buscar un survey.user_input en progreso para la encuesta actual
@@ -201,6 +214,15 @@ class KahootSurveyRunner extends Component {
             });
 
             console.log("Answer submitted successfully!");
+
+            // Avanzar automáticamente después de 2 segundos
+            if (this.state.currentIndex < this.state.questions.length - 1) {
+                console.log("Scheduling next question in 2 seconds...");
+                setTimeout(() => {
+                    console.log("Advancing to next question...");
+                    this.nextQuestion();
+                }, 2000);
+            }
         } catch (error) {
             console.error("Error submitting answer:", error);
             let errorMessage = "Error al enviar la respuesta";
@@ -245,13 +267,19 @@ class KahootSurveyRunner extends Component {
     }
 }
 
-// Montar el componente manualmente
+// Montar el componente manualmente con protección contra doble montaje
+let isMounted = false;
 document.addEventListener("DOMContentLoaded", () => {
+    if (isMounted) {
+        console.log("KahootSurveyRunner already mounted, skipping...");
+        return;
+    }
     console.log("DOM fully loaded, attempting to mount KahootSurveyRunner...");
     const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
     if (placeholder) {
         console.log("Placeholder found, mounting component...");
         mount(KahootSurveyRunner, placeholder);
+        isMounted = true;
         console.log("KahootSurveyRunner mounted!");
     } else {
         console.error("Placeholder #kahoot-survey-runner-placeholder not found!");
