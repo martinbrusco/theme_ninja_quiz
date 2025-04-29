@@ -992,3 +992,27 @@ main.ninja-quiz-container {
   color: #333;
   text-align: center;
 }
+
+.timer-container {
+  margin-bottom: 20px;
+}
+
+.timer-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.timer-progress {
+  height: 100%;
+  background-color: #007bff; // Cambiado de "Queso" a un color real
+  transition: width 1s linear;
+}
+
+.timer-text {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #333;
+}
