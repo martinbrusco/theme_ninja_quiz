@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Comentamos esta sección porque los assets ya están definidos en __manifest__.py -->
-    <!--
-    <template id="assets_ninja_quiz" inherit_id="web.assets_frontend" name="Ninja Quiz Assets">
-        <xpath expr="." position="inside">
-            <link rel="stylesheet" href="/theme_ninja_quiz/static/src/scss/custom.scss"/>
-            <script type="text/javascript" src="/theme_ninja_quiz/static/src/js/kahoot_survey_runner.js"/>
-        </xpath>
-    </template>
-    -->
+  <template id="assets_frontend" inherit_id="web.assets_frontend">
+    <xpath expr="." position="inside">
+      <script type="text/javascript" src="/theme_ninja_quiz/static/src/js/kahoot_survey_runner.js"/>
+      <link rel="stylesheet" href="/theme_ninja_quiz/static/src/scss/custom.scss"/>
+    </xpath>
+  </template>
 </odoo>
