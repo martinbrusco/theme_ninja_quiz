@@ -19,7 +19,7 @@ const surveyData = {
             { id: 4, text: "Berlín", isCorrect: false }
           ],
           isScored: true,
-          explanation: "¡La capital de Francia es París! Fun fact: París es conocida como 'La Ciudad de la Luz' porque fue una de las primeras ciudades en adoptar alumbrado público.",
+          explanation: "La capital de Francia es París Fun fact: París es conocida como 'La Ciudad de la Luz' porque fue una de las primeras ciudades en adoptar alumbrado público.",
           answered: false
         },
         {
@@ -120,7 +120,7 @@ class KahootSurveyRunner extends Component {
       isExiting: false,
     });
 
-    console.log("KahootSurveyRunner component initialized!");
+    
     this.loadQuestions();
 
     useEffect(() => {
@@ -138,12 +138,11 @@ class KahootSurveyRunner extends Component {
 
   loadQuestions() {
     // Simulamos la carga de datos desde el JSON estático
-    console.log("Loading survey data from JSON...");
+    
     const result = surveyData.surveys;
 
     if (result.length > 0) {
       const survey = result[0];
-      console.log("Selected survey:", survey.title);
       const formattedQuestions = survey.questions.map(question => ({
         id: question.id,
         title: question.title,
@@ -154,26 +153,22 @@ class KahootSurveyRunner extends Component {
       }));
 
       this.state.questions = formattedQuestions;
-      console.log("Formatted questions:", formattedQuestions);
-      formattedQuestions.forEach((q, index) => {
-        console.log(`Question ${index + 1} explanation:`, q.explanation);
-      });
+      
+
 
       if (formattedQuestions.length > 0) {
         this.state.currentQuestion = formattedQuestions[0];
-        console.log("Current question set:", this.state.currentQuestion);
+        
       } else {
         this.state.feedbackMessage = "No se encontraron preguntas para esta encuesta.";
       }
     } else {
-      console.log("No surveys found.");
       this.state.feedbackMessage = "No se encontraron encuestas.";
     }
   }
 
   selectOption(ev) {
     const optionId = parseInt(ev.currentTarget.dataset.optionId);
-    console.log("Selected option ID:", optionId);
 
     this.state.selectedOption = optionId;
 
@@ -183,13 +178,10 @@ class KahootSurveyRunner extends Component {
 
     this.state.questions[this.state.currentIndex].answered = true;
 
-    console.log("Current question explanation:", this.state.currentQuestion.explanation);
-
+ 
     // Avanzar automáticamente después de 2 segundos
     if (this.state.currentIndex < this.state.questions.length - 1) {
-      console.log("Scheduling next question in 2 seconds...");
       setTimeout(() => {
-        console.log("Advancing to next question...");
         this.state.isExiting = true;
         setTimeout(() => {
           this.nextQuestion();
@@ -241,16 +233,12 @@ class KahootSurveyRunner extends Component {
 let isMounted = false;
 document.addEventListener("DOMContentLoaded", () => {
   if (isMounted) {
-    console.log("KahootSurveyRunner already mounted, skipping...");
     return;
   }
-  console.log("DOM fully loaded, attempting to mount KahootSurveyRunner...");
   const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
   if (placeholder) {
-    console.log("Placeholder found, mounting component...");
     mount(KahootSurveyRunner, placeholder);
     isMounted = true;
-    console.log("KahootSurveyRunner mounted!");
   } else {
     console.error("Placeholder #kahoot-survey-runner-placeholder not found!");
   }
