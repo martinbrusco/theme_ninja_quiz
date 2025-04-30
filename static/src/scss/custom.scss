@@ -1720,3 +1720,243 @@ main.ninja-quiz-container {
   cursor: not-allowed;
   animation: none;
 }
+
+/* Estilos generales */
+.survey-runner {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Barra de progreso general */
+.progress-general {
+  margin-bottom: 20px;
+}
+
+.progress-bar-general {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 20px; /* Aumentamos la altura para que el icono quepa */
+  background-color: #ddd;
+  border-radius: 3px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-segment.answered {
+  background-color: #28a745;
+}
+
+.progress-segment.current {
+  background-color: #007bff;
+}
+
+.progress-segment.unanswered {
+  background-color: #ddd;
+}
+
+.progress-segment .answered-icon {
+  font-size: 14px;
+  color: #fff; /* Blanco para que contraste con el fondo verde */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Temporizador por pregunta */
+.progress-timer {
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #007bff;
+  transition: width 0.5s ease-in-out;
+}
+
+/* Contenedor de preguntas con animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.question-container {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.question-container.exiting {
+  animation: fadeOut 0.3s ease-in-out forwards;
+}
+
+/* Lista de opciones */
+.options-list {
+  list-style: none;
+  padding: 0;
+}
+
+.options-list li {
+  margin: 10px 0;
+}
+
+.options-list button {
+  width: 100%;
+  padding: 10px;
+  background-color: #e9ecef;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: #000; /* Letras en negro */
+}
+
+.options-list button:hover {
+  background-color: #d3d3d3;
+  color: #000; /* Letras en negro */
+}
+
+.options-list button.selected {
+  background-color: #007bff;
+  color: #000; /* Letras en negro */
+}
+
+.options-list button.selected.correct {
+  background-color: #28a745;
+  color: #000; /* Letras en negro */
+}
+
+.options-list button.selected.incorrect {
+  background-color: #dc3545;
+  color: #000; /* Letras en negro */
+}
+
+/* Feedback y explicación */
+.feedback-message {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.feedback-message.correct {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.feedback-message.incorrect {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.explanation {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  animation: slideIn 0.5s ease-in-out forwards;
+  font-style: italic;
+}
+
+/* Resaltar "Fun fact" o "Dato curioso" */
+.explanation:contains("Fun fact:"),
+.explanation:contains("Dato curioso:") {
+  position: relative;
+}
+
+.explanation:contains("Fun fact:")::before,
+.explanation:contains("Dato curioso:")::before {
+  content: "💡 ";
+  font-size: 1.2em;
+  margin-right: 5px;
+}
+
+/* Navegación con animación de latido */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.navigation button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.navigation button.pulse {
+  animation: pulse 1.5s infinite;
+}
+
+.navigation button:Hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.navigation button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  animation: none;
+}
+

@@ -19,7 +19,7 @@ const surveyData = {
             { id: 4, text: "Berlín", isCorrect: false }
           ],
           isScored: true,
-          explanation: "La capital de Francia es París Fun fact: París es conocida como 'La Ciudad de la Luz' porque fue una de las primeras ciudades en adoptar alumbrado público.",
+          explanation: "¡La capital de Francia es París! Fun fact: París es conocida como 'La Ciudad de la Luz' porque fue una de las primeras ciudades en adoptar alumbrado público.",
           answered: false
         },
         {
@@ -53,6 +53,20 @@ const surveyData = {
   ]
 };
 
+// Simulación de una llamada al backend
+const simulateBackendCall = (data, delay = 1000) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(data);
+    }, delay);
+  });
+};
+
+// Simulación del endpoint /survey/submit
+const simulateSurveySubmit = (payload) => {
+  return simulateBackendCall({ success: true }, 500); // Simula una respuesta exitosa después de 500ms
+};
+
 class KahootSurveyRunner extends Component {
   static template = xml`
     <div class="survey-runner">
@@ -68,7 +82,9 @@ class KahootSurveyRunner extends Component {
           <span t-out="'Pregunta ' + (state.currentIndex + 1) + ' de ' + state.questions.length"/>
           <div class="progress-bar-general">
             <t t-foreach="state.questions" t-as="question" t-key="question.id">
-              <div t-att-class="'progress-segment ' + (question.answered ? 'answered' : 'unanswered') + (state.currentIndex === question_index ? ' current' : '')"/>
+              <div t-att-class="'progress-segment ' + (question.answered ? 'answered' : 'unanswered') + (state.currentIndex === question_index ? ' current' : '')">
+                <span t-if="question.answered" class="answered-icon">✅</span>
+              </div>
             </t>
           </div>
         </div>
@@ -116,11 +132,12 @@ class KahootSurveyRunner extends Component {
       currentIndex: 0,
       selectedOption: null,
       feedbackMessage: null,
+      surveyId: null,
       timeLeft: 15,
       isExiting: false,
     });
 
-    
+    console.log("KahootSurveyRunner component initialized!");
     this.loadQuestions();
 
     useEffect(() => {
@@ -136,39 +153,53 @@ class KahootSurveyRunner extends Component {
     }, () => [this.state.currentIndex, this.state.selectedOption]);
   }
 
-  loadQuestions() {
-    // Simulamos la carga de datos desde el JSON estático
-    
-    const result = surveyData.surveys;
+  async loadQuestions() {
+    try {
+      console.log("Loading survey data from 'backend'...");
+      // Simulamos la carga de datos desde el backend
+      const result = await simulateBackendCall(surveyData.surveys, 1000);
 
-    if (result.length > 0) {
-      const survey = result[0];
-      const formattedQuestions = survey.questions.map(question => ({
-        id: question.id,
-        title: question.title,
-        options: question.options,
-        isScored: question.isScored,
-        explanation: question.explanation,
-        answered: question.answered
-      }));
+      console.log("Surveys loaded:", result);
 
-      this.state.questions = formattedQuestions;
-      
+      if (result.length > 0) {
+        const survey = result[0];
+        this.state.surveyId = survey.id;
+        console.log("Selected survey:", survey.title);
 
+        const formattedQuestions = survey.questions.map(question => ({
+          id: question.id,
+          title: question.title,
+          options: question.options,
+          isScored: question.isScored,
+          explanation: question.explanation,
+          answered: question.answered
+        }));
 
-      if (formattedQuestions.length > 0) {
-        this.state.currentQuestion = formattedQuestions[0];
-        
+        this.state.questions = formattedQuestions;
+        console.log("Formatted questions:", formattedQuestions);
+        formattedQuestions.forEach((q, index) => {
+          console.log(`Question ${index + 1} explanation:`, q.explanation);
+        });
+
+        if (formattedQuestions.length > 0) {
+          this.state.currentQuestion = formattedQuestions[0];
+          console.log("Current question set:", this.state.currentQuestion);
+        } else {
+          this.state.feedbackMessage = "No se encontraron preguntas para esta encuesta.";
+        }
       } else {
-        this.state.feedbackMessage = "No se encontraron preguntas para esta encuesta.";
+        console.log("No surveys found.");
+        this.state.feedbackMessage = "No se encontraron encuestas.";
       }
-    } else {
-      this.state.feedbackMessage = "No se encontraron encuestas.";
+    } catch (error) {
+      console.error("Error loading questions:", error);
+      this.state.feedbackMessage = "Error al cargar las preguntas.";
     }
   }
 
-  selectOption(ev) {
+  async selectOption(ev) {
     const optionId = parseInt(ev.currentTarget.dataset.optionId);
+    console.log("Selected option ID:", optionId);
 
     this.state.selectedOption = optionId;
 
@@ -178,16 +209,36 @@ class KahootSurveyRunner extends Component {
 
     this.state.questions[this.state.currentIndex].answered = true;
 
- 
-    // Avanzar automáticamente después de 2 segundos
-    if (this.state.currentIndex < this.state.questions.length - 1) {
-      setTimeout(() => {
-        this.state.isExiting = true;
-        setTimeout(() => {
-          this.nextQuestion();
-          this.state.isExiting = false;
-        }, 300);
-      }, 2000);
+    console.log("Current question explanation:", this.state.currentQuestion.explanation);
+
+    try {
+      // Simulamos el envío de la respuesta al backend
+      console.log("Submitting answer to 'backend'...");
+      const response = await simulateSurveySubmit({
+        survey_id: this.state.surveyId,
+        question_id: this.state.currentQuestion.id,
+        answer_id: optionId,
+      });
+
+      console.log("Backend response:", response);
+
+      if (response.success) {
+        console.log("Answer submitted successfully!");
+        // Avanzar solo después de la confirmación del backend
+        if (this.state.currentIndex < this.state.questions.length - 1) {
+          console.log("Scheduling next question...");
+          this.state.isExiting = true;
+          setTimeout(() => {
+            this.nextQuestion();
+            this.state.isExiting = false;
+          }, 300);
+        }
+      } else {
+        this.state.feedbackMessage = "Error al enviar la respuesta: Respuesta no confirmada por el backend.";
+      }
+    } catch (error) {
+      console.error("Error submitting answer:", error);
+      this.state.feedbackMessage = "Error al enviar la respuesta.";
     }
   }
 
@@ -233,12 +284,16 @@ class KahootSurveyRunner extends Component {
 let isMounted = false;
 document.addEventListener("DOMContentLoaded", () => {
   if (isMounted) {
+    console.log("KahootSurveyRunner already mounted, skipping...");
     return;
   }
+  console.log("DOM fully loaded, attempting to mount KahootSurveyRunner...");
   const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
   if (placeholder) {
+    console.log("Placeholder found, mounting component...");
     mount(KahootSurveyRunner, placeholder);
     isMounted = true;
+    console.log("KahootSurveyRunner mounted!");
   } else {
     console.error("Placeholder #kahoot-survey-runner-placeholder not found!");
   }
