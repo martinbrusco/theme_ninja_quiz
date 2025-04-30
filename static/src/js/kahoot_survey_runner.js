@@ -18,7 +18,9 @@ class KahootSurveyRunner extends Component {
           <span t-out="'Pregunta ' + (state.currentIndex + 1) + ' de ' + state.questions.length"/>
           <div class="progress-bar-general">
             <t t-foreach="state.questions" t-as="question" t-key="question.id">
-              <div t-att-class="'progress-segment ' + (question.answered ? 'answered' : 'unanswered') + (state.currentIndex === question_index ? ' current' : '')"/>
+              <div t-att-class="'progress-segment ' + (question.answered ? 'answered' : 'unanswered') + (state.currentIndex === question_index ? ' current' : '')">
+                <span t-if="question.answered" class="answered-icon">✅</span>
+              </div>
             </t>
           </div>
         </div>
@@ -45,7 +47,7 @@ class KahootSurveyRunner extends Component {
               <t t-out="state.feedbackMessage"/>
             </p>
             <t t-if="state.currentQuestion.explanation">
-              <p class="explanation">
+              <p class="explanation slide-in">
                 <t t-out="state.currentQuestion.explanation"/>
               </p>
             </t>
