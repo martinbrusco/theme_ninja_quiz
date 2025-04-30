@@ -6,9 +6,6 @@ class NinjaQuizController(http.Controller):
     def play_page(self, **kwargs):
         return request.render('theme_ninja_quiz.play_page_template', {})
     
-    
-    
-    
     @http.route('/get_survey_questions', type='json', auth="public", website=True)
     def get_survey_questions(self, survey_id=None):
         # Por ahora, buscamos un survey de ejemplo. Más adelante usaremos el PIN.
@@ -22,7 +19,7 @@ class NinjaQuizController(http.Controller):
             'answers': q.suggested_answer_ids.mapped(lambda a: {
                 'id': a.id,
                 'text': a.value,
-                'is_correct': a.is_correct_answer if hasattr(a, 'is_correct_answer') else False,
+                'is_correct': a.is_correct if hasattr(a, 'is_correct') else False,
             }),
         })
         return {"questions": questions}
@@ -33,7 +30,7 @@ class NinjaQuizController(http.Controller):
         question = request.env['survey.question'].sudo().browse(int(question_id))
         answer = request.env['survey.question.answer'].sudo().browse(int(answer_id))
         if question and answer:
-            return {"correct": answer.is_correct_answer if hasattr(answer, 'is_correct_answer') else False}
+            return {"correct": answer.is_correct if hasattr(answer, 'is_correct') else False}
         return {"error": "Invalid question or answer"}
 
     @http.route('/show_pin', type='http', auth="public", website=True, methods=['POST'])
@@ -48,3 +45,35 @@ class NinjaQuizController(http.Controller):
     @http.route('/', type='http', auth="public", website=True)
     def homepage(self, **kw):
         return request.render("theme_ninja_quiz.homepage_template", {})
+
+class NinjaQuizSurveyController(http.Controller):
+    @http.route('/survey/submit', type='json', auth='public', website=True, methods=['POST'])
+    def survey_submit(self, survey_id, question_id, answer_id):
+        try:
+            # Buscar o crear un survey.user_input
+            user_input = request.env['survey.user_input'].sudo().search([
+                ('survey_id', '=', int(survey_id)),
+                ('state', '=', 'in_progress')
+            ], limit=1)
+
+            if not user_input:
+                user_input = request.env['survey.user_input'].sudo().create({
+                    'survey_id': int(survey_id),
+                    'state': 'in_progress',
+                })
+
+            # Crear una línea de respuesta
+            request.env['survey.user_input.line'].sudo().create({
+                'user_input_id': user_input.id,
+                'question_id': int(question_id),
+                'answer_type': 'suggestion',
+                'suggested_answer_id': int(answer_id),
+            })
+
+            # Verificar si la respuesta es correcta
+            answer = request.env['survey.question.answer'].sudo().browse(int(answer_id))
+            is_correct = answer.is_correct if hasattr(answer, 'is_correct') else False
+
+            return {'success': True, 'correct': is_correct}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}

@@ -32,11 +32,11 @@ class KahootSurveyRunner extends Component {
           </div>
         </div>
         <div t-key="state.currentIndex" class="question-container" t-att-class="state.isExiting ? 'exiting' : ''">
-          <h3 t-out="state.currentQuestion.title"/>
+          <h3 t-out="state.currentQuestion ? state.currentQuestion.title : 'Cargando pregunta...'"/>
           <ul class="options-list">
-            <t t-foreach="state.currentQuestion.options" t-as="option" t-key="option.id">
+            <t t-foreach="state.currentQuestion ? state.currentQuestion.options : []" t-as="option" t-key="option.id">
               <li>
-                <button t-on-click="selectOption" t-att-data-option-id="option.id" t-att-class="getOptionClass(option.id)">
+                <button t-on-click="selectOption" t-att-data-option-id="option.id" t-att-class="getOptionClass(option.id)" t-att-disabled="state.isProcessing">
                   <t t-out="option.text"/>
                 </button>
               </li>
@@ -46,15 +46,15 @@ class KahootSurveyRunner extends Component {
             <p class="feedback-message" t-att-class="state.feedbackMessage.includes('Correct') ? 'correct' : 'incorrect'">
               <t t-out="state.feedbackMessage"/>
             </p>
-            <t t-if="state.currentQuestion.explanation">
+            <t t-if="hasExplanation()">
               <p class="explanation slide-in">
                 <t t-out="state.currentQuestion.explanation"/>
               </p>
             </t>
           </t>
           <div class="navigation">
-            <button t-on-click="previousQuestion" t-att-disabled="state.currentIndex === 0" t-att-class="state.currentIndex === 0 ? '' : 'pulse'">Anterior</button>
-            <button t-on-click="nextQuestion" t-att-disabled="state.currentIndex === state.questions.length - 1" t-att-class="state.currentIndex === state.questions.length - 1 ? '' : 'pulse'">Siguiente</button>
+            <button t-on-click="previousQuestion" t-att-disabled="state.currentIndex === 0 || state.isProcessing" t-att-class="state.currentIndex === 0 ? '' : 'pulse'">Anterior</button>
+            <button t-on-click="nextQuestion" t-att-disabled="state.currentIndex === state.questions.length - 1 || state.isProcessing" t-att-class="state.currentIndex === state.questions.length - 1 ? '' : 'pulse'">Siguiente</button>
           </div>
         </div>
       </t>
@@ -71,6 +71,7 @@ class KahootSurveyRunner extends Component {
       surveyId: null,
       timeLeft: 15,
       isExiting: false,
+      isProcessing: false,
     });
 
     console.log("KahootSurveyRunner component initialized!");
@@ -78,15 +79,24 @@ class KahootSurveyRunner extends Component {
 
     useEffect(() => {
       const timer = setInterval(() => {
-        if (this.state.timeLeft > 0 && !this.state.selectedOption) {
+        // Solo reducir timeLeft si no se ha seleccionado una opción y no está procesando
+        if (!this.state.selectedOption && !this.state.isProcessing && this.state.timeLeft > 0) {
+          console.log("Timer tick: timeLeft =", this.state.timeLeft);
           this.state.timeLeft -= 1;
-        } else if (this.state.timeLeft <= 0 && !this.state.selectedOption) {
+        }
+        // Si el tiempo se agota y no se ha seleccionado una opción, avanzar a la siguiente pregunta
+        if (this.state.timeLeft <= 0 && !this.state.selectedOption && !this.state.isProcessing) {
+          console.log("Time's up! Moving to next question...");
           this.nextQuestion();
         }
       }, 1000);
 
       return () => clearInterval(timer);
-    }, () => [this.state.currentIndex, this.state.selectedOption]);
+    }, () => [this.state.currentIndex, this.state.selectedOption, this.state.isProcessing]);
+  }
+
+  hasExplanation() {
+    return this.state.currentQuestion && this.state.currentQuestion.explanation;
   }
 
   async loadQuestions() {
@@ -169,67 +179,65 @@ class KahootSurveyRunner extends Component {
   }
 
   async selectOption(ev) {
+    // Evitar múltiples clics mientras se procesa
+    if (this.state.isProcessing) {
+      console.log("Already processing an option, ignoring click...");
+      return;
+    }
+
+    this.state.isProcessing = true;
     const optionId = parseInt(ev.currentTarget.dataset.optionId);
     console.log("Selected option ID:", optionId);
 
     this.state.selectedOption = optionId;
-
-    const selectedOption = this.state.currentQuestion.options.find(opt => opt.id === optionId);
-    const isCorrect = selectedOption ? selectedOption.isCorrect : false;
-    this.state.feedbackMessage = isCorrect ? "¡Correcto!" : "Incorrecto";
-
     this.state.questions[this.state.currentIndex].answered = true;
 
-    console.log("Current question explanation:", this.state.currentQuestion.explanation);
+    console.log("Current question explanation:", this.state.currentQuestion?.explanation || "<empty string>");
 
     try {
-      let userInput = await jsonrpc("/web/dataset/call_kw/survey.user_input/search_read", {
-        model: "survey.user_input",
-        method: "search_read",
-        args: [[["survey_id", "=", this.state.surveyId], ["state", "=", "in_progress"]]],
-        kwargs: { fields: ["id"], limit: 1 },
+      // Enviar la respuesta al endpoint /survey/submit
+      console.log("Submitting answer to /survey/submit...");
+      const response = await jsonrpc("/survey/submit", {
+        survey_id: this.state.surveyId,
+        question_id: this.state.currentQuestion.id,
+        answer_id: optionId,
       });
 
-      let userInputId;
-      if (userInput.length === 0) {
-        userInput = await jsonrpc("/web/dataset/call_kw/survey.user_input/create", {
-          model: "survey.user_input",
-          method: "create",
-          args: [{
-            survey_id: this.state.surveyId,
-            state: "in_progress",
-          }],
-          kwargs: {},
-        });
-        userInputId = userInput;
-      } else {
-        userInputId = userInput[0].id;
-      }
+      console.log("Backend response:", response);
 
-      await jsonrpc("/web/dataset/call_kw/survey.user_input.line/create", {
-        model: "survey.user_input.line",
-        method: "create",
-        args: [{
-          user_input_id: userInputId,
-          question_id: this.state.currentQuestion.id,
-          answer_type: "suggestion",
-          suggested_answer_id: optionId,
-        }],
-        kwargs: {},
-      });
-
-      console.log("Answer submitted successfully!");
-
-      if (this.state.currentIndex < this.state.questions.length - 1) {
-        console.log("Scheduling next question in 2 seconds...");
-        setTimeout(() => {
-          console.log("Advancing to next question...");
+      if (response.success) {
+        console.log("Answer submitted successfully!");
+        // Usar la información de "correct" del backend para determinar si la respuesta es correcta
+        this.state.feedbackMessage = response.correct ? "¡Correcto!" : "Incorrecto";
+        // Avanzar solo después de la confirmación del backend
+        if (this.state.currentIndex < this.state.questions.length - 1) {
+          console.log("Scheduling next question with 5000ms delay...");
           this.state.isExiting = true;
-          setTimeout(() => {
-            this.nextQuestion();
-            this.state.isExiting = false;
-          }, 300);
-        }, 2000);
+
+          // Usar una promesa para asegurar que el retraso se respete
+          await new Promise((resolve) => {
+            setTimeout(() => {
+              console.log("Advancing to next question after 5000ms...");
+              resolve();
+            }, 5000);
+          });
+
+          // Mover la lógica de transición aquí
+          this.state.currentIndex++;
+          this.state.currentQuestion = this.state.questions[this.state.currentIndex] || null;
+          this.state.selectedOption = null;
+          this.state.feedbackMessage = null;
+          this.state.timeLeft = 15;
+          this.state.isExiting = false;
+          this.state.isProcessing = false;
+          console.log("Moved to next question:", this.state.currentQuestion?.title || "No more questions");
+        } else {
+          console.log("No more questions to show.");
+          this.state.isProcessing = false;
+        }
+      } else {
+        this.state.feedbackMessage = "Error al enviar la respuesta: " + (response.error || "Respuesta no confirmada por el backend.");
+        this.state.isProcessing = false;
       }
     } catch (error) {
       console.error("Error submitting answer:", error);
@@ -238,6 +246,7 @@ class KahootSurveyRunner extends Component {
         errorMessage += `: ${error.data.message}`;
       }
       this.state.feedbackMessage = errorMessage;
+      this.state.isProcessing = false;
     }
   }
 
@@ -252,30 +261,28 @@ class KahootSurveyRunner extends Component {
   }
 
   nextQuestion() {
-    if (this.state.currentIndex < this.state.questions.length - 1) {
+    if (this.state.currentIndex < this.state.questions.length - 1 && !this.state.isProcessing) {
       this.state.isExiting = true;
-      setTimeout(() => {
-        this.state.currentIndex++;
-        this.state.currentQuestion = this.state.questions[this.state.currentIndex];
-        this.state.selectedOption = null;
-        this.state.feedbackMessage = null;
-        this.state.timeLeft = 15;
-        this.state.isExiting = false;
-      }, 300);
+      this.state.currentIndex++;
+      this.state.currentQuestion = this.state.questions[this.state.currentIndex] || null;
+      this.state.selectedOption = null;
+      this.state.feedbackMessage = null;
+      this.state.timeLeft = 15;
+      this.state.isExiting = false;
+      console.log("Moved to next question (via timer or manual):", this.state.currentQuestion?.title || "No more questions");
     }
   }
 
   previousQuestion() {
-    if (this.state.currentIndex > 0) {
+    if (this.state.currentIndex > 0 && !this.state.isProcessing) {
       this.state.isExiting = true;
-      setTimeout(() => {
-        this.state.currentIndex--;
-        this.state.currentQuestion = this.state.questions[this.state.currentIndex];
-        this.state.selectedOption = null;
-        this.state.feedbackMessage = null;
-        this.state.timeLeft = 15;
-        this.state.isExiting = false;
-      }, 300);
+      this.state.currentIndex--;
+      this.state.currentQuestion = this.state.questions[this.state.currentIndex] || null;
+      this.state.selectedOption = null;
+      this.state.feedbackMessage = null;
+      this.state.timeLeft = 15;
+      this.state.isExiting = false;
+      console.log("Moved to previous question:", this.state.currentQuestion?.title || "No more questions");
     }
   }
 }
