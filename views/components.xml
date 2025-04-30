@@ -1,137 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
   <template id="components_library" name="Componentes - Ninja Quiz">
-    <t t-call="website.layout">
-      <main class="ninja-quiz-container">
-        <div class="ninja-quiz-card">
-          <h1 class="title">Catálogo de Componentes</h1>
-
-          <!-- ========== TITULOS  -->
-          <section>
-            <h1 class="title">Título h1</h1>
-          </section>
-          <br/>
-
-          <!-- ========== INPUTS  -->
-          <section>
-            <input type="text" class="pin-input" placeholder="PIN del juego"/>
-          </section>
-          <br/>
-
-          <!-- ========== BOTONES  -->
-          <section>
-            <h1 class="title">Botones</h1>
-
-            <br/>
-
-            <!-- Botón personalizado -->
-            <button class="join-button">Ingresa</button>
-            <br/>
-            <a href="#" class="join-button">Ver más</a>
-            <br/>
-            <!-- Botón Bootstrap -->
-            <button class="btn btn-primary">Botón Bootstrap</button>
-            <br/>
-            <!-- Botón Noticias -->
-            <a href="#" class="btn-news">
-              <span class="menu-news-icon"></span>
-              <span>News</span>
-              <span class="notification-bubble">3</span>
-            </a>
-            <br/>
-            <!-- Botón Play -->
-            <a href="#" class="btn-play">
-              <span class="menu-item-text">Play</span>
-            </a>
-            <br/>
-            <!-- Botón Suscribirse -->
-            <a href="#" class="btn-subscribe" data-tracking-id="sign-up-top-bar" itemprop="url">Sign up FREE</a>
-            <br/>
-            <!-- Botón Contacto Vendedor -->
-            <a href="#" class="btn-contact-sales" itemprop="url">Contact sales</a>
-            <br/>
-            <!-- Botón Inicio de Sesión -->
-            <a href="#" class="btn-login">
-              <span class="menu-item-text">Log in</span>
-            </a>
-
-            <!-- Botones Reutilizables: Work y School -->
-            <a href="#" class="btn-context" itemprop="url">
-              <span class="menu-item-text">
-                <span class="desktop-hidden">Ninja Quiz!</span>Work
-              </span>
-            </a>
-            <a href="#" class="btn-context" itemprop="url">
-              <span class="menu-item-text">
-                <span class="desktop-hidden">Ninja Quiz! </span>School
-              </span>
-            </a>
-
-            <!-- Botón Contactar Vendedores (Variante) -->
-            <a href="#" itemprop="url" class="btn-contact-sale">Contact sales</a>
-            <br/>
-            <br/>
-            <!-- Botón Join Game -->
-            <a href="#" class="btn-join-game toolbar__buttons__join">
-              <img src="https://kahoot.com/wp-content/themes/kahoot2017/assets/img/enter_pin_logo.png" alt="4-colored shapes"/>
-              Join game
-            </a>
-            <br/>
-            <!-- Botón Crear Kahoot -->
-            <a href="https://create.kahoot.it/creator" class="btn-create-kahoot toolbar__buttons__create">
-              <img src="https://kahoot.com/wp-content/themes/kahoot2017/assets/img/create_icon.png" alt="Plus icon"/>
-              Create a kahoot!
-            </a>
-            <br/>
-            <!-- Botón Buy Now -->
-            <a class="btn-buy-now btn btn--raised" href="https://kahoot.com/highered-campaign/" target="_self">Buy now</a>
-
-            <br/>
-            <!-- Botón Learn More -->
-            <a href="/schools" class="btn-learn-more">Learn more</a>
-            <br/>
-            <!-- Título H2 -->
-            <h2 class="mosaic-hero__title">Título h2</h2>
-            <br/>
-            <!-- Párrafo -->
-            <p class="custom-paragraph">Párrafo de ejemplo</p>
-            <br/>
-            <!-- Párrafo con strong y precios -->
-            <p class="paragraph-strong">
-              <strong>
-                Párrafo Strong
-                <span data-rcjs-exchange-usd="45" data-base-price="45" data-set="set">
-                  <small>€</small>45
-                </span> today, only 
-                <span data-rcjs-exchange-usd="25" data-base-price="25" data-set="set">
-                  <small>€</small>25
-                </span>/mo. Offer ends April 21.
-              </strong>
-            </p>
-            <br/>
-            <!-- Caja borde rojo -->
-            <div class="scta-box scta-box--red">
-              <!-- Contenido aquí -->
+    <t t-call="theme_ninja_quiz.layout">
+      <main class="components-gallery">
+        
+        <!-- SECCIÓN PARA FONDOS OSCUROS (componentes con texto claro) -->
+        <div class="gallery-section dark-bg">
+          <h2 class="section-title">Componentes para fondos oscuros</h2>
+          
+          <!-- Componente p-footer -->
+          <div class="component-container">
+            <div class="component-preview">
+              <p class="p-footer">Crea tu propio Quiz como un Ninja</p>
             </div>
-            <br/>
-            <!-- Ícono con título -->
-            <div class="icon-title-wrap">
-              <img width="32" height="32" src="https://kahoot.com/files/2020/05/kahoot-for-schools-icon.png" alt="Icon illustration of a red book within a circle"/>
-              <!-- Agrega aquí el texto si lo deseas -->
+            <span class="component-label">Clase: .p-footer</span>
+          </div>
+          
+          <!-- Componentes de footer -->
+          <div class="component-container">
+            <div class="component-preview">
+              <div class="footer-nav__title" aria-label="About">Títulos de footer</div>
+              <a href="#" class="footer-nav__link">Enlace de footer</a>
+              <span class="copyright">Copyright © 2025 Ninja Quiz</span>
             </div>
-            <br/>
-
-            <br/>
-
-            <!-- Botón Contexto At Work -->
-            <a href="#" aria-controls="toolbar-1" class="btn-switch-context toolbar__switcher__item" data-target="1">At work</a>
-
-          </section>
-
-          <!-- ========== FOOTER  -->
-          <section>
-            <p class="p-footer">Crea tu propio Quiz como un Ninja</p>
-          </section>
+            <span class="component-label">Clases: .footer-nav__title, .footer-nav__link, .copyright</span>
+          </div>
+          
+          <!-- Botones claros -->
+          <div class="component-container">
+            <div class="component-preview">
+              <a href="#" class="btn-learn-more">Learn more</a>
+              <br/>
+              <a href="#" class="btn-contact-sale">Contact sales</a>
+            </div>
+            <span class="component-label">Clases: .btn-learn-more, .btn-contact-sale</span>
+          </div>
+          
         </div>
+        
+        <!-- SECCIÓN PARA FONDOS CLAROS (componentes con texto oscuro) -->
+        <div class="gallery-section light-bg">
+          <h2 class="section-title">Componentes para fondos claros</h2>
+          
+          <!-- Títulos -->
+          <div class="component-container">
+            <div class="component-preview">
+              <h1 class="title">Título h1</h1>
+              <h2 class="mosaic-hero__title">Título h2</h2>
+            </div>
+            <span class="component-label">Clases: .title, .mosaic-hero__title</span>
+          </div>
+          
+          <!-- Botones oscuros -->
+          <div class="component-container">
+            <div class="component-preview">
+              <button class="join-button">Ingresar</button>
+              <br/>
+              <a href="#" class="btn-subscribe">Sign up FREE</a>
+            </div>
+            <span class="component-label">Clases: .join-button, .btn-subscribe</span>
+          </div>
+          
+          <!-- Inputs -->
+          <div class="component-container">
+            <div class="component-preview">
+              <input type="text" class="pin-input" placeholder="PIN del juego"/>
+              <br/>
+              <label for="username" class="login-label">Usuario</label>
+              <input type="text" id="username" class="login-input" placeholder="Nombre de usuario"/>
+            </div>
+            <span class="component-label">Clases: .pin-input, .login-label, .login-input</span>
+          </div>
+          
+          <!-- Botones especiales -->
+          <div class="component-container">
+            <div class="component-preview">
+              <a href="#" class="btn-news">
+                <span class="menu-news-icon"></span>
+                <span>News</span>
+                <span class="notification-bubble">3</span>
+              </a>
+              <br/>
+              <a href="#" class="btn-create-kahoot">
+                <img src="/theme_ninja_quiz/static/src/img/plus-icon.png" alt="Plus icon"/>
+                Create a quiz!
+              </a>
+            </div>
+            <span class="component-label">Clases: .btn-news, .btn-create-kahoot</span>
+          </div>
+          
+          <!-- Textos varios -->
+          <div class="component-container">
+            <div class="component-preview">
+              <p class="custom-paragraph">Párrafo de ejemplo con texto normal</p>
+              <p class="paragraph-strong">
+                <strong>Párrafo Strong con texto resaltado</strong>
+              </p>
+            </div>
+            <span class="component-label">Clases: .custom-paragraph, .paragraph-strong</span>
+          </div>
+          
+        </div>
+        
       </main>
     </t>
   </template>

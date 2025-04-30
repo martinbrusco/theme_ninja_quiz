@@ -3,5 +3,8 @@
     <xpath expr="//title" position="replace">
       <title>Ninja Quiz</title>
     </xpath>
+    <xpath expr="//div[@id='footer']" position="replace">
+      <div id="footer"></div> <!-- Footer eliminado -->
+    </xpath>
   </template>
 </odoo>

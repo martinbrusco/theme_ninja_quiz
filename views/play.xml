@@ -1,38 +1,17 @@
 <odoo>
-<template id="play_page_template" name="Ninja Quiz Play">
-  <t t-call="website.layout">
-    <main class="ninja-quiz-container">
-      <div class="ninja-quiz-card">
-        <h1 class="title">¡Ninja Quiz!</h1>
-        <form t-attf-action="/show_pin" method="POST">
-          <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-          <div class="input-container">
-            <input type="text" class="pin-input" name="game_pin" maxlength="10" placeholder="PIN del juego" required="required"/>
-          </div>
-          <button type="submit" class="join-button">Ingresar</button>
-        </form>
-
-      </div>
-    </main>
-        <footer class="mt-3">
-          <p class="p-footer">Crea tu propio Quiz como un Ninja</p>
-        </footer>
-  </t>
-</template>
-
-
-
-
-
-<template id="show_pin_template" name="Mostrar PIN">
-  <t t-call="website.layout">
-    <main class="ninja-quiz-container">
-      <div class="ninja-quiz-card">
-        <h2 class="title">PIN ingresado:</h2>
-        <p t-esc="pin" class="pin-output"/>
-      </div>
-    </main>
-  </t>
-</template>
-
+    <template id="play_page_template" name="Ninja Quiz Play">
+        <t t-call="theme_ninja_quiz.layout">
+            <!-- Forzar la carga del bundle web.assets_frontend -->
+            <t t-call-assets="web.assets_frontend" t-js="true" t-css="false"/>
+            <main class="ninja-quiz-container">
+                <div class="ninja-quiz-card">
+                    <h1 class="title">¡Ninja Quiz!</h1>
+                    <div id="kahoot-survey-runner-placeholder"></div>
+                </div>
+            </main>
+            <footer class="mt-3">
+                <p class="p-footer">Crea tu propio Quiz como un Ninja</p>
+            </footer>
+        </t>
+    </template>
 </odoo>

@@ -5,18 +5,21 @@
     "version": "1.0",
     "author": "Martin Brusco",
     "license": "LGPL-3",
-    "depends": ["web", "website"],  
+    "depends": ["web", "website", "survey"],
     "data": [
         "views/layout.xml",
-        "views/homepage.xml",  
+        "views/footer.xml",
+        "views/homepage.xml",
         "views/components.xml",
-        "views/play.xml"
+        "views/play.xml",
+        "views/survey_views.xml",
     ],
     "assets": {
         "web.assets_frontend": [
-            "theme_ninja_quiz/static/src/scss/custom.scss"
-        ]
+            "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
+            "theme_ninja_quiz/static/src/scss/custom.scss",
+        ],
     },
     "application": False,
-    "auto_install": False
+    "auto_install": False,
 }
