@@ -1,7 +1,57 @@
 /** @odoo-module **/
 
 import { Component, useState, xml, mount, useEffect } from "@odoo/owl";
-import { jsonrpc } from "@web/core/network/rpc_service";
+
+// JSON de ejemplo
+const surveyData = {
+  surveys: [
+    {
+      id: 1,
+      title: "Trivia de Conocimientos Generales",
+      questions: [
+        {
+          id: 1,
+          title: "¿Cuál es la capital de Francia?",
+          options: [
+            { id: 1, text: "Madrid", isCorrect: false },
+            { id: 2, text: "París", isCorrect: true },
+            { id: 3, text: "Roma", isCorrect: false },
+            { id: 4, text: "Berlín", isCorrect: false }
+          ],
+          isScored: true,
+          explanation: "¡La capital de Francia es París! Fun fact: París es conocida como 'La Ciudad de la Luz' porque fue una de las primeras ciudades en adoptar alumbrado público.",
+          answered: false
+        },
+        {
+          id: 2,
+          title: "¿Qué planeta es conocido como el planeta rojo?",
+          options: [
+            { id: 5, text: "Júpiter", isCorrect: false },
+            { id: 6, text: "Marte", isCorrect: true },
+            { id: 7, text: "Venus", isCorrect: false },
+            { id: 8, text: "Mercurio", isCorrect: false }
+          ],
+          isScored: true,
+          explanation: "¡Marte es el planeta rojo! Su color se debe al óxido de hierro en su superficie. ¿Sabías que Marte tiene el volcán más grande del sistema solar, el Monte Olimpo?",
+          answered: false
+        },
+        {
+          id: 3,
+          title: "¿Cuál es el animal terrestre más rápido?",
+          options: [
+            { id: 9, text: "León", isCorrect: false },
+            { id: 10, text: "Elefante", isCorrect: false },
+            { id: 11, text: "Guepardo", isCorrect: true },
+            { id: 12, text: "Caballo", isCorrect: false }
+          ],
+          isScored: true,
+          explanation: "¡El guepardo es el animal terrestre más rápido! Puede alcanzar velocidades de hasta 100 km/h. Dato curioso: solo puede mantener esa velocidad por unos pocos segundos.",
+          answered: false
+        }
+      ]
+    }
+  ]
+};
 
 class KahootSurveyRunner extends Component {
   static template = xml`
@@ -45,7 +95,7 @@ class KahootSurveyRunner extends Component {
               <t t-out="state.feedbackMessage"/>
             </p>
             <t t-if="state.currentQuestion.explanation">
-              <p class="explanation">
+              <p class="explanation slide-in">
                 <t t-out="state.currentQuestion.explanation"/>
               </p>
             </t>
@@ -66,7 +116,6 @@ class KahootSurveyRunner extends Component {
       currentIndex: 0,
       selectedOption: null,
       feedbackMessage: null,
-      surveyId: null,
       timeLeft: 15,
       isExiting: false,
     });
@@ -87,86 +136,42 @@ class KahootSurveyRunner extends Component {
     }, () => [this.state.currentIndex, this.state.selectedOption]);
   }
 
-  async loadQuestions() {
-    try {
-      console.log("Loading surveys...");
-      const result = await jsonrpc("/web/dataset/call_kw/survey.survey/search_read", {
-        model: "survey.survey",
-        method: "search_read",
-        args: [[]],
-        kwargs: { fields: ["id", "title", "question_ids"] },
+  loadQuestions() {
+    // Simulamos la carga de datos desde el JSON estático
+    console.log("Loading survey data from JSON...");
+    const result = surveyData.surveys;
+
+    if (result.length > 0) {
+      const survey = result[0];
+      console.log("Selected survey:", survey.title);
+      const formattedQuestions = survey.questions.map(question => ({
+        id: question.id,
+        title: question.title,
+        options: question.options,
+        isScored: question.isScored,
+        explanation: question.explanation,
+        answered: question.answered
+      }));
+
+      this.state.questions = formattedQuestions;
+      console.log("Formatted questions:", formattedQuestions);
+      formattedQuestions.forEach((q, index) => {
+        console.log(`Question ${index + 1} explanation:`, q.explanation);
       });
 
-      console.log("Surveys loaded:", result);
-
-      if (result.length > 0) {
-        const survey = result[0];
-        this.state.surveyId = survey.id;
-        console.log("Selected survey ID:", this.state.surveyId);
-        console.log("Loading questions for survey...");
-        const questions = await jsonrpc("/web/dataset/call_kw/survey.question/search_read", {
-          model: "survey.question",
-          method: "search_read",
-          args: [[["id", "in", survey.question_ids]]],
-          kwargs: { fields: ["title", "suggested_answer_ids", "is_scored_question", "explanation"] },
-        });
-
-        console.log("Questions loaded:", questions);
-
-        const formattedQuestions = await Promise.all(
-          questions.map(async (question) => {
-            console.log("Loading options for question:", question.title);
-            const options = await jsonrpc("/web/dataset/call_kw/survey.question.answer/search_read", {
-              model: "survey.question.answer",
-              method: "search_read",
-              args: [[["id", "in", question.suggested_answer_ids]]],
-              kwargs: { fields: ["value", "is_correct"] },
-            });
-            console.log("Options loaded for question", question.title, ":", options);
-            return {
-              id: question.id,
-              title: typeof question.title === 'object' ? question.title['en_US'] : question.title,
-              options: options.map((opt) => {
-                console.log("Mapping option:", opt);
-                return {
-                  id: opt.id,
-                  text: typeof opt.value === 'object' ? opt.value['en_US'] : opt.value,
-                  isCorrect: opt.is_correct || false,
-                };
-              }),
-              isScored: question.is_scored_question,
-              explanation: question.explanation || "",
-              answered: false,
-            };
-          })
-        );
-
-        this.state.questions = formattedQuestions;
-        console.log("Formatted questions:", formattedQuestions);
-        formattedQuestions.forEach((q, index) => {
-          console.log(`Question ${index + 1} explanation:`, q.explanation);
-        });
-        if (formattedQuestions.length > 0) {
-          this.state.currentQuestion = formattedQuestions[0];
-          console.log("Current question set:", this.state.currentQuestion);
-        } else {
-          this.state.feedbackMessage = "No se encontraron preguntas para esta encuesta.";
-        }
+      if (formattedQuestions.length > 0) {
+        this.state.currentQuestion = formattedQuestions[0];
+        console.log("Current question set:", this.state.currentQuestion);
       } else {
-        console.log("No surveys found.");
-        this.state.feedbackMessage = "No se encontraron encuestas.";
+        this.state.feedbackMessage = "No se encontraron preguntas para esta encuesta.";
       }
-    } catch (error) {
-      console.error("Error loading questions:", error);
-      if (error.data && error.data.message) {
-        this.state.feedbackMessage = `Error al cargar las preguntas: ${error.data.message}`;
-      } else {
-        this.state.feedbackMessage = "Error al cargar las preguntas.";
-      }
+    } else {
+      console.log("No surveys found.");
+      this.state.feedbackMessage = "No se encontraron encuestas.";
     }
   }
 
-  async selectOption(ev) {
+  selectOption(ev) {
     const optionId = parseInt(ev.currentTarget.dataset.optionId);
     console.log("Selected option ID:", optionId);
 
@@ -180,62 +185,17 @@ class KahootSurveyRunner extends Component {
 
     console.log("Current question explanation:", this.state.currentQuestion.explanation);
 
-    try {
-      let userInput = await jsonrpc("/web/dataset/call_kw/survey.user_input/search_read", {
-        model: "survey.user_input",
-        method: "search_read",
-        args: [[["survey_id", "=", this.state.surveyId], ["state", "=", "in_progress"]]],
-        kwargs: { fields: ["id"], limit: 1 },
-      });
-
-      let userInputId;
-      if (userInput.length === 0) {
-        userInput = await jsonrpc("/web/dataset/call_kw/survey.user_input/create", {
-          model: "survey.user_input",
-          method: "create",
-          args: [{
-            survey_id: this.state.surveyId,
-            state: "in_progress",
-          }],
-          kwargs: {},
-        });
-        userInputId = userInput;
-      } else {
-        userInputId = userInput[0].id;
-      }
-
-      await jsonrpc("/web/dataset/call_kw/survey.user_input.line/create", {
-        model: "survey.user_input.line",
-        method: "create",
-        args: [{
-          user_input_id: userInputId,
-          question_id: this.state.currentQuestion.id,
-          answer_type: "suggestion",
-          suggested_answer_id: optionId,
-        }],
-        kwargs: {},
-      });
-
-      console.log("Answer submitted successfully!");
-
-      if (this.state.currentIndex < this.state.questions.length - 1) {
-        console.log("Scheduling next question in 2 seconds...");
+    // Avanzar automáticamente después de 2 segundos
+    if (this.state.currentIndex < this.state.questions.length - 1) {
+      console.log("Scheduling next question in 2 seconds...");
+      setTimeout(() => {
+        console.log("Advancing to next question...");
+        this.state.isExiting = true;
         setTimeout(() => {
-          console.log("Advancing to next question...");
-          this.state.isExiting = true;
-          setTimeout(() => {
-            this.nextQuestion();
-            this.state.isExiting = false;
-          }, 300);
-        }, 2000);
-      }
-    } catch (error) {
-      console.error("Error submitting answer:", error);
-      let errorMessage = "Error al enviar la respuesta";
-      if (error.data && error.data.message) {
-        errorMessage += `: ${error.data.message}`;
-      }
-      this.state.feedbackMessage = errorMessage;
+          this.nextQuestion();
+          this.state.isExiting = false;
+        }, 300);
+      }, 2000);
     }
   }
 
