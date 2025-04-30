@@ -7,7 +7,6 @@ import { jsonrpc } from "@web/core/network/rpc_service";
 class KahootSurveyRunner extends Component {
     static template = xml`
         <div class="survey-runner">
-            <h2>Bienvenido al Quiz</h2>
             <t t-if="state.questions.length === 0">
                 <p t-if="!state.feedbackMessage">¡Cargando preguntas...</p>
                 <p t-if="state.feedbackMessage" class="feedback-message">

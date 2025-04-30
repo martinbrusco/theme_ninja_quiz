@@ -21,16 +21,7 @@ main.ninja-quiz-container {
   padding: 16px;
 }
 
-/* ===== Componentes ===== */
-.ninja-quiz-card {
-  background-color: white;
-  border-radius: 8px;
-  padding: 32px 24px;
-  width: 100%;
-  max-width: 320px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  text-align: center;
-}
+
 
 /* --- Títulos --- */
 .title {
@@ -707,12 +698,6 @@ main.ninja-quiz-container {
   min-height: 80vh;
 }
 
-.ninja-quiz-card {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
 
 .survey-runner {
@@ -914,13 +899,7 @@ main.ninja-quiz-container {
   padding: 20px;
 }
 
-.ninja-quiz-card {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-}
+
 
 .title {
   font-size: 2.5rem;
@@ -1070,4 +1049,19 @@ main.ninja-quiz-container {
 
 .navigation button:hover:not(:disabled) {
   background-color: #0056b3;
+}
+
+.ninja-quiz-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 960px;
+  min-height: 80vh;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
