@@ -35,10 +35,10 @@ class KahootSurveyRunner extends Component {
             <div class="progress-fill" t-att-style="'width:' + (state.timeLeft / 15 * 100) + '%'"/>
           </div>
         </div>
-        <!-- Pregunta centrada -->
-        <h3 class="question-title" t-out="state.currentQuestion ? state.currentQuestion.title : 'Cargando pregunta...'"/>
-        <!-- Opciones -->
-        <ul class="options-list">
+        <!-- Pregunta centrada con animación de desvanecimiento -->
+        <h3 class="question-title fade-in" t-key="state.currentIndex" t-out="state.currentQuestion ? state.currentQuestion.title : 'Cargando pregunta...'"/>
+        <!-- Opciones con animación de desvanecimiento -->
+        <ul class="options-list fade-in" t-key="state.currentIndex">
           <t t-foreach="state.currentQuestion ? state.currentQuestion.options : []" t-as="option" t-key="option.id">
             <li t-att-class="'option-' + option_index">
               <button t-on-click="selectOption" t-att-data-option-id="option.id" t-att-class="'option-button option-' + option_index + ' ' + getOptionClass(option.id)" t-att-disabled="state.isProcessing">
@@ -54,7 +54,7 @@ class KahootSurveyRunner extends Component {
             <t t-out="state.feedbackMessage"/>
           </p>
           <t t-if="hasExplanation()">
-            <p class="explanation slide-in">
+            <p class="explanation">
               <t t-out="state.currentQuestion.explanation"/>
             </p>
           </t>
