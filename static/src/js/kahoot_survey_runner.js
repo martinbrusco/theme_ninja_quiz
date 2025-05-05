@@ -13,6 +13,10 @@ class KahootSurveyRunner extends Component {
         </p>
       </t>
       <t t-else="">
+        <!-- Contador de respuestas en la esquina superior derecha -->
+        <div class="answer-counter">
+          <span t-out="(state.questions.filter(q => q.answered)).length + ' Answers'"/>
+        </div>
         <!-- Barra de progreso general -->
         <div class="progress-general">
           <span t-out="'Pregunta ' + (state.currentIndex + 1) + ' de ' + state.questions.length"/>
@@ -26,36 +30,39 @@ class KahootSurveyRunner extends Component {
         </div>
         <!-- Temporizador por pregunta -->
         <div class="progress-timer">
-          <span t-out="'Tiempo restante: ' + state.timeLeft + 's'"/>
+          <span t-out="state.timeLeft + 's'"/>
           <div class="progress-bar">
             <div class="progress-fill" t-att-style="'width:' + (state.timeLeft / 15 * 100) + '%'"/>
           </div>
         </div>
-        <div t-key="state.currentIndex" class="question-container" t-att-class="state.isExiting ? 'exiting' : ''">
-          <h3 t-out="state.currentQuestion ? state.currentQuestion.title : 'Cargando pregunta...'"/>
-          <ul class="options-list">
-            <t t-foreach="state.currentQuestion ? state.currentQuestion.options : []" t-as="option" t-key="option.id">
-              <li>
-                <button t-on-click="selectOption" t-att-data-option-id="option.id" t-att-class="getOptionClass(option.id)" t-att-disabled="state.isProcessing">
-                  <t t-out="option.text"/>
-                </button>
-              </li>
-            </t>
-          </ul>
-          <t t-if="state.feedbackMessage">
-            <p class="feedback-message" t-att-class="state.feedbackMessage.includes('Correct') ? 'correct' : 'incorrect'">
-              <t t-out="state.feedbackMessage"/>
-            </p>
-            <t t-if="hasExplanation()">
-              <p class="explanation slide-in">
-                <t t-out="state.currentQuestion.explanation"/>
-              </p>
-            </t>
+        <!-- Pregunta centrada con animación de desvanecimiento -->
+        <h3 class="question-title fade-in" t-key="state.currentIndex" t-out="state.currentQuestion ? state.currentQuestion.title : 'Cargando pregunta...'"/>
+        <!-- Opciones con animación de desvanecimiento -->
+        <ul class="options-list fade-in" t-key="state.currentIndex">
+          <t t-foreach="state.currentQuestion ? state.currentQuestion.options : []" t-as="option" t-key="option.id">
+            <li t-att-class="'option-' + option_index">
+              <button t-on-click="selectOption" t-att-data-option-id="option.id" t-att-class="'option-button option-' + option_index + ' ' + getOptionClass(option.id)" t-att-disabled="state.isProcessing">
+                <span class="option-shape"></span>
+                <span class="option-text" t-out="option.text"/>
+              </button>
+            </li>
           </t>
-          <div class="navigation">
-            <button t-on-click="previousQuestion" t-att-disabled="state.currentIndex === 0 || state.isProcessing" t-att-class="state.currentIndex === 0 ? '' : 'pulse'">Anterior</button>
-            <button t-on-click="nextQuestion" t-att-disabled="state.currentIndex === state.questions.length - 1 || state.isProcessing" t-att-class="state.currentIndex === state.questions.length - 1 ? '' : 'pulse'">Siguiente</button>
-          </div>
+        </ul>
+        <!-- Mensaje de retroalimentación -->
+        <t t-if="state.feedbackMessage">
+          <p class="feedback-message" t-att-class="state.feedbackMessage.includes('Correct') ? 'correct' : 'incorrect'">
+            <t t-out="state.feedbackMessage"/>
+          </p>
+          <t t-if="hasExplanation()">
+            <p class="explanation">
+              <t t-out="state.currentQuestion.explanation"/>
+            </p>
+          </t>
+        </t>
+        <!-- Botones de navegación -->
+        <div class="navigation">
+          <button t-on-click="previousQuestion" t-att-disabled="state.currentIndex === 0 || state.isProcessing" t-att-class="state.currentIndex === 0 ? '' : 'pulse'">Anterior</button>
+          <button t-on-click="nextQuestion" t-att-disabled="state.currentIndex === state.questions.length - 1 || state.isProcessing" t-att-class="state.currentIndex === state.questions.length - 1 ? '' : 'pulse'">Siguiente</button>
         </div>
       </t>
     </div>
@@ -79,12 +86,10 @@ class KahootSurveyRunner extends Component {
 
     useEffect(() => {
       const timer = setInterval(() => {
-        // Solo reducir timeLeft si no se ha seleccionado una opción y no está procesando
         if (!this.state.selectedOption && !this.state.isProcessing && this.state.timeLeft > 0) {
           console.log("Timer tick: timeLeft =", this.state.timeLeft);
           this.state.timeLeft -= 1;
         }
-        // Si el tiempo se agota y no se ha seleccionado una opción, avanzar a la siguiente pregunta
         if (this.state.timeLeft <= 0 && !this.state.selectedOption && !this.state.isProcessing) {
           console.log("Time's up! Moving to next question...");
           this.nextQuestion();
@@ -93,10 +98,6 @@ class KahootSurveyRunner extends Component {
 
       return () => clearInterval(timer);
     }, () => [this.state.currentIndex, this.state.selectedOption, this.state.isProcessing]);
-  }
-
-  hasExplanation() {
-    return this.state.currentQuestion && this.state.currentQuestion.explanation;
   }
 
   async loadQuestions() {
@@ -179,7 +180,6 @@ class KahootSurveyRunner extends Component {
   }
 
   async selectOption(ev) {
-    // Evitar múltiples clics mientras se procesa
     if (this.state.isProcessing) {
       console.log("Already processing an option, ignoring click...");
       return;
@@ -195,7 +195,6 @@ class KahootSurveyRunner extends Component {
     console.log("Current question explanation:", this.state.currentQuestion?.explanation || "<empty string>");
 
     try {
-      // Enviar la respuesta al endpoint /survey/submit
       console.log("Submitting answer to /survey/submit...");
       const response = await jsonrpc("/survey/submit", {
         survey_id: this.state.surveyId,
@@ -207,14 +206,11 @@ class KahootSurveyRunner extends Component {
 
       if (response.success) {
         console.log("Answer submitted successfully!");
-        // Usar la información de "correct" del backend para determinar si la respuesta es correcta
         this.state.feedbackMessage = response.correct ? "¡Correcto!" : "Incorrecto";
-        // Avanzar solo después de la confirmación del backend
         if (this.state.currentIndex < this.state.questions.length - 1) {
           console.log("Scheduling next question with 5000ms delay...");
           this.state.isExiting = true;
 
-          // Usar una promesa para asegurar que el retraso se respete
           await new Promise((resolve) => {
             setTimeout(() => {
               console.log("Advancing to next question after 5000ms...");
@@ -222,7 +218,6 @@ class KahootSurveyRunner extends Component {
             }, 5000);
           });
 
-          // Mover la lógica de transición aquí
           this.state.currentIndex++;
           this.state.currentQuestion = this.state.questions[this.state.currentIndex] || null;
           this.state.selectedOption = null;
@@ -284,6 +279,10 @@ class KahootSurveyRunner extends Component {
       this.state.isExiting = false;
       console.log("Moved to previous question:", this.state.currentQuestion?.title || "No more questions");
     }
+  }
+
+  hasExplanation() {
+    return this.state.currentQuestion && this.state.currentQuestion.explanation;
   }
 }
 
