@@ -11,7 +11,6 @@ class NinjaQuizController(http.Controller):
     
     @http.route('/get_survey_questions', type='json', auth="public", website=True)
     def get_survey_questions(self, survey_id=None):
-        # Por ahora, buscamos un survey de ejemplo. Más adelante usaremos el PIN.
         survey = request.env['survey.survey'].sudo().search([], limit=1)
         if not survey:
             return {"error": "No survey found"}

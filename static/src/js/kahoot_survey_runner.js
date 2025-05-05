@@ -224,15 +224,14 @@ class KahootSurveyRunner extends Component {
 
       if (response.success) {
         console.log("Answer submitted successfully!");
-        // Avanzar solo después de la confirmación del backend
-        if (this.state.currentIndex < this.state.questions.length - 1) {
-          console.log("Scheduling next question...");
-          this.state.isExiting = true;
-          setTimeout(() => {
+        // Agregar un retraso de 4 segundos antes de avanzar
+        this.state.isExiting = true;
+        setTimeout(() => {
+          if (this.state.currentIndex < this.state.questions.length - 1) {
             this.nextQuestion();
-            this.state.isExiting = false;
-          }, 300);
-        }
+          }
+          this.state.isExiting = false;
+        }, 4000); // 4000 ms = 4 segundos
       } else {
         this.state.feedbackMessage = "Error al enviar la respuesta: Respuesta no confirmada por el backend.";
       }
