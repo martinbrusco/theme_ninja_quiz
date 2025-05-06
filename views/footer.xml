@@ -1,10 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- Hereda la plantilla del footer por defecto -->
     <template id="footer_custom" inherit_id="website.footer_custom" name="Footer personalizado">
+        <!-- Reemplaza el copyright -->
         <xpath expr="//div[hasclass('o_footer_copyright')]" position="replace">
             <div class="o_footer_copyright text-center">
                 <p>© 2025 Ninja Quiz - Todos los derechos reservados.</p>
             </div>
         </xpath>
+        <!-- Añade enlaces a redes sociales -->
         <xpath expr="//div[hasclass('o_footer_copyright')]" position="after">
             <div class="text-center mt-2">
                 <a href="https://twitter.com" target="_blank" class="mx-2">Twitter</a>

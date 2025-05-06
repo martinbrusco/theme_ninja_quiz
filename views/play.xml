@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="play_page_template" name="Ninja Quiz Play">
         <t t-call="theme_ninja_quiz.layout">
-            <!-- Forzar la carga del bundle web.assets_frontend -->
-            <t t-call-assets="web.assets_frontend" t-js="true" t-css="false"/>
             <main class="ninja-quiz-container">
                 <div class="ninja-quiz-card">
                     <h1 class="title">¡Ninja Quiz!</h1>

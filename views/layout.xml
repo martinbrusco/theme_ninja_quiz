@@ -1,10 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-  <template id="layout" inherit_id="website.layout" name="Ninja Quiz Layout">
-    <xpath expr="//title" position="replace">
-      <title>Ninja Quiz</title>
-    </xpath>
-    <xpath expr="//div[@id='footer']" position="replace">
-      <div id="footer"></div> <!-- Footer eliminado -->
-    </xpath>
-  </template>
+    <template id="layout" inherit_id="website.layout" name="Ninja Quiz Layout">
+        <xpath expr="//title" position="replace">
+            <title>Ninja Quiz</title>
+        </xpath>
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer"></div>
+        </xpath>
+        <!-- Elimina las etiquetas de precarga de fuentes -->
+        <xpath expr="//link[@rel='preload' and contains(@href, 'fontawesome')]" position="replace">
+            <!-- No reemplazamos con nada, simplemente eliminamos -->
+        </xpath>
+    </template>
 </odoo>

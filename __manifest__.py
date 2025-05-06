@@ -17,6 +17,16 @@
     "assets": {
         "web.assets_frontend": [
             "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
+            "theme_ninja_quiz/static/src/js/lib/SurveyDataService.js",
+            "theme_ninja_quiz/static/src/js/lib/StateManager.js",
+            "theme_ninja_quiz/static/src/js/lib/mountComponent.js",
+            "theme_ninja_quiz/static/src/scss/custom.scss",
+        ],
+        "website.assets_frontend": [
+            "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
+            "theme_ninja_quiz/static/src/js/lib/SurveyDataService.js",
+            "theme_ninja_quiz/static/src/js/lib/StateManager.js",
+            "theme_ninja_quiz/static/src/js/lib/mountComponent.js",
             "theme_ninja_quiz/static/src/scss/custom.scss",
         ],
     },

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Heredar la vista del formulario de survey.question -->
+    <!-- Hereda la vista del formulario de survey.question -->
     <record id="survey_question_form_view_inherit" model="ir.ui.view">
         <field name="name">survey.question.form.inherit</field>
         <field name="model">survey.question</field>
         <field name="inherit_id" ref="survey.survey_question_form"/>
         <field name="arch" type="xml">
-            <!-- Añadir el campo explanation después del campo description -->
+            <!-- Añade el campo explanation después del campo description -->
             <xpath expr="//field[@name='description']" position="after">
                 <field name="explanation" placeholder="Escribe una explicación que se mostrará después de responder la pregunta."/>
             </xpath>
