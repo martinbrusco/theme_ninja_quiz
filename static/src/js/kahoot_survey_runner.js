@@ -79,6 +79,7 @@ export class KahootSurveyRunner extends Component {
   setup() {
     this.state = StateManager.initState();
     this.dataService = new SurveyDataService();
+    this.timer = null; // Variable para el temporizador
     // Get survey_id and survey_exists from the placeholder element
     const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
     this.state.surveyId = placeholder ? parseInt(placeholder.dataset.surveyId) : null;
@@ -95,32 +96,43 @@ export class KahootSurveyRunner extends Component {
       this.loadQuestions();
     }
 
-    useEffect(
-      () => {
-        let timer;
-        // Only start the timer if survey exists and questions are loaded
-        if (
-          this.state.surveyExists &&
-          this.state.questions.length > 0 &&
-          this.state.timeLeft > 0 &&
-          !this.state.selectedOption &&
-          !this.state.isProcessing &&
-          !this.state.isExiting
-        ) {
-          timer = setInterval(() => {
-            this.state.timeLeft -= 1;
-            if (this.state.timeLeft <= 0 && !this.state.selectedOption && !this.state.isProcessing) {
-              this.state.questions[this.state.currentIndex].skipped = true;
-              if (this.state.currentIndex < this.state.questions.length - 1) {
-                this.nextQuestion();
-              }
-            }
-          }, 1000);
+    useEffect(() => {
+      // Iniciar temporizador cuando las condiciones sean correctas
+      this.startTimer();
+      return () => this.clearTimer(); // Limpieza del temporizador
+    });
+  }
+
+  startTimer() {
+    if (this.timer) {
+      this.clearTimer(); // Limpiar cualquier temporizador existente
+    }
+    if (
+      this.state.surveyExists &&
+      this.state.questions.length > 0 &&
+      this.state.timeLeft > 0 &&
+      !this.state.selectedOption &&
+      !this.state.isProcessing &&
+      !this.state.isExiting
+    ) {
+      this.timer = setInterval(() => {
+        this.state.timeLeft -= 1;
+        console.log("Timer tick, timeLeft:", this.state.timeLeft); // Debug log
+        if (this.state.timeLeft <= 0 && !this.state.selectedOption && !this.state.isProcessing) {
+          this.state.questions[this.state.currentIndex].skipped = true;
+          if (this.state.currentIndex < this.state.questions.length - 1) {
+            this.nextQuestion();
+          }
         }
-        return () => clearInterval(timer);
-      },
-      () => [this.state.currentIndex, this.state.selectedOption, this.state.isProcessing, this.state.isExiting, this.state.timeLeft]
-    );
+      }, 1000);
+    }
+  }
+
+  clearTimer() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
   }
 
   async loadQuestions() {
@@ -128,7 +140,9 @@ export class KahootSurveyRunner extends Component {
       await this.dataService.loadQuestions(this.state);
       if (this.state.questions.length > 0) {
         this.state.currentQuestion = this.state.questions[0];
-        this.state.timeLeft = 15;
+        this.state.timeLeft = 15; // Ensure timeLeft is set
+        console.log("Questions loaded, timeLeft set to:", this.state.timeLeft); // Debug log
+        this.startTimer(); // Iniciar temporizador después de cargar preguntas
       }
     } catch (error) {
       console.error("Error loading questions:", error);
@@ -138,6 +152,7 @@ export class KahootSurveyRunner extends Component {
   async selectOption(ev) {
     if (this.state.isProcessing || this.state.isExiting || this.state.timeLeft <= 0) return;
 
+    this.clearTimer(); // Detener temporizador al seleccionar una opción
     this.state.isProcessing = true;
     this.state.isExiting = true;
     const optionId = parseInt(ev.currentTarget.dataset.optionId);
@@ -205,6 +220,7 @@ export class KahootSurveyRunner extends Component {
       this.state.currentIndex++;
       this.state.currentQuestion = this.state.questions[this.state.currentIndex] || null;
       this.resetQuestionState();
+      this.startTimer(); // Reiniciar temporizador en la nueva pregunta
     }
   }
 
