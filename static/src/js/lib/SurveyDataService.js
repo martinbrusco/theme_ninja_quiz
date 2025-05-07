@@ -5,7 +5,9 @@ import { jsonrpc } from "@web/core/network/rpc_service";
 export class SurveyDataService {
   async loadQuestions(state) {
     try {
-      const response = await jsonrpc("/survey/get_data", {});
+      const response = await jsonrpc("/survey/get_data", {
+        survey_id: state.surveyId
+      });
       if (!response.success) {
         state.feedbackMessage = response.error || "No se encontraron encuestas.";
         return;

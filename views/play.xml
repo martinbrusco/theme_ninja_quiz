@@ -5,7 +5,7 @@
             <main class="ninja-quiz-container">
                 <div class="ninja-quiz-card">
                     <h1 class="title">¡Ninja Quiz!</h1>
-                    <div id="kahoot-survey-runner-placeholder"></div>
+                    <div id="kahoot-survey-runner-placeholder" t-att-data-survey-id="survey_id"></div>
                 </div>
             </main>
             <footer class="mt-3">

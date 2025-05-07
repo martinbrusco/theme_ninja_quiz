@@ -6,9 +6,13 @@ class NinjaQuizController(http.Controller):
     def homepage(self, **kw):
         return request.render("theme_ninja_quiz.homepage_template", {})
 
-    @http.route('/play', type='http', auth='public', website=True)
-    def play_page(self, **kwargs):
-        return request.render('theme_ninja_quiz.play_page_template', {})
+    @http.route('/play/<int:survey_id>', type='http', auth='public', website=True)
+    def play_page(self, survey_id, **kwargs):
+        # Verify if the survey exists
+        survey = request.env['survey.survey'].sudo().browse(survey_id)
+        if not survey.exists():
+            return request.render('website.404')
+        return request.render('theme_ninja_quiz.play_page_template', {'survey_id': survey_id})
 
     @http.route('/components', type='http', auth="public", website=True)
     def components(self, **kw):
@@ -49,13 +53,13 @@ class NinjaQuizSurveyController(http.Controller):
         except Exception as e:
             return {'success': False, 'error': str(e)}
 
-    # Nueva ruta para cargar encuestas y preguntas sin necesidad de autenticación
     @http.route('/survey/get_data', type='json', auth='public', website=True, methods=['POST'])
-    def get_survey_data(self):
+    def get_survey_data(self, survey_id=None):
         try:
-            # Carga las encuestas
+            # Filter surveys by the provided survey_id
+            domain = [('id', '=', int(survey_id))] if survey_id else []
             surveys = request.env['survey.survey'].sudo().search_read(
-                domain=[],
+                domain=domain,
                 fields=["id", "title", "question_ids"]
             )
 
@@ -94,7 +98,7 @@ class NinjaQuizSurveyController(http.Controller):
                 formatted_questions.append(formatted_question)
 
             if not formatted_questions:
-                return {'success': False, 'error': 'No se encontraron preguntas para esta encuesta.'}
+                return {'success': False, 'error': 'No se encontramos preguntas para esta encuesta.'}
 
             return {
                 'success': True,
