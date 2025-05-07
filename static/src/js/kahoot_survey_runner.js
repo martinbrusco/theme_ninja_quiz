@@ -7,13 +7,17 @@ import { StateManager } from "./lib/StateManager";
 export class KahootSurveyRunner extends Component {
   static template = xml`
     <div class="survey-runner">
-      <t t-if="state.questions.length === 0">
+      <t t-if="!state.surveyExists">
+        <p class="feedback-message">¡Ups! El quiz con ID <t t-esc="state.surveyId"/> no existe.</p>
+        <a href="/" class="btn-subscribe">Volver al inicio</a>
+      </t>
+      <t t-elif="state.questions.length === 0">
         <p t-if="!state.feedbackMessage">¡Cargando preguntas...</p>
         <p t-if="state.feedbackMessage" class="feedback-message">
           <t t-out="state.feedbackMessage"/>
           <t t-if="state.feedbackMessage.includes('sesión ha expirado')">
             <br/>
-            <a href="/web/login?redirect=/play">Iniciar sesión</a>
+            <a t-att-href="'/web/login?redirect=/play/' + state.surveyId">Iniciar sesión</a>
           </t>
         </p>
       </t>
@@ -75,13 +79,34 @@ export class KahootSurveyRunner extends Component {
   setup() {
     this.state = StateManager.initState();
     this.dataService = new SurveyDataService();
+    // Get survey_id and survey_exists from the placeholder element
+    const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
+    this.state.surveyId = placeholder ? parseInt(placeholder.dataset.surveyId) : null;
+    const surveyExistsRaw = placeholder ? placeholder.dataset.surveyExists : 'false';
+    // Log the raw value for debugging
+    console.log("Raw surveyExists value from dataset:", surveyExistsRaw);
+    // Log the entire placeholder element for inspection
+    console.log("Placeholder element:", placeholder);
+    // Normalize comparison to be case-insensitive
+    this.state.surveyExists = surveyExistsRaw ? surveyExistsRaw.toLowerCase() === 'true' : false;
+    console.log("Computed state.surveyExists:", this.state.surveyExists);
 
-    this.loadQuestions();
+    if (this.state.surveyExists) {
+      this.loadQuestions();
+    }
 
     useEffect(
       () => {
         let timer;
-        if (this.state.timeLeft > 0 && !this.state.selectedOption && !this.state.isProcessing && !this.state.isExiting) {
+        // Only start the timer if survey exists and questions are loaded
+        if (
+          this.state.surveyExists &&
+          this.state.questions.length > 0 &&
+          this.state.timeLeft > 0 &&
+          !this.state.selectedOption &&
+          !this.state.isProcessing &&
+          !this.state.isExiting
+        ) {
           timer = setInterval(() => {
             this.state.timeLeft -= 1;
             if (this.state.timeLeft <= 0 && !this.state.selectedOption && !this.state.isProcessing) {
@@ -184,7 +209,7 @@ export class KahootSurveyRunner extends Component {
   }
 
   showPreviousMessage() {
-    alert("No se puede ir atrás.");
+    // No hace nada, pero mantiene el botón activo para animaciones
   }
 
   resetQuestionState() {

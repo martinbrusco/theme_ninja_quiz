@@ -1,5 +1,8 @@
 from odoo import http
 from odoo.http import request
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class NinjaQuizController(http.Controller):
     @http.route('/', type='http', auth="public", website=True)
@@ -8,11 +11,16 @@ class NinjaQuizController(http.Controller):
 
     @http.route('/play/<int:survey_id>', type='http', auth='public', website=True)
     def play_page(self, survey_id, **kwargs):
-        # Verify if the survey exists
-        survey = request.env['survey.survey'].sudo().browse(survey_id)
-        if not survey.exists():
-            return request.render('theme_ninja_quiz.not_found_template', {'survey_id': survey_id})
-        return request.render('theme_ninja_quiz.play_page_template', {'survey_id': survey_id})
+        # Verify if the survey exists using search
+        survey = request.env['survey.survey'].sudo().search([('id', '=', survey_id)], limit=1)
+        survey_exists = bool(survey)  # True if survey exists, False otherwise
+        survey_exists_str = str(survey_exists).lower()  # Convert to "true" or "false"
+        # Log the value of survey_exists for debugging
+        _logger.info("Survey ID %d exists: %s", survey_id, survey_exists_str)
+        return request.render('theme_ninja_quiz.play_page_template', {
+            'survey_id': survey_id,
+            'survey_exists': survey_exists_str
+        })
 
     @http.route('/components', type='http', auth="public", website=True)
     def components(self, **kw):
