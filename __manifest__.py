@@ -12,6 +12,7 @@
         "views/homepage.xml",
         "views/components.xml",
         "views/play.xml",
+        'views/not_found.xml',
         "views/survey_views.xml",
     ],
     "assets": {

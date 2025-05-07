@@ -11,7 +11,7 @@ class NinjaQuizController(http.Controller):
         # Verify if the survey exists
         survey = request.env['survey.survey'].sudo().browse(survey_id)
         if not survey.exists():
-            return request.render('website.404')
+            return request.render('theme_ninja_quiz.not_found_template', {'survey_id': survey_id})
         return request.render('theme_ninja_quiz.play_page_template', {'survey_id': survey_id})
 
     @http.route('/components', type='http', auth="public", website=True)
