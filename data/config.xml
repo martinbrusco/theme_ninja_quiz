@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- JavaScript- texts -->
+    <!-- JavaScript texts -->
     <record id="survey_not_found" model="ir.config_parameter">
         <field name="key">theme_ninja_quiz.survey_not_found</field>
         <field name="value">¡Ups! El quiz con ID %s no existe.</field>
@@ -73,7 +73,7 @@
         <field name="key">theme_ninja_quiz.next_button</field>
         <field name="value">Siguiente</field>
     </record>
-    <!-- XML template- texts -->
+    <!-- XML template texts -->
     <record id="homepage_title" model="ir.config_parameter">
         <field name="key">theme_ninja_quiz.homepage_title</field>
         <field name="value">¡Bienvenido a Ninja Quiz!</field>
@@ -94,5 +94,29 @@
         <field name="key">theme_ninja_quiz.footer_text</field>
         <field name="value">Crea tu propio Quiz como un Ninja</field>
     </record>
- 
+    <record id="layout_title" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.layout_title</field>
+        <field name="value">Ninja Quiz</field>
+    </record>
+    <record id="footer_copyright" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.footer_copyright</field>
+        <field name="value">© 2025 Ninja Quiz - Todos los derechos reservados.</field>
+    </record>
+    <record id="social_twitter" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.social_twitter</field>
+        <field name="value">Twitter</field>
+    </record>
+    <record id="social_facebook" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.social_facebook</field>
+        <field name="value">Facebook</field>
+    </record>
+    <!-- Python texts -->
+    <record id="no_surveys_found" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.no_surveys_found</field>
+        <field name="value">No se encontraron encuestas.</field>
+    </record>
+    <record id="no_questions_found" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.no_questions_found</field>
+        <field name="value">No se encontramos preguntas para esta encuesta.</field>
+    </record>
 </odoo>

@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Hereda la plantilla del footer por defecto -->
     <template id="footer_custom" inherit_id="website.footer_custom" name="Footer personalizado">
-        <!-- Reemplaza el copyright -->
         <xpath expr="//div[hasclass('o_footer_copyright')]" position="replace">
             <div class="o_footer_copyright text-center">
-                <p>© 2025 Ninja Quiz - Todos los derechos reservados.</p>
+                <p t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.footer_copyright', '© 2025 Ninja Quiz - Todos los derechos reservados.')"/>
             </div>
         </xpath>
-        <!-- Añade enlaces a redes sociales -->
         <xpath expr="//div[hasclass('o_footer_copyright')]" position="after">
             <div class="text-center mt-2">
-                <a href="https://twitter.com" target="_blank" class="mx-2">Twitter</a>
-                <a href="https://facebook.com" target="_blank" class="mx-2">Facebook</a>
+                <a href="https://twitter.com" target="_blank" class="mx-2" t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.social_twitter', 'Twitter')"/>
+                <a href="https://facebook.com" target="_blank" class="mx-2" t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.social_facebook', 'Facebook')"/>
             </div>
         </xpath>
     </template>

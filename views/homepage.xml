@@ -4,9 +4,9 @@
         <t t-call="theme_ninja_quiz.layout">
             <div class="container mt-5">
                 <t t-placeholder="homepage_content">
-                    <h1 class="title">¡Bienvenido a Ninja Quiz!</h1>
-                    <p class="custom-paragraph">Participa en nuestro quiz y pon a prueba tus conocimientos.</p>
-                    <a href="/play/2" class="btn-subscribe">¡Jugar ahora!</a>
+                    <h1 class="title" t-out="homepage_title"/>
+                    <p class="custom-paragraph" t-out="homepage_paragraph"/>
+                    <a href="/play/2" class="btn-subscribe" t-out="play_button"/>
                 </t>
             </div>
         </t>
