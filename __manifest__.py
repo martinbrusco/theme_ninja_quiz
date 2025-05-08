@@ -7,6 +7,7 @@
     "license": "LGPL-3",
     "depends": ["web", "website", "survey"],
     "data": [
+        "data/config.xml",
         "views/layout.xml",
         "views/footer.xml",
         "views/homepage.xml",
