@@ -119,4 +119,21 @@
         <field name="key">theme_ninja_quiz.no_questions_found</field>
         <field name="value">No se encontramos preguntas para esta encuesta.</field>
     </record>
+
+    <record id="feedback_config_error" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.feedback_config_error</field>
+        <field name="value">Error al cargar la configuración o las preguntas.</field>
+    </record>
+    <record id="feedback_no_questions" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.feedback_no_questions</field>
+        <field name="value">No hay preguntas disponibles.</field>
+    </record>
+    <record id="feedback_load_questions_error" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.feedback_load_questions_error</field>
+        <field name="value">Error al cargar las preguntas.</field>
+    </record>
+    <record id="feedback_submit_error" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.feedback_submit_error</field>
+        <field name="value">Error al enviar la respuesta.</field>
+    </record>
 </odoo>
