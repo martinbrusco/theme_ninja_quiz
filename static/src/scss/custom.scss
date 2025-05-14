@@ -1,10 +1,9 @@
-
-
+/* Configuración general de la página */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #431f99;
   background-image:
     radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
@@ -14,6 +13,7 @@ html, body {
   background-size: cover;
 }
 
+/* Contenedor principal */
 main.ninja-quiz-container {
   display: flex;
   align-items: center;
@@ -22,7 +22,33 @@ main.ninja-quiz-container {
   padding: 16px;
 }
 
-/* --- Títulos --- */
+/* Estilos para el contenedor del quiz */
+.ninja-quiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.ninja-quiz-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 960px;
+  min-height: 80vh;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Títulos */
 .title {
   font-size: 28px;
   color: #222;
@@ -30,12 +56,17 @@ main.ninja-quiz-container {
   font-weight: bold;
 }
 
-/* --- Input Container --- */
-.input-container {
-  margin-bottom: 8px;
+.mosaic-hero__title {
+  color: #333;
+  font-size: clamp(0.75rem, 1.16667vmin, 0.875rem);
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  font-family: 'Montserrat', sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
-/* --- Inputs --- */
+/* Inputs */
 .pin-input {
   width: 100%;
   padding: 12px;
@@ -53,373 +84,6 @@ main.ninja-quiz-container {
 
 .pin-input:focus {
   border-color: #7b61ff;
-}
-
-/* --- Botones --- */
-.join-button {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  background-color: #2e2e2e;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  margin-top: 8px;
-  height: 48px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px, rgba(0, 0, 0, 0.25) 0px -4px inset;
-}
-
-.join-button:hover {
-  background-color: #1e1e1e;
-}
-
-/* --- Footer --- */
-.p-footer {
-  color: #fafafa;
-  font-size: 0.875rem;
-  margin-top: 24px;
-  font-weight: 500;
-  text-align: center;
-}
-
-/* === Botón Noticias === */
-.btn-news {
-  display: inline-block;
-  background-color: #0057FF;
-  color: white;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  text-decoration: none;
-  margin-top: 8px;
-  position: relative;
-  width: 100%;
-  text-align: center;
-}
-
-.notification-bubble {
-  background-color: red;
-  border-radius: 50%;
-  color: white;
-  font-size: 0.75rem;
-  padding: 0.25em 0.5em;
-  position: absolute;
-  top: -8px;
-  right: -8px;
-}
-
-/* === Botón Play === */
-.btn-play {
-  display: inline-block;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
-  color: #0057FF;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  text-decoration: none;
-  margin-top: 8px;
-  width: 100%;
-  text-align: center;
-}
-
-/* === Botón Suscribirse === */
-.btn-subscribe {
-  display: inline-block;
-  background-color: #26890C;
-  color: white;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  text-decoration: none;
-  margin-top: 8px;
-  text-transform: uppercase;
-  width: 100%;
-  text-align: center;
-}
-
-/* === Botón Contacto Vendedor === */
-.btn-contact-sales {
-  text-transform: uppercase;
-  background-color: #ffffff;
-  color: #0057FF !important;
-  border: 1px solid #0057FF;
-  margin-left: .625rem;
-  text-decoration: none;
-  font-weight: 700;
-  text-rendering: optimizeLegibility;
-  padding: clamp(.375rem, .66667vmin, .5rem) clamp(.875rem, 1.33333vmin, 1rem);
-  display: block;
-  border-radius: .25rem;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  font-family: 'Montserrat', sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  text-align: center;
-  cursor: pointer;
-}
-
-.btn-contact-sales:hover {
-  background-color: #0057FF;
-  color: #ffffff !important;
-}
-
-/* === Botón Log in === */
-.btn-login {
-  color: #0057FF;
-  background-color: transparent;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  text-decoration: none;
-  display: block;
-  margin-top: 8px;
-  text-align: center;
-  position: relative;
-}
-
-/* === Botón Contextual Reutilizable (Work, School, etc.) === */
-.btn-context {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  font-weight: 700;
-  color: #333;
-  padding: 0.5rem;
-  text-decoration: none;
-  text-transform: uppercase;
-  border-radius: 0.25rem;
-  display: flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  margin-top: 8px;
-  background-repeat: no-repeat;
-  background-position: 0.5rem center;
-  background-size: 0.875rem;
-  padding-left: 2rem;
-}
-
-.btn-contact-sale {
-  text-transform: uppercase;
-  background-color: #0057FF;
-  color: #fff !important;
-  margin-left: 0.625rem;
-  text-decoration: none;
-  font-weight: 700;
-  text-rendering: optimizeLegibility;
-  padding: clamp(0.375rem, 0.66667vmin, 0.5rem) clamp(0.375rem, 0.66667vmin, 0.5rem);
-  display: block;
-  border: 0.0625rem solid #0057FF;
-  border-radius: 0.25rem;
-  font-size: clamp(0.75rem, 1.16667vmin, 0.875rem);
-  font-family: 'Montserrat', sans-serif;
-  list-style-type: none;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.btn-contact-sale:hover {
-  background-color: #ffffff;
-  color: #0057FF !important;
-}
-
-.btn-join-game {
-  max-height: calc(5rem - 1rem);
-  min-width: calc(7.5rem - 1rem);
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 0.25rem;
-  background-color: #ffffff;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  text-decoration: none;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #333;
-  transition: all 0.2s ease;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.btn-join-game:hover {
-  background-color: #f0f0f0;
-  transform: scale(1.03);
-}
-
-.btn-switch-context {
-  background-color: rgba(0, 0, 0, 0.3);
-  color: #fff;
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  text-align: left;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.btn-switch-context:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.btn-create-kahoot {
-  max-height: calc(5rem - 1rem);
-  min-width: calc(7.5rem - 1rem);
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 0.25rem;
-  background-color: #ffffff;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  text-decoration: none;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #333;
-  transition: all 0.2s ease;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.btn-create-kahoot:hover {
-  background-color: #f0f0f0;
-  transform: scale(1.03);
-}
-
-.btn-buy-now {
-  background-color: #26890C;
-  color: #fff;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: .25em;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  line-height: 1.4;
-  min-width: 6rem;
-  margin-bottom: 8px;
-  margin-right: 8px;
-  box-shadow: 0 0 0 0.0625em #fff;
-  position: relative;
-  transition: all 0.2s;
-}
-
-.btn-buy-now::before {
-  content: ' ';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: -.25em;
-  width: 100%;
-  background: rgba(0,0,0,0.25);
-  z-index: -1;
-  border-radius: .25em;
-}
-
-.btn-learn-more {
-  background-color: #1368ce;
-  color: #0057FF;
-  font-weight: bold;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  padding-right: 0.75rem;
-  text-decoration: none;
-  line-height: 1.4;
-  background-image: url(/wp-content/themes/kahoot2017/assets/img/right-arrow-blue.svg);
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: 0.625rem 0.625rem;
-  display: inline-block;
-  position: relative;
-  text-align: left;
-  transition: width 0.2s;
-}
-
-.mosaic-hero__title {
-  color: #333;
-  font-size: clamp(0.75rem, 1.16667vmin, 0.875rem);
-  font-weight: 700;
-  text-rendering: optimizeLegibility;
-  font-family: 'Montserrat', sans-serif;
-  padding: 0;
-  margin: 0;
-}
-
-.custom-paragraph {
-  font-size: 12px;
-  margin-top: 8px;
-  color: #6e6e6e;
-  line-height: 1.4;
-  font-weight: 400;
-  text-align: left;
-  padding: 0;
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.paragraph-strong {
-  font-size: 12px;
-  color: #6e6e6e;
-  line-height: 1.4;
-  font-weight: 400;
-  text-align: left;
-  padding: 0;
-  margin: 0;
-  margin-top: 8px;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.paragraph-strong strong {
-  font-weight: 700;
-  color: #333;
-}
-
-.scta-box--red {
-  margin: 1rem;
-  border: 1px solid #C60929;
-  min-width: 14.375rem;
-  background-color: #fff;
-  border-radius: .25rem;
-  padding: clamp(1.375rem, 2vmin, 1.5rem) clamp(1.125rem, 1.66667vmin, 1.25rem);
-  color: #333;
-  font-family: 'Montserrat', sans-serif;
-  flex: 1;
-}
-
-.icon-title-wrap {
-  display: flex;
-  align-items: center;
-  color: #333;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.login-title {
-  box-sizing: inherit;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 700;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  color: inherit;
-  --real100vh: 100vh;
-  --dynamic100dvh: 100dvh;
-  --sat: env(safe-area-inset-top);
-  color: #470C13;
 }
 
 .login-label {
@@ -457,836 +121,7 @@ main.ninja-quiz-container {
   font: inherit;
 }
 
-.login-forgot-password {
-  box-sizing: inherit;
-  font-size: 0.875rem;
-  line-height: 17px;
-  margin: 0.5rem 0 1.5rem;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  color: inherit;
-  --real100vh: 100vh;
-  --dynamic100dvh: 100dvh;
-  --sat: env(safe-area-inset-top);
-}
-
-.login-button {
-  position: relative;
-  content: "";
-  display: inline-block;
-  width: 100%;
-  min-height: 42px;
-  padding: 0 16px 4px;
-  margin: 0 auto;
-  border: 0;
-  border-radius: 4px;
-  background: rgb(19, 104, 206);
-  background-color: #9e9e9e;
-  color: #fff;
-  font-size: 0.875rem;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  cursor: not-allowed;
-  box-sizing: border-box;
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font: inherit;
-  --real100vh: 100vh;
-  --dynamic100dvh: 100dvh;
-  --sat: env(safe-area-inset-top);
-}
-
-.google-login-button {
-  box-sizing: inherit;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  margin: 0.25rem 0;
-  border-radius: 4px;
-  color: #000;
-  border: 1px solid #000;
-  box-shadow: none;
-  padding: 0;
-  line-height: 1rem;
-  min-height: 42px;
-  min-width: 42px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font: inherit;
-  --real100vh: 100vh;
-  --dynamic100dvh: 100dvh;
-  --sat: env(safe-area-inset-top);
-}
-
-.login-disclaimer {
-  box-sizing: inherit;
-  font-size: 0.6875rem;
-  line-height: 0.875rem;
-  font-weight: 500;
-  text-align: center;
-  color: #333;
-  max-width: 26rem;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  --real100vh: 100vh;
-  --dynamic100dvh: 100dvh;
-  --sat: env(safe-area-inset-top);
-}
-
-/* ====== Footer Titles (General) ====== */
-.footer-nav__title {
-  pointer-events: auto;
-  cursor: text;
-  font-size: clamp(.875rem, 1.33333vmin, 1rem);
-  font-weight: 700;
-  text-rendering: optimizeLegibility;
-  display: block;
-  margin-bottom: clamp(1.125rem, 1.66667vmin, 1.25rem);
-  color: #fff;
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* ====== Footer Titles (Social / RRSS) ====== */
-.footer-nav__title.follow-us {
-  margin-bottom: 0;
-  width: auto;
-  margin-right: 1.25em;
-}
-
-/* ====== Footer List Links (li items) ====== */
-.footer-nav__link {
-  text-decoration: underline;
-  color: #fff;
-  font-size: clamp(.875rem, 1.33333vmin, 1rem);
-  list-style-type: none;
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* ====== Social Media Link (e.g., Facebook) ====== */
-.footer-social-link {
-  background-image: url(/wp-content/themes/kahoot2017/assets/img/facebook.svg);
-  content: ' ';
-  display: inline-block;
-  width: clamp(1.875rem, 2.66667vmin, 2rem);
-  height: clamp(1.875rem, 2.66667vmin, 2rem);
-  margin-right: clamp(.5rem, .83333vmin, .625rem);
-  background-size: contain;
-  text-decoration: underline;
-  align-items: center;
-  display: flex;
-  -webkit-box-align: center;
-  color: #fff;
-  font-size: clamp(.875rem, 1.33333vmin, 1rem);
-  list-style-type: none;
-}
-
-/* ====== Copyright Footer ====== */
-.copyright {
-  margin-bottom: 0;
-  display: block;
-  color: #fff;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* ===== GALERÍA DE COMPONENTES ===== */
-.components-gallery {
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.gallery-section {
-  padding: 2rem;
-  margin-bottom: 3rem;
-  border-radius: 8px;
-  
-  .section-title {
-    color: inherit;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid currentColor;
-  }
-}
-
-.dark-bg {
-  background: #431f99;
-  background-image:
-    radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
-    radial-gradient(circle at 80% 70%, #3b1c91 20%, transparent 20%),
-    radial-gradient(circle at 50% 50%, #4b1d98 50%, #431f99 51%);
-  
-  .section-title {
-    color: white;
-  }
-}
-
-.light-bg {
-  background: white;
-  
-  .section-title {
-    color: #333;
-  }
-}
-
-.component-container {
-  display: inline-block;
-  margin: 1rem;
-  vertical-align: top;
-}
-
-.component-preview {
-  padding: 1.5rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1); /* Ligero fondo para contrastar */
-  
-  .light-bg & {
-    background: rgba(0, 0, 0, 0.05); /* Ligero fondo oscuro para contrastar en fondos claros */
-  }
-}
-
-/* Etiqueta descriptiva para cada componente */
-.component-label {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
-  text-align: center;
-  color: #666;
-  
-  .dark-bg & {
-    color: rgba(255, 255, 255, 0.7);
-  }
-}
-
-/* Estilos para el contenedor del quiz */
-.ninja-quiz-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.ninja-quiz-card {
-  background-color: white;
-  border-radius: 16px;
-  padding: 32px;
-  width: 100%;
-  max-width: 960px;
-  min-height: 80vh;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* Estilos para el componente survey-runner */
-.survey-runner {
-  text-align: center;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  font-family: 'Arial', sans-serif;
-}
-
-.progress-general {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.progress-bar-general {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.progress-segment {
-  width: 20px;
-  height: 10px;
-  margin: 0 2px;
-  background-color: #ddd;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.progress-segment.answered {
-  background-color: #28a745; /* Verde para preguntas respondidas */
-}
-
-.progress-segment.unanswered {
-  background-color: #ddd; /* Gris para preguntas no respondidas */
-}
-
-.progress-segment.current {
-  background-color: #007bff; /* Azul para la pregunta actual */
-}
-
-.progress-timer {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 10px;
-  background-color: #ddd;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-top: 5px;
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: #007bff;
-  transition: width 0.5s ease-in-out;
-}
-
-.question-container {
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 0.5s ease-in-out forwards;
-}
-
-.question-container.exiting {
-  animation: fadeOut 6s ease-in-out forwards; /* Ajustado a 6s para coincidir con el nuevo setTimeout */
-}
-
-.options-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.options-list li {
-  margin: 10px 0;
-}
-
-.options-list button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: transform 0.2s, background-color 0.3s;
-}
-
-.options-list button:hover {
-  transform: scale(1.05);
-  background-color: #0056b3;
-}
-
-.options-list button.selected {
-  background-color: #ffc107;
-  transform: scale(1.1);
-}
-
-.options-list button.correct {
-  background-color: #28a745 !important;
-}
-
-.options-list button.incorrect {
-  background-color: #dc3545 !important;
-}
-
-.options-list button.selected.correct {
-  background-color: #28a745;
-}
-
-.options-list button.selected.incorrect {
-  background-color: #dc3545;
-}
-
-.feedback-message {
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  animation: slideIn 0.5s ease-in-out;
-}
-
-.feedback-message.correct {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.feedback-message.incorrect {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-.explanation {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #e9ecef;
-  border-radius: 5px;
-}
-
-.navigation {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.navigation button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.navigation button.pulse {
-  animation: pulse 1.5s infinite;
-}
-
-.navigation button:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-.navigation button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-  animation: none;
-}
-
-/* Animaciones */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* ===== Styles ===== */
-
-/* Configuración general de la página */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #431f99;
-  background-image:
-    radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
-    radial-gradient(circle at 80% 70%, #3b1c91 20%, transparent 20%),
-    radial-gradient(circle at 50% 50%, #4b1d98 50%, #431f99 51%);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-/* Contenedor principal */
-main.ninja-quiz-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 16px;
-}
-
-/* Estilos para el contenedor del quiz */
-.survey-runner {
-  text-align: center;
-  padding: 20px;
-  font-family: 'Montserrat', sans-serif;
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.9); /* Fondo claro para mejor visibilidad */
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Contador de respuestas (esquina superior derecha) */
-.answer-counter {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #333; /* Texto negro para visibilidad */
-  font-size: 16px;
-  font-weight: 500;
-}
-
-/* Barra de progreso general */
-.progress-general {
-  margin-bottom: 20px;
-  color: #333; /* Texto negro para visibilidad */
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.progress-bar-general {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  margin-top: 10px;
-}
-
-.progress-segment {
-  width: 20px;
-  height: 5px;
-  border-radius: 2px;
-  background-color: #ccc; /* Fondo gris claro para visibilidad */
-  position: relative;
-}
-
-.progress-segment.answered {
-  background-color: #ffca28; /* Amarillo para respuestas contestadas */
-}
-
-.progress-segment.current {
-  background-color: #2196f3; /* Azul para la pregunta actual */
-}
-
-.progress-segment .answered-icon {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: #333; /* Icono negro para visibilidad */
-}
-
-/* Temporizador por pregunta */
-.progress-timer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  color: #333; /* Texto negro para visibilidad */
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.progress-bar {
-  width: 100px;
-  height: 5px;
-  background-color: #ccc; /* Fondo gris claro para visibilidad */
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: #2196f3; /* Azul para el temporizador */
-  transition: width 1s linear;
-}
-
-/* Título de la pregunta */
-.survey-runner .question-title {
-  color: #333; /* Texto negro para mejor visibilidad */
-  font-size: 120px !important; /* Aumentado a 120px con !important para mayor especificidad y evitar sobrescritura */
-  font-weight: bold;
-  margin: 15px 0; /* Reducido el margen para equilibrar con el nuevo tamaño */
-  text-align: center;
-  line-height: 1.1; /* Ajuste de altura de línea para mejor legibilidad con el tamaño grande */
-}
-
-/* Lista de opciones */
-.options-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Estilo general de los botones de opciones */
-.option-button {
-  position: relative;
-  width: 100%;
-  padding: 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: bold;
-  color: #333; /* Texto negro para visibilidad */
-  text-align: left;
-  transition: transform 0.2s ease, opacity 0.3s ease;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Forma geométrica en cada botón */
-.option-shape {
-  position: absolute;
-  left: 20px;
-  width: 30px;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.3); /* Forma oscura para contraste */
-}
-
-/* Texto de la opción */
-.option-text {
-  margin-left: 60px;
-  text-align: left;
-}
-
-/* Colores y formas específicas para cada opción */
-.option-0 .option-button {
-  background-color: #e91e63; /* Triángulo rojo */
-}
-.option-0 .option-shape {
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Triángulo */
-}
-
-.option-1 .option-button {
-  background-color: #2196f3; /* Diamante azul */
-}
-.option-1 .option-shape {
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Diamante */
-}
-
-.option-2 .option-button {
-  background-color: #ffca28; /* Círculo amarillo */
-}
-.option-2 .option-shape {
-  border-radius: 50%; /* Círculo */
-}
-
-.option-3 .option-button {
-  background-color: #4caf50; /* Cuadrado verde */
-}
-.option-3 .option-shape {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); /* Cuadrado */
-}
-
-/* Efecto hover para los botones */
-.option-button:hover:not(:disabled) {
-  transform: scale(1.05);
-}
-
-/* Estilo para botón seleccionado */
-.option-button.selected {
-  opacity: 0.8;
-}
-
-/* Estilo para respuesta correcta */
-.option-button.correct {
-  background-color: #28a745 !important;
-}
-
-/* Estilo para respuesta incorrecta */
-.option-button.incorrect {
-  background-color: #dc3545 !important;
-}
-
-/* Mensaje de retroalimentación */
-.feedback-message {
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  color: #333; /* Texto negro para visibilidad */
-  background-color: rgba(255, 255, 255, 0.9); /* Fondo claro */
-  animation: slideIn 0.5s ease-in-out;
-}
-
-.feedback-message.correct {
-  background-color: rgba(40, 167, 69, 0.9); /* Verde claro para correcto */
-}
-
-.feedback-message.incorrect {
-  background-color: rgba(220, 53, 69, 0.9); /* Rojo claro para incorrecto */
-}
-
-/* Explicación */
-.explanation {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.9); /* Fondo claro */
-  border-radius: 5px;
-  color: #333; /* Texto negro para visibilidad */
-}
-
-/* Botones de navegación */
-.navigation {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  max-width: 800px;
-  margin: 20px auto;
-}
-
-.navigation button {
-  background-color: #6b3fa0; /* Fondo púrpura oscuro para los botones */
-  border: none; /* Eliminamos el borde para un look más limpio */
-  color: #fff; /* Texto blanco para contraste */
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 10px 20px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Transición para fondo y escala */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
-}
-
-.navigation button:hover:not(:disabled) {
-  background-color: #ffca28; /* Amarillo en hover */
-  color: #333; /* Texto negro en hover para contraste */
-  transform: scale(1.05); /* Efecto de agrandamiento al pasar el mouse */
-}
-
-.navigation button:disabled {
-  background-color: #ccc; /* Gris para deshabilitado */
-  color: #666; /* Texto gris para deshabilitado */
-  cursor: not-allowed;
-  animation: none;
-}
-
-.navigation button.pulse {
-  animation: pulse 1.5s infinite; /* Animación de pulso para botones activos */
-}
-
-/* Animaciones */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Clase para aplicar animación de desvanecimiento */
-.fade-in {
-  animation: fadeIn 0.5s ease-in-out; /* Animación de entrada para pregunta y opciones */
-}
-
-/* Estilos heredados del archivo original que no se modifican */
-.title {
-  font-size: 28px;
-  color: #222;
-  margin-bottom: 24px;
-  font-weight: bold;
-}
-
-.input-container {
-  margin-bottom: 8px;
-}
-
-.pin-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  box-sizing: box-sizing;
-  text-align: center;
-  outline: none;
-  transition: border-color 0.3s ease;
-  font-weight: bold;
-  color: rgb(51, 51, 51);
-  background-color: rgb(255, 255, 255);
-}
-
-.pin-input:focus {
-  border-color: #7b61ff;
-}
-
+/* Botones */
 .join-button {
   width: 100%;
   padding: 12px;
@@ -1307,10 +142,540 @@ main.ninja-quiz-container {
   background-color: #1e1e1e;
 }
 
+.btn-subscribe {
+  display: inline-block;
+  background-color: #26890C;
+  color: white;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  margin-top: 8px;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-news {
+  display: inline-block;
+  background-color: #0057FF;
+  color: white;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  margin-top: 8px;
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.notification-bubble {
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25em 0.5em;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+
+.btn-create-kahoot {
+  max-height: calc(5rem - 1rem);
+  min-width: calc(7.5rem - 1rem);
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #333;
+  transition: all 0.2s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.btn-create-kahoot:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.03);
+}
+
+.btn-learn-more {
+  background-color: #1368ce;
+  color: #0057FF;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  padding-right: 0.75rem;
+  text-decoration: none;
+  line-height: 1.4;
+  background-image: url(/wp-content/themes/kahoot2017/assets/img/right-arrow-blue.svg);
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 0.625rem 0.625rem;
+  display: inline-block;
+  position: relative;
+  text-align: left;
+  transition: width 0.2s;
+}
+
+.btn-contact-sale {
+  text-transform: uppercase;
+  background-color: #0057FF;
+  color: #fff !important;
+  margin-left: 0.625rem;
+  text-decoration: none;
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  padding: clamp(0.375rem, 0.66667vmin, 0.5rem) clamp(0.375rem, 0.66667vmin, 0.5rem);
+  display: block;
+  border: 0.0625rem solid #0057FF;
+  border-radius: 0.25rem;
+  font-size: clamp(0.75rem, 1.16667vmin, 0.875rem);
+  font-family: 'Montserrat', sans-serif;
+  list-style-type: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-contact-sale:hover {
+  background-color: #ffffff;
+  color: #0057FF !important;
+}
+
+/* Footer */
 .p-footer {
   color: #fafafa;
   font-size: 0.875rem;
   margin-top: 24px;
   font-weight: 500;
   text-align: center;
+}
+
+.footer-nav__title {
+  pointer-events: auto;
+  cursor: text;
+  font-size: clamp(.875rem, 1.33333vmin, 1rem);
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  display: block;
+  margin-bottom: clamp(1.125rem, 1.66667vmin, 1.25rem);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.footer-nav__link {
+  text-decoration: underline;
+  color: #fff;
+  font-size: clamp(.875rem, 1.33333vmin, 1rem);
+  list-style-type: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.copyright {
+  margin-bottom: 0;
+  display: block;
+  color: #fff;
+  font-size: clamp(.75rem, 1.16667vmin, .875rem);
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Textos */
+.custom-paragraph {
+  font-size: 12px;
+  margin-top: 8px;
+  color: #6e6e6e;
+  line-height: 1.4;
+  font-weight: 400;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.paragraph-strong {
+  font-size: 12px;
+  color: #6e6e6e;
+  line-height: 1.4;
+  font-weight: 400;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  margin-top: 8px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.paragraph-strong strong {
+  font-weight: 700;
+  color: #333;
+}
+
+/* Galería de componentes */
+.components-gallery {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-section {
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border-radius: 8px;
+}
+
+.gallery-section .section-title {
+  color: inherit;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid currentColor;
+}
+
+.dark-bg {
+  background: #431f99;
+  background-image:
+    radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
+    radial-gradient(circle at 80% 70%, #3b1c91 20%, transparent 20%),
+    radial-gradient(circle at 50% 50%, #4b1d98 50%, #431f99 51%);
+}
+
+.dark-bg .section-title {
+  color: white;
+}
+
+.light-bg {
+  background: white;
+}
+
+.light-bg .section-title {
+  color: #333;
+}
+
+.component-container {
+  display: inline-block;
+  margin: 1rem;
+  vertical-align: top;
+}
+
+.component-preview {
+  padding: 1.5rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.light-bg .component-preview {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.component-label {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #666;
+}
+
+.dark-bg .component-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Estilos para el componente survey-runner */
+.survey-runner {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.answer-counter {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.progress-general {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.progress-bar-general {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.progress-segment {
+  width: 20px;
+  height: 5px;
+  border-radius: 2px;
+  background-color: #ccc;
+  position: relative;
+}
+
+.progress-segment.answered {
+  background-color: #ffca28;
+}
+
+.progress-segment.current {
+  background-color: #2196f3;
+}
+
+.progress-segment .answered-icon {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #333;
+}
+
+.progress-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.progress-bar {
+  width: 100px;
+  height: 5px;
+  background-color: #ccc;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #2196f3;
+  transition: width 1s linear;
+}
+
+.survey-runner .question-title {
+  color: #333;
+  font-size: 120px !important;
+  font-weight: bold;
+  margin: 15px 0;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.options-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.option-button {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+  transition: transform 0.2s ease, opacity 0.3s ease;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.option-shape {
+  position: absolute;
+  left: 20px;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.option-text {
+  margin-left: 60px;
+  text-align: left;
+}
+
+.option-0 .option-button {
+  background-color: #e91e63;
+}
+
+.option-0 .option-shape {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.option-1 .option-button {
+  background-color: #2196f3;
+}
+
+.option-1 .option-shape {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.option-2 .option-button {
+  background-color: #ffca28;
+}
+
+.option-2 .option-shape {
+  border-radius: 50%;
+}
+
+.option-3 .option-button {
+  background-color: #4caf50;
+}
+
+.option-3 .option-shape {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.option-button:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.option-button.selected {
+  opacity: 0.8;
+}
+
+.option-button.correct {
+  background-color: #28a745 !important;
+}
+
+.option-button.incorrect {
+  background-color: #dc3545 !important;
+}
+
+.feedback-message {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.9);
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.feedback-message.correct {
+  background-color: rgba(40, 167, 69, 0.9);
+}
+
+.feedback-message.incorrect {
+  background-color: rgba(220, 53, 69, 0.9);
+}
+
+.explanation {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  color: #333;
+}
+
+.navigation {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.navigation button {
+  background-color: #6b3fa0;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.navigation button:hover:not(:disabled) {
+  background-color: #ffca28;
+  color: #333;
+  transform: scale(1.05);
+}
+
+.navigation button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  animation: none;
+}
+
+.navigation button.pulse {
+  animation: pulse 1.5s infinite;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
 }
