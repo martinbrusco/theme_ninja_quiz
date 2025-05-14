@@ -5,7 +5,13 @@
             <main class="ninja-quiz-container">
                 <div class="ninja-quiz-card">
                     <h1 class="title" t-out="play_page_title"/>
-                    <div id="kahoot-survey-runner-placeholder" t-att-data-survey-id="survey_id" t-att-data-survey-exists="survey_exists"></div>
+                    <t t-if="token_valid">
+                        <div id="kahoot-survey-runner-placeholder" t-att-data-survey-id="survey_id" t-att-data-survey-exists="survey_exists" t-att-data-token="token"></div>
+                    </t>
+                    <t t-else="">
+                        <p class="feedback-message incorrect">¡Token inválido! Por favor, ingresa un PIN válido en la página principal.</p>
+                        <a href="/" class="btn-subscribe">Volver al inicio</a>
+                    </t>
                 </div>
             </main>
             <footer class="mt-3">

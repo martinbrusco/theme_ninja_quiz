@@ -3,10 +3,11 @@
 import { jsonrpc } from "@web/core/network/rpc_service";
 
 export class SurveyDataService {
-    async getQuestions(surveyId) {
+    async getQuestions(surveyId, token) {
         try {
             const response = await jsonrpc("/survey/get_data", {
-                survey_id: surveyId
+                survey_id: surveyId,
+                access_token: token
             });
             if (!response.success) {
                 throw new Error(response.error || "No se encontraron encuestas.");
@@ -30,17 +31,31 @@ export class SurveyDataService {
         }
     }
 
-    async submitAnswer(surveyId, questionId, answerId) {
+    async submitAnswer(surveyId, questionId, answerId, token) {
         try {
             const response = await jsonrpc("/survey/submit", {
                 survey_id: surveyId,
                 question_id: questionId,
-                answer_id: answerId
+                answer_id: answerId,
+                access_token: token
             });
             return response;
         } catch (error) {
             console.error("Error submitting answer:", error);
             throw error;
+        }
+    }
+
+    async validateToken(surveyId, token) {
+        try {
+            const response = await jsonrpc("/survey/validate_token", {
+                survey_id: surveyId,
+                access_token: token
+            });
+            return response.success;
+        } catch (error) {
+            console.error("Error validating token:", error);
+            return false;
         }
     }
 
