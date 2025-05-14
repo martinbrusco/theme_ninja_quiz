@@ -14,15 +14,66 @@ class NinjaQuizController(http.Controller):
         }
         return request.render("theme_ninja_quiz.homepage_template", params)
 
+    @http.route('/quiz/validate_pin', type='http', auth='public', methods=['POST'], website=True, csrf=True)
+    def validate_pin(self, **kwargs):
+        """Valida el PIN ingresado y redirige a la página del juego si es válido."""
+        pin = kwargs.get('pin')
+        if not pin:
+            return request.render('theme_ninja_quiz.homepage_template', {
+                'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!'),
+                'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.'),
+                'play_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_button', '¡Jugar ahora!'),
+                'error_message': 'Por favor, ingrese un PIN.'
+            })
+
+        # Buscar una encuesta con el PIN (usamos session_code del módulo survey)
+        survey = request.env['survey.survey'].sudo().search([('session_code', '=', pin)], limit=1)
+        if not survey:
+            return request.render('theme_ninja_quiz.homepage_template', {
+                'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!'),
+                'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.'),
+                'play_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_button', '¡Jugar ahora!'),
+                'error_message': 'PIN inválido. Por favor, intenta de nuevo.'
+            })
+
+        # Crear o buscar un user_input para el participante
+        user_input = request.env['survey.user_input'].sudo().search([
+            ('survey_id', '=', survey.id),
+            ('state', '=', 'in_progress'),
+            ('partner_id', '=', request.env.user.partner_id.id if request.env.user != request.env.ref('base.public_user') else False)
+        ], limit=1)
+
+        if not user_input:
+            user_input = request.env['survey.user_input'].sudo().create({
+                'survey_id': survey.id,
+                'state': 'in_progress',
+                'partner_id': request.env.user.partner_id.id if request.env.user != request.env.ref('base.public_user') else False,
+            })
+
+        # Redirigir a la página de juego con el token
+        return request.redirect(f'/play/{survey.id}?token={user_input.access_token}')
+
     @http.route('/play/<int:survey_id>', type='http', auth='public', website=True)
-    def play_page(self, survey_id, **kwargs):
+    def play_page(self, survey_id, token=None, **kwargs):
         survey = request.env['survey.survey'].sudo().search([('id', '=', survey_id)], limit=1)
         survey_exists = bool(survey)
         survey_exists_str = str(survey_exists).lower()
-        _logger.info("Survey ID %d exists: %s", survey_id, survey_exists_str)
+        token_valid = False
+
+        if survey_exists and token:
+            user_input = request.env['survey.user_input'].sudo().search([
+                ('survey_id', '=', survey_id),
+                ('access_token', '=', token),
+                ('state', '=', 'in_progress')
+            ], limit=1)
+            token_valid = bool(user_input)
+
+        _logger.info("Survey ID %d exists: %s, Token valid: %s", survey_id, survey_exists_str, token_valid)
         params = {
             'survey_id': survey_id,
             'survey_exists': survey_exists_str,
+            'token': token,
+            'token_valid': token_valid,
             'play_page_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_page_title', '¡Ninja Quiz!'),
             'footer_text': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.footer_text', 'Crea tu propio Quiz como un Ninja'),
         }
@@ -35,18 +86,17 @@ class NinjaQuizController(http.Controller):
 
 class NinjaQuizSurveyController(http.Controller):
     @http.route('/survey/submit', type='json', auth='public', website=True, methods=['POST'])
-    def survey_submit(self, survey_id, question_id, answer_id):
+    def survey_submit(self, survey_id, question_id, answer_id, access_token):
         try:
             user_input = request.env['survey.user_input'].sudo().search([
                 ('survey_id', '=', int(survey_id)),
+                ('access_token', '=', access_token),
                 ('state', '=', 'in_progress')
             ], limit=1)
 
             if not user_input:
-                user_input = request.env['survey.user_input'].sudo().create({
-                    'survey_id': int(survey_id),
-                    'state': 'in_progress',
-                })
+                submit_error = request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.submit_error', 'Error al enviar la respuesta.')
+                return {'success': False, 'error': submit_error}
 
             request.env['survey.user_input.line'].sudo().create({
                 'user_input_id': user_input.id,
@@ -64,11 +114,20 @@ class NinjaQuizSurveyController(http.Controller):
             return {'success': False, 'error': submit_error}
 
     @http.route('/survey/get_data', type='json', auth='public', website=True, methods=['POST'])
-    def get_survey_data(self, survey_id=None):
+    def get_survey_data(self, survey_id=None, access_token=None):
         try:
-            domain = [('id', '=', int(survey_id))] if survey_id else []
+            user_input = request.env['survey.user_input'].sudo().search([
+                ('survey_id', '=', int(survey_id)),
+                ('access_token', '=', access_token),
+                ('state', '=', 'in_progress')
+            ], limit=1)
+
+            if not user_input:
+                no_surveys_found = request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.no_surveys_found', 'No se encontraron encuestas.')
+                return {'success': False, 'error': no_surveys_found}
+
             surveys = request.env['survey.survey'].sudo().search_read(
-                domain=domain,
+                domain=[('id', '=', int(survey_id))],
                 fields=["id", "title", "question_ids"]
             )
 
@@ -118,6 +177,18 @@ class NinjaQuizSurveyController(http.Controller):
             submit_error_with_message = request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.submit_error_with_message', 'Error al enviar la respuesta: %s')
             return {'success': False, 'error': submit_error_with_message % str(e)}
 
+    @http.route('/survey/validate_token', type='json', auth='public', website=True, methods=['POST'])
+    def validate_token(self, survey_id, access_token):
+        try:
+            user_input = request.env['survey.user_input'].sudo().search([
+                ('survey_id', '=', int(survey_id)),
+                ('access_token', '=', access_token),
+                ('state', '=', 'in_progress')
+            ], limit=1)
+            return {'success': bool(user_input)}
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
     @http.route('/survey/get_config_params', type='json', auth='public', website=True)
     def get_config_params(self):
         params = {
@@ -139,5 +210,6 @@ class NinjaQuizSurveyController(http.Controller):
             'submit_error_with_message': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.submit_error_with_message', 'Error al enviar la respuesta: %s'),
             'previous_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.previous_button', 'Anterior'),
             'next_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.next_button', 'Siguiente'),
+            'invalid_token': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.invalid_token', '¡Token inválido! Por favor, ingresa un PIN válido.'),
         }
         return params

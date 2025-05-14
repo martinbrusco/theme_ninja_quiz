@@ -73,6 +73,10 @@
         <field name="key">theme_ninja_quiz.next_button</field>
         <field name="value">Siguiente</field>
     </record>
+    <record id="invalid_token" model="ir.config_parameter">
+        <field name="key">theme_ninja_quiz.invalid_token</field>
+        <field name="value">¡Token inválido! Por favor, ingresa un PIN válido.</field>
+    </record>
     <!-- XML template texts -->
     <record id="homepage_title" model="ir.config_parameter">
         <field name="key">theme_ninja_quiz.homepage_title</field>
@@ -119,7 +123,6 @@
         <field name="key">theme_ninja_quiz.no_questions_found</field>
         <field name="value">No se encontramos preguntas para esta encuesta.</field>
     </record>
-
     <record id="feedback_config_error" model="ir.config_parameter">
         <field name="key">theme_ninja_quiz.feedback_config_error</field>
         <field name="value">Error al cargar la configuración o las preguntas.</field>
