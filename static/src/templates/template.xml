@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates>
+<templates id="theme_ninja_quiz_kahoot_template" xml:space="preserve">
     <t t-name="theme_ninja_quiz.KahootSurveyRunner">
         <div class="survey-runner">
             <t t-if="state.configParamsLoaded">
@@ -26,7 +26,14 @@
                         <div class="progress-bar-general">
                             <t t-foreach="state.questions" t-as="question" t-key="question.id">
                                 <div t-att-class="'progress-segment ' + getProgressClass(question, state.currentIndex, question_index)">
-                                    <span class="answered-icon" t-out="getIndicatorSymbol(question)"/>
+                                    <span t-if="question.answered || question.skipped || !question.answered" class="answered-icon">
+                                        <t t-if="!question.answered && !question.skipped" t-out="'¿'"/>
+                                        <t t-if="question.skipped" t-out="'¿'"/>
+                                        <t t-elif="question.answered">
+                                            <t t-if="question.correct" t-out="'✓'"/>
+                                            <t t-else="" t-out="'X'"/>
+                                        </t>
+                                    </span>
                                 </div>
                             </t>
                         </div>
