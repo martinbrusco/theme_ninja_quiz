@@ -22,7 +22,6 @@
             "theme_ninja_quiz/static/src/js/lib/StateManager.js",
             "theme_ninja_quiz/static/src/js/lib/mountComponent.js",
             "theme_ninja_quiz/static/src/scss/custom.scss",
-            "theme_ninja_quiz/static/src/templates/kahoot_survey_runner_template.xml",
         ],
         "website.assets_frontend": [
             "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
@@ -30,7 +29,6 @@
             "theme_ninja_quiz/static/src/js/lib/StateManager.js",
             "theme_ninja_quiz/static/src/js/lib/mountComponent.js",
             "theme_ninja_quiz/static/src/scss/custom.scss",
-            "theme_ninja_quiz/static/src/templates/kahoot_survey_runner_template.xml",
         ],
     },
     "application": False,

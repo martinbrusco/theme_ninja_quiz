@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates xml:space="preserve">
-    <t t-name="kahoot_survey_runner_template">
+<templates>
+    <t t-name="theme_ninja_quiz.KahootSurveyRunner">
         <div class="survey-runner">
             <t t-if="state.configParamsLoaded">
                 <t t-if="!state.surveyExists">
