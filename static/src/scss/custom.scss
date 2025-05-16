@@ -48,6 +48,13 @@ main.ninja-quiz-container {
   text-align: center;
 }
 
+/* Contenedor para el input del PIN */
+.pin-input-container {
+  margin-top: 16px;
+  max-width: 300px;
+  width: 100%;
+}
+
 /* Títulos */
 .title {
   font-size: 28px;
@@ -237,7 +244,7 @@ main.ninja-quiz-container {
   margin-left: 0.625rem;
   text-decoration: none;
   font-weight: 700;
-  text-rendering: optimizeLegibility;
+  //text-renderingZb optimizeLegibility;
   padding: clamp(0.375rem, 0.66667vmin, 0.5rem) clamp(0.375rem, 0.66667vmin, 0.5rem);
   display: block;
   border: 0.0625rem solid #0057FF;
@@ -392,7 +399,7 @@ main.ninja-quiz-container {
 .survey-runner {
   text-align: center;
   padding: 20px;
-  background: #f8f9fa;
+  background: #f8f9 Dmitry;
   border-radius: 8px;
   font-family: 'Montserrat', sans-serif;
   position: relative;

@@ -8,7 +8,11 @@ export class KahootSurveyRunner extends Component {
     static template = xml`
         <div class="survey-runner">
             <t t-if="state.configParamsLoaded">
-                <t t-if="!state.surveyExists">
+                <t t-if="!state.tokenValid">
+                    <p class="feedback-message incorrect" t-out="state.configParams.invalid_token"/>
+                    <a href="/" class="btn-subscribe" t-out="state.configParams.back_to_home"/>
+                </t>
+                <t t-elif="!state.surveyExists">
                     <p class="feedback-message" t-out="formatText('survey_not_found', state.surveyId)"/>
                     <a href="/" class="btn-subscribe" t-out="state.configParams.back_to_home"/>
                 </t>
@@ -88,35 +92,53 @@ export class KahootSurveyRunner extends Component {
             isProcessing: false,
             isExiting: false,
             surveyExists: false,
+            token: null,
+            tokenValid: false,
             configParams: {},
             configParamsLoaded: false,
-            feedbackTimeout: null, // Nuevo estado para el temporizador de feedback
+            feedbackTimeout: null,
         });
         this.dataService = new SurveyDataService();
         this.timer = null;
 
-        // Obtiene los datos del placeholder en el DOM y configura el surveyId
+        // Obtiene los datos del placeholder en el DOM
         const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
+        if (!placeholder) {
+            console.warn('Placeholder #kahoot-survey-runner-placeholder not found!');
+            this.state.feedbackMessage = "Error: Placeholder no encontrado.";
+            this.state.configParamsLoaded = true;
+            return;
+        }
         this.state.surveyId = placeholder ? parseInt(placeholder.dataset.surveyId) : null;
+        this.state.token = placeholder ? placeholder.dataset.token : null;
         const surveyExistsRaw = placeholder ? placeholder.dataset.surveyExists : 'false';
         this.state.surveyExists = surveyExistsRaw.toLowerCase() === 'true';
 
-        // Carga la configuración y las preguntas al montar el componente
+        // Carga la configuración y valida el token al montar el componente
         onMounted(async () => {
             try {
                 const configParams = await this.dataService.getConfigParams();
                 this.state.configParams = configParams;
                 this.state.configParamsLoaded = true;
 
-                if (this.state.surveyExists) {
-                    await this.loadQuestions();
-                    if (this.state.questions.length > 0) {
-                        this.startTimer();
+                if (this.state.surveyExists && this.state.token) {
+                    // Validar el token
+                    const tokenValid = await this.dataService.validateToken(this.state.surveyId, this.state.token);
+                    this.state.tokenValid = tokenValid;
+                    if (tokenValid) {
+                        await this.loadQuestions();
+                        if (this.state.questions.length > 0) {
+                            this.startTimer();
+                        }
+                    } else {
+                        this.state.feedbackMessage = this.state.configParams.invalid_token || "Token inválido.";
                     }
+                } else {
+                    this.state.feedbackMessage = this.state.configParams.invalid_token || "Token inválido.";
                 }
             } catch (error) {
-                console.error("Error al cargar la configuración o las preguntas:", error);
-                this.state.feedbackMessage = this.state.configParams.feedback_config_error || "Error al cargar la configuración o las preguntas.";
+                console.error("Error al cargar la configuración o validar el token:", error);
+                this.state.feedbackMessage = this.state.configParams.feedback_config_error || "Error al cargar la configuración.";
                 this.state.configParamsLoaded = true;
             }
         });
@@ -131,12 +153,12 @@ export class KahootSurveyRunner extends Component {
     async loadQuestions() {
         // Carga las preguntas desde el backend y las inicializa en el estado
         try {
-            const questions = await this.dataService.getQuestions(this.state.surveyId);
+            const questions = await this.dataService.getQuestions(this.state.surveyId, this.state.token);
             this.state.questions = questions.map(q => ({
                 ...q,
                 answered: false,
                 correct: false,
-                skipped: false // Inicialmente no skipped
+                skipped: false
             }));
             if (questions.length > 0) {
                 this.state.currentQuestion = this.state.questions[0];
@@ -151,7 +173,7 @@ export class KahootSurveyRunner extends Component {
     }
 
     validateOptions() {
-        // Valida que las opciones de cada pregunta tengan IDs válidos y los registra en la consola
+        // Valida que las opciones de cada pregunta tengan IDs válidos
         this.state.questions.forEach((q, index) => {
             if (!q.options || q.options.length === 0) {
                 console.warn(`La pregunta ${index + 1} no tiene opciones o son inválidas.`);
@@ -176,7 +198,7 @@ export class KahootSurveyRunner extends Component {
             if (this.state.timeLeft > 0) {
                 this.state.timeLeft -= 1;
             } else {
-                this.state.currentQuestion.skipped = true; // Marca como skipped si no se responde
+                this.state.currentQuestion.skipped = true;
                 this.nextQuestion();
             }
         }, 1000);
@@ -237,7 +259,7 @@ export class KahootSurveyRunner extends Component {
         }
 
         try {
-            const response = await this.dataService.submitAnswer(this.state.surveyId, this.state.currentQuestion.id, this.state.selectedOption);
+            const response = await this.dataService.submitAnswer(this.state.surveyId, this.state.currentQuestion.id, this.state.selectedOption, this.state.token);
             if (response.success) {
                 this.state.currentQuestion.answered = true;
                 this.state.currentQuestion.correct = response.correct;
@@ -269,7 +291,7 @@ export class KahootSurveyRunner extends Component {
             this.state.timeLeft = 15;
             this.state.isProcessing = false;
             this.state.isExiting = false;
-            this.clearFeedbackTimeout(); // Limpiar antes de iniciar un nuevo temporizador
+            this.clearFeedbackTimeout();
             this.startTimer();
         } else {
             this.state.isExiting = true;
@@ -277,30 +299,29 @@ export class KahootSurveyRunner extends Component {
     }
 
     showPreviousMessage() {
-        // No realiza ninguna acción, pero mantiene los efectos visuales en el template
-        // (La clase 'pulse' se controla con t-att-class en el botón)
+        // No realiza ninguna acción, pero mantiene los efectos visuales
     }
 
     getIndicatorSymbol(question) {
-        // Determina el símbolo a mostrar en el indicador de progreso según el estado de la pregunta
+        // Determina el símbolo a mostrar en el indicador de progreso
         if (question.skipped) {
             return this.state.configParams.icon_skipped || "?";
         }
         if (question.answered) {
             return question.correct ? this.state.configParams.icon_correct || "✓" : this.state.configParams.icon_incorrect || "X";
         }
-        return ""; // No muestra nada si no está respondida ni skipped
+        return "";
     }
 
     getProgressClass(question, currentIndex, index) {
-        // Determina la clase CSS para el segmento de progreso según la posición
+        // Determina la clase CSS para el segmento de progreso
         if (index < currentIndex) return 'past';
         if (index === currentIndex) return 'current';
         return 'future';
     }
 
     getOptionClass(optionId) {
-        // Asigna una clase CSS a la opción seleccionada según si es correcta o incorrecta
+        // Asigna una clase CSS a la opción seleccionada
         if (this.state.selectedOption === optionId) {
             return this.state.currentQuestion.correct ? 'correct' : 'incorrect';
         }

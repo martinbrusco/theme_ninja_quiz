@@ -6,7 +6,17 @@
                 <t t-placeholder="homepage_content">
                     <h1 class="title" t-out="homepage_title"/>
                     <p class="custom-paragraph" t-out="homepage_paragraph"/>
-                    <a href="/play/2" class="btn-subscribe" t-out="play_button"/>
+                    <div t-if="error_message" class="alert alert-danger">
+                        <t t-out="error_message"/>
+                    </div>
+                    <div class="pin-input-container">
+                        <form action="/quiz/validate_pin" method="POST">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="text" class="pin-input" name="pin" placeholder="Ingresa el PIN del juego" required="true"/>
+                            <button type="submit" class="join-button">Entrar</button>
+                        </form>
+                    </div>
+                    <a href="/components" class="btn-subscribe mt-3">Ver componentes</a>
                 </t>
             </div>
         </t>
