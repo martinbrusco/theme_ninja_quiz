@@ -67,10 +67,6 @@ export class KahootSurveyRunner extends Component {
                             </p>
                         </t>
                     </t>
-                    <div class="navigation">
-                        <button t-on-click="showPreviousMessage" t-att-class="state.currentIndex > 0 ? 'pulse' : ''" t-out="state.configParams.previous_button"/>
-                        <button t-on-click="nextQuestion" t-att-disabled="state.currentIndex === state.questions.length - 1 || state.isProcessing" t-att-class="state.currentIndex === state.questions.length - 1 ? '' : 'pulse'" t-out="state.configParams.next_button"/>
-                    </div>
                 </t>
             </t>
             <t t-else="">
@@ -80,7 +76,6 @@ export class KahootSurveyRunner extends Component {
     `;
 
     setup() {
-        // Inicializa el estado reactivo con los parámetros iniciales del quiz
         this.state = useState({
             surveyId: null,
             questions: [],
@@ -97,11 +92,11 @@ export class KahootSurveyRunner extends Component {
             configParams: {},
             configParamsLoaded: false,
             feedbackTimeout: null,
+            questionTimeout: null,
         });
         this.dataService = new SurveyDataService();
         this.timer = null;
 
-        // Obtiene los datos del placeholder en el DOM
         const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
         if (!placeholder) {
             console.warn('Placeholder #kahoot-survey-runner-placeholder not found!');
@@ -114,7 +109,6 @@ export class KahootSurveyRunner extends Component {
         const surveyExistsRaw = placeholder ? placeholder.dataset.surveyExists : 'false';
         this.state.surveyExists = surveyExistsRaw.toLowerCase() === 'true';
 
-        // Carga la configuración y valida el token al montar el componente
         onMounted(async () => {
             try {
                 const configParams = await this.dataService.getConfigParams();
@@ -122,13 +116,12 @@ export class KahootSurveyRunner extends Component {
                 this.state.configParamsLoaded = true;
 
                 if (this.state.surveyExists && this.state.token) {
-                    // Validar el token
                     const tokenValid = await this.dataService.validateToken(this.state.surveyId, this.state.token);
                     this.state.tokenValid = tokenValid;
                     if (tokenValid) {
                         await this.loadQuestions();
                         if (this.state.questions.length > 0) {
-                            this.startTimer();
+                            this.startQuestionTimer();
                         }
                     } else {
                         this.state.feedbackMessage = this.state.configParams.invalid_token || "Token inválido.";
@@ -143,15 +136,12 @@ export class KahootSurveyRunner extends Component {
             }
         });
 
-        // Limpia el temporizador al desmontar el componente
         onWillUnmount(() => {
-            this.clearTimer();
-            this.clearFeedbackTimeout();
+            this.clearTimers();
         });
     }
 
     async loadQuestions() {
-        // Carga las preguntas desde el backend y las inicializa en el estado
         try {
             const questions = await this.dataService.getQuestions(this.state.surveyId, this.state.token);
             this.state.questions = questions.map(q => ({
@@ -173,7 +163,6 @@ export class KahootSurveyRunner extends Component {
     }
 
     validateOptions() {
-        // Valida que las opciones de cada pregunta tengan IDs válidos
         this.state.questions.forEach((q, index) => {
             if (!q.options || q.options.length === 0) {
                 console.warn(`La pregunta ${index + 1} no tiene opciones o son inválidas.`);
@@ -189,11 +178,9 @@ export class KahootSurveyRunner extends Component {
         });
     }
 
-    startTimer() {
-        // Inicia el temporizador para controlar el tiempo por pregunta
-        if (this.timer) {
-            clearInterval(this.timer);
-        }
+    startQuestionTimer() {
+        this.clearTimers();
+        this.state.timeLeft = 15;
         this.timer = setInterval(() => {
             if (this.state.timeLeft > 0) {
                 this.state.timeLeft -= 1;
@@ -204,24 +191,22 @@ export class KahootSurveyRunner extends Component {
         }, 1000);
     }
 
-    clearTimer() {
-        // Detiene y limpia el temporizador
+    clearTimers() {
         if (this.timer) {
             clearInterval(this.timer);
             this.timer = null;
         }
-    }
-
-    clearFeedbackTimeout() {
-        // Detiene y limpia el temporizador de feedback
         if (this.state.feedbackTimeout) {
             clearTimeout(this.state.feedbackTimeout);
             this.state.feedbackTimeout = null;
         }
+        if (this.state.questionTimeout) {
+            clearTimeout(this.state.questionTimeout);
+            this.state.questionTimeout = null;
+        }
     }
 
     async selectOption(ev) {
-        // Maneja la selección de una opción por parte del usuario
         if (this.state.isProcessing || this.state.selectedOption !== null) return;
 
         const rawOptionId = ev.currentTarget.dataset.optionId;
@@ -230,18 +215,16 @@ export class KahootSurveyRunner extends Component {
 
         if (isNaN(optionId)) {
             console.error("ID de opción inválido: NaN. Elemento del evento:", ev.currentTarget);
-            this.state.isProcessing = false;
             return;
         }
 
         this.state.selectedOption = optionId;
         this.state.isProcessing = true;
-        this.clearTimer();
+        this.clearTimers();
         await this.checkAnswer();
     }
 
     async checkAnswer() {
-        // Verifica la respuesta seleccionada con el backend
         if (!this.state.currentQuestion || !this.state.currentQuestion.options || this.state.currentQuestion.options.length === 0) {
             console.error("La pregunta actual o sus opciones están indefinidas o vacías.");
             this.state.isProcessing = false;
@@ -265,8 +248,7 @@ export class KahootSurveyRunner extends Component {
                 this.state.currentQuestion.correct = response.correct;
                 this.state.feedbackMessage = response.correct ? this.state.configParams.feedback_correct : this.state.configParams.feedback_incorrect;
 
-                // Limpiar cualquier temporizador anterior y programar el siguiente
-                this.clearFeedbackTimeout();
+                // Programar el avance a la siguiente pregunta después de 4 segundos
                 this.state.feedbackTimeout = setTimeout(() => {
                     this.nextQuestion();
                 }, 4000);
@@ -282,7 +264,6 @@ export class KahootSurveyRunner extends Component {
     }
 
     nextQuestion() {
-        // Avanza a la siguiente pregunta o finaliza el quiz
         if (this.state.currentIndex < this.state.questions.length - 1) {
             this.state.currentIndex += 1;
             this.state.currentQuestion = this.state.questions[this.state.currentIndex];
@@ -290,20 +271,13 @@ export class KahootSurveyRunner extends Component {
             this.state.feedbackMessage = null;
             this.state.timeLeft = 15;
             this.state.isProcessing = false;
-            this.state.isExiting = false;
-            this.clearFeedbackTimeout();
-            this.startTimer();
+            this.startQuestionTimer();
         } else {
             this.state.isExiting = true;
         }
     }
 
-    showPreviousMessage() {
-        // No realiza ninguna acción, pero mantiene los efectos visuales
-    }
-
     getIndicatorSymbol(question) {
-        // Determina el símbolo a mostrar en el indicador de progreso
         if (question.skipped) {
             return this.state.configParams.icon_skipped || "?";
         }
@@ -314,14 +288,12 @@ export class KahootSurveyRunner extends Component {
     }
 
     getProgressClass(question, currentIndex, index) {
-        // Determina la clase CSS para el segmento de progreso
         if (index < currentIndex) return 'past';
         if (index === currentIndex) return 'current';
         return 'future';
     }
 
     getOptionClass(optionId) {
-        // Asigna una clase CSS a la opción seleccionada
         if (this.state.selectedOption === optionId) {
             return this.state.currentQuestion.correct ? 'correct' : 'incorrect';
         }
@@ -329,17 +301,14 @@ export class KahootSurveyRunner extends Component {
     }
 
     isOptionDisabled() {
-        // Determina si las opciones deben estar deshabilitadas
         return this.state.isProcessing || this.state.selectedOption !== null || this.state.timeLeft <= 0;
     }
 
     hasExplanation() {
-        // Verifica si la pregunta actual tiene una explicación
         return this.state.currentQuestion && this.state.currentQuestion.explanation;
     }
 
     formatText(key, ...args) {
-        // Formatea el texto usando parámetros de configuración
         let text = this.state.configParams[key] || '';
         args.forEach((arg, index) => {
             text = text.replace('%s', arg);
