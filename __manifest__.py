@@ -12,10 +12,8 @@
         "views/footer.xml",
         "views/homepage.xml",
         "views/components.xml",
-        "views/snippets.xml",
         "views/play.xml",
         "views/survey_views.xml",
-        "views/assets.xml",
     ],
     "assets": {
         "web.assets_frontend": [
@@ -24,8 +22,6 @@
             "theme_ninja_quiz/static/src/js/lib/StateManager.js",
             "theme_ninja_quiz/static/src/js/lib/mountComponent.js",
             "theme_ninja_quiz/static/src/scss/custom.scss",
-            "theme_ninja_quiz/static/src/scss/snippets.scss",
-            "theme_ninja_quiz/static/src/components/kahoot_survey_runner.xml",
         ],
         "website.assets_frontend": [
             "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
@@ -33,8 +29,6 @@
             "theme_ninja_quiz/static/src/js/lib/StateManager.js",
             "theme_ninja_quiz/static/src/js/lib/mountComponent.js",
             "theme_ninja_quiz/static/src/scss/custom.scss",
-            "theme_ninja_quiz/static/src/scss/snippets.scss",
-            "theme_ninja_quiz/static/src/components/kahoot_survey_runner.xml",
         ],
     },
     "application": False,
