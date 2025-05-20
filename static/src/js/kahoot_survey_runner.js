@@ -248,7 +248,7 @@ export class KahootSurveyRunner extends Component {
                 this.state.currentQuestion.correct = response.correct;
                 this.state.feedbackMessage = response.correct ? this.state.configParams.feedback_correct : this.state.configParams.feedback_incorrect;
 
-                // Programar el avance a la siguiente pregunta después de 4 segundos
+                // Prosssgramar el avance a la siguiente pregunta después de 4 segundos
                 this.state.feedbackTimeout = setTimeout(() => {
                     this.nextQuestion();
                 }, 4000);
