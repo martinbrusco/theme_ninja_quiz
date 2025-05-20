@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-  <template id="assets_frontend" inherit_id="web.assets_frontend">
-    <xpath expr="." position="inside">
-      <script type="text/javascript" src="/theme_ninja_quiz/static/src/js/kahoot_survey_runner.js"/>
-      <link rel="stylesheet" href="/theme_ninja_quiz/static/src/scss/custom.scss"/>
-    </xpath>
-  </template>
-</odoo>
+   <odoo>
+       <template id="website_snippets" inherit_id="website.snippets">
+           <xpath expr="//div[@id='snippet_content']" position="inside">
+               <!-- Grupo de snippets de Ninja Quiz -->
+               <div class="o_panel" data-name="Ninja Quiz">
+                   <!-- Snippet quizHome -->
+                   <div class="oe_snippet o_draggable" data-snippet="snippet_quiz_home">
+                       <div class="oe_snippet_thumbnail">
+                           <t t-call="theme_ninja_quiz.snippet_quiz_home_thumbnail"/>
+                       </div>
+                       <div class="oe_snippet_body">
+                           <t t-call="theme_ninja_quiz.snippet_quiz_home"/>
+                       </div>
+                   </div>
+                   <!-- Snippet quizPlay -->
+                   <div class="oe_snippet o_draggable" data-snippet="snippet_quiz_play">
+                       <div class="oe_snippet_thumbnail">
+                           <t t-call="theme_ninja_quiz.snippet_quiz_play_thumbnail"/>
+                       </div>
+                       <div class="oe_snippet_body">
+                           <t t-call="theme_ninja_quiz.snippet_quiz_play"/>
+                       </div>
+                   </div>
+               </div>
+           </xpath>
+       </template>
+   </odoo>
