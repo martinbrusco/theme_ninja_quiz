@@ -4,18 +4,15 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-@http.route('/', type='http', auth="public", website=True)
-def homepage(self, **kw):
-    try:
+class NinjaQuizController(http.Controller):
+    @http.route('/', type='http', auth="public", website=True)
+    def homepage(self, **kw):
         params = {
-            'homepage_title': '¡Bienvenido a Ninja Quiz!',  # Valor estático para evitar problemas con ir.config_parameter
-            'homepage_paragraph': 'Participa en nuestro quiz y pon a prueba tus conocimientos.',
+            'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!'),
+            'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.'),
         }
         return request.render("theme_ninja_quiz.homepage_template", params)
-    except Exception as e:
-        _logger.error(f"Error rendering homepage: {str(e)}")
-        return f"Error: {str(e)}"
-    
+
     @http.route('/quiz/validate_pin', type='http', auth='public', methods=['POST'], website=True, csrf=True)
     def validate_pin(self, **kwargs):
         pin = kwargs.get('pin')

@@ -2,18 +2,21 @@
 <odoo>
     <template id="play_page_template" name="Ninja Quiz Play">
         <t t-call="theme_ninja_quiz.layout">
-            <main>
-                <h1 class="title" t-out="play_page_title"/>
-                <t t-call="theme_ninja_quiz.s_quiz_play">
-                    <t t-set="survey_id" t-value="survey_id"/>
-                    <t t-set="survey_exists" t-value="survey_exists"/>
-                    <t t-set="token" t-value="token"/>
-                    <t t-set="token_valid" t-value="token_valid"/>
-                </t>
-                <footer class="mt-3">
-                    <p class="p-footer" t-out="footer_text"/>
-                </footer>
+            <main class="ninja-quiz-container">
+                <div class="ninja-quiz-card">
+                    <h1 class="title" t-out="play_page_title"/>
+                    <t t-if="token_valid">
+                        <div id="kahoot-survey-runner-placeholder" t-att-data-survey-id="survey_id" t-att-data-survey-exists="survey_exists" t-att-data-token="token"></div>
+                    </t>
+                    <t t-else="">
+                        <p class="feedback-message incorrect">¡Token inválido! Por favor, ingresa un PIN válido en la página principal.</p>
+                        <a href="/" class="btn-subscribe">Volver al inicio</a>
+                    </t>
+                </div>
             </main>
+            <footer class="mt-3">
+                <p class="p-footer" t-out="footer_text"/>
+            </footer>
         </t>
     </template>
 </odoo>

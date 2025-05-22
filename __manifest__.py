@@ -17,20 +17,17 @@
         "views/snippets.xml",
     ],
     "assets": {
-        "web.assets_common": [
-            "web.public.widget",
-            "theme_ninja_quiz/static/src/js/lib/SurveyDataService.js",
-            "theme_ninja_quiz/static/src/js/lib/StateManager.js",
-        ],
         "web.assets_frontend": [
-            "theme_ninja_quiz/static/src/scss/custom.scss",
+            "/theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
+            "/theme_ninja_quiz/static/src/js/snippets.js",
+            "/theme_ninja_quiz/static/src/xml/snippets.xml",
+            "/theme_ninja_quiz/static/src/js/lib/SurveyDataService.js",
+            "/theme_ninja_quiz/static/src/js/lib/StateManager.js",
+            "/theme_ninja_quiz/static/src/scss/custom.scss",
         ],
-        "web.assets_frontend_lazy": [],
         "website.assets_editor": [
-            "web.public.widget",
-            "theme_ninja_quiz/static/src/xml/snippets.xml",
-            "theme_ninja_quiz/static/src/js/snippets.js",
-            "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
+            "/theme_ninja_quiz/static/src/js/snippets.js",
+            "/theme_ninja_quiz/static/src/xml/snippets.xml",
         ],
     },
     "application": False,
