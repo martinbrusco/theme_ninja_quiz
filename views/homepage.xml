@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="homepage_template" name="Ninja Quiz Homepage">
-        <t t-call="theme_ninja_quiz.layout">
-            <div class="container mt-5">
-                <t t-placeholder="homepage_content">
-                    <h1 class="title" t-out="homepage_title"/>
-                    <p class="custom-paragraph" t-out="homepage_paragraph"/>
-                    <div t-if="error_message" class="alert alert-danger">
-                        <t t-out="error_message"/>
-                    </div>
-                    <div class="pin-input-container">
-                        <form action="/quiz/validate_pin" method="POST">
-                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                            <input type="text" class="pin-input" name="pin" placeholder="Ingresa el PIN del juego" required="true"/>
-                            <button type="submit" class="join-button">Entrar</button>
-                        </form>
-                    </div>
-                    <a href="/components" class="btn-subscribe mt-3">Ver componentes</a>
-                </t>
+        <t t-call="website.layout">
+            <div class="container">
+                <h1 t-esc="homepage_title"/>
+                <p t-esc="homepage_paragraph"/>
             </div>
         </t>
     </template>
