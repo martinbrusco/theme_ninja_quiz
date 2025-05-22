@@ -10,27 +10,33 @@ class NinjaQuizController(http.Controller):
         params = {
             'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!'),
             'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.'),
+            'play_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_button', '¡Jugar ahora!'),
         }
         return request.render("theme_ninja_quiz.homepage_template", params)
 
     @http.route('/quiz/validate_pin', type='http', auth='public', methods=['POST'], website=True, csrf=True)
     def validate_pin(self, **kwargs):
+        """Valida el PIN ingresado y redirige a la página del juego si es válido."""
         pin = kwargs.get('pin')
         if not pin:
             return request.render('theme_ninja_quiz.homepage_template', {
-                'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title'),
-                'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph'),
+                'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!'),
+                'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.'),
+                'play_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_button', '¡Jugar ahora!'),
                 'error_message': 'Por favor, ingrese un PIN.'
             })
 
+        # Buscar una encuesta con el PIN (usamos session_code del módulo survey)
         survey = request.env['survey.survey'].sudo().search([('session_code', '=', pin)], limit=1)
         if not survey:
             return request.render('theme_ninja_quiz.homepage_template', {
-                'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title'),
-                'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph'),
+                'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!'),
+                'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.'),
+                'play_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_button', '¡Jugar ahora!'),
                 'error_message': 'PIN inválido. Por favor, intenta de nuevo.'
             })
 
+        # Crear o buscar un user_input para el participante
         user_input = request.env['survey.user_input'].sudo().search([
             ('survey_id', '=', survey.id),
             ('state', '=', 'in_progress'),
@@ -44,6 +50,7 @@ class NinjaQuizController(http.Controller):
                 'partner_id': request.env.user.partner_id.id if request.env.user != request.env.ref('base.public_user') else False,
             })
 
+        # Redirigir a la página de juego con el token
         return request.redirect(f'/play/{survey.id}?token={user_input.access_token}')
 
     @http.route('/play/<int:survey_id>', type='http', auth='public', website=True)
@@ -61,6 +68,7 @@ class NinjaQuizController(http.Controller):
             ], limit=1)
             token_valid = bool(user_input)
 
+        _logger.info("Survey ID %d exists: %s, Token valid: %s", survey_id, survey_exists_str, token_valid)
         params = {
             'survey_id': survey_id,
             'survey_exists': survey_exists_str,
@@ -74,6 +82,7 @@ class NinjaQuizController(http.Controller):
     @http.route('/components', type='http', auth="public", website=True)
     def components(self, **kw):
         return request.render("theme_ninja_quiz.components_library", {})
+
 
 class NinjaQuizSurveyController(http.Controller):
     @http.route('/survey/submit', type='json', auth='public', website=True, methods=['POST'])
