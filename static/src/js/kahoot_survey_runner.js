@@ -97,41 +97,47 @@ export class KahootSurveyRunner extends Component {
         this.dataService = new SurveyDataService();
         this.timer = null;
 
-        const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
-        if (!placeholder) {
-            console.warn('Placeholder #kahoot-survey-runner-placeholder not found!');
-            this.state.feedbackMessage = "Error: Placeholder no encontrado.";
-            this.state.configParamsLoaded = true;
-            return;
-        }
-        this.state.surveyId = placeholder ? parseInt(placeholder.dataset.surveyId) : null;
-        this.state.token = placeholder ? placeholder.dataset.token : null;
-        const surveyExistsRaw = placeholder ? placeholder.dataset.surveyExists : 'false';
-        this.state.surveyExists = surveyExistsRaw.toLowerCase() === 'true';
-
         onMounted(async () => {
-            try {
-                const configParams = await this.dataService.getConfigParams();
-                this.state.configParams = configParams;
-                this.state.configParamsLoaded = true;
+            // Solo inicializar si estamos en la página /play/
+            if (window.location.pathname.startsWith('/play/')) {
+                const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
+                if (!placeholder) {
+                    console.error('Placeholder #kahoot-survey-runner-placeholder not found!');
+                    this.state.feedbackMessage = "Error: Placeholder no encontrado.";
+                    this.state.configParamsLoaded = true;
+                    return;
+                }
 
-                if (this.state.surveyExists && this.state.token) {
-                    const tokenValid = await this.dataService.validateToken(this.state.surveyId, this.state.token);
-                    this.state.tokenValid = tokenValid;
-                    if (tokenValid) {
-                        await this.loadQuestions();
-                        if (this.state.questions.length > 0) {
-                            this.startQuestionTimer();
+                this.state.surveyId = parseInt(placeholder.dataset.surveyId) || null;
+                this.state.token = placeholder.dataset.token || null;
+                this.state.surveyExists = (placeholder.dataset.surveyExists || 'false').toLowerCase() === 'true';
+
+                try {
+                    const configParams = await this.dataService.getConfigParams();
+                    this.state.configParams = configParams;
+                    this.state.configParamsLoaded = true;
+
+                    if (this.state.surveyExists && this.state.token) {
+                        const tokenValid = await this.dataService.validateToken(this.state.surveyId, this.state.token);
+                        this.state.tokenValid = tokenValid;
+                        if (tokenValid) {
+                            await this.loadQuestions();
+                            if (this.state.questions.length > 0) {
+                                this.startQuestionTimer();
+                            }
+                        } else {
+                            this.state.feedbackMessage = this.state.configParams.invalid_token || "Token inválido.";
                         }
                     } else {
                         this.state.feedbackMessage = this.state.configParams.invalid_token || "Token inválido.";
                     }
-                } else {
-                    this.state.feedbackMessage = this.state.configParams.invalid_token || "Token inválido.";
+                } catch (error) {
+                    console.error("Error al cargar la configuración o validar el token:", error);
+                    this.state.feedbackMessage = this.state.configParams.feedback_config_error || "Error al cargar la configuración.";
+                    this.state.configParamsLoaded = true;
                 }
-            } catch (error) {
-                console.error("Error al cargar la configuración o validar el token:", error);
-                this.state.feedbackMessage = this.state.configParams.feedback_config_error || "Error al cargar la configuración.";
+            } else {
+                // Si no estamos en /play/, no hacemos nada
                 this.state.configParamsLoaded = true;
             }
         });
@@ -248,7 +254,6 @@ export class KahootSurveyRunner extends Component {
                 this.state.currentQuestion.correct = response.correct;
                 this.state.feedbackMessage = response.correct ? this.state.configParams.feedback_correct : this.state.configParams.feedback_incorrect;
 
-                // Prosssgramar el avance a la siguiente pregunta después de 4 segundos
                 this.state.feedbackTimeout = setTimeout(() => {
                     this.nextQuestion();
                 }, 4000);
@@ -311,8 +316,33 @@ export class KahootSurveyRunner extends Component {
     formatText(key, ...args) {
         let text = this.state.configParams[key] || '';
         args.forEach((arg, index) => {
-            text = text.replace('%s', arg);
+            text = text.replace(`%${index + 1}$s`, arg);
         });
         return text;
     }
 }
+
+// Función para montar el componente dinámicamente
+export function mountKahootSurveyRunner() {
+    if (window.location.pathname.startsWith('/play/')) {
+        const placeholder = document.getElementById("kahoot-survey-runner-placeholder");
+        if (placeholder) {
+            const surveyId = parseInt(placeholder.dataset.surveyId) || null;
+            const token = placeholder.dataset.token || null;
+            const surveyExists = (placeholder.dataset.surveyExists || 'false').toLowerCase() === 'true';
+
+            if (surveyId && token && surveyExists) {
+                const root = document.createElement("div");
+                placeholder.parentNode.replaceChild(root, placeholder);
+                owl.mount(KahootSurveyRunner, root, { props: { surveyId, token, surveyExists } });
+            } else {
+                console.error('Datos insuficientes para montar el componente:', { surveyId, token, surveyExists });
+            }
+        } else {
+            console.error('Placeholder #kahoot-survey-runner-placeholder not found!');
+        }
+    }
+}
+
+// Llamar a la función al cargar la página
+document.addEventListener('DOMContentLoaded', mountKahootSurveyRunner);

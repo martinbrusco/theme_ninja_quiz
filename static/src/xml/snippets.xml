@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="ninja_quiz_snippets" inherit_id="website.snippets">
+        <xpath expr="//div[@id='snippet_content']" position="inside">
+            <div class="o_panel s_ninja_quiz_home" data-name="Ninja Quiz Home" data-snippet="s_ninja_quiz_home">
+                <div class="oe_snippet_thumbnail">
+                    <span class="oe_snippet_thumbnail_title">Ninja Quiz Home</span>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

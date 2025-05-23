@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="s_ninja_quiz_home" name="Ninja Quiz Home">
+        <section class="oe_snippet_body ninja-quiz-home">
+            <div class="container">
+                <h1 class="title">¡Bienvenido a Ninja Quiz!</h1>
+                <p class="custom-paragraph">Participa en nuestro quiz y pon a prueba tus conocimientos.</p>
+                <div class="pin-input-container">
+                    <form action="/quiz/validate_pin" method="POST">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="text" class="pin-input" name="pin" placeholder="Ingresa el PIN del juego" required="true"/>
+                        <button type="submit" class="join-button">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>

@@ -18,23 +18,29 @@ class NinjaQuizController(http.Controller):
     def validate_pin(self, **kwargs):
         """Valida el PIN ingresado y redirige a la página del juego si es válido."""
         pin = kwargs.get('pin')
+        is_ajax = request.httprequest.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+        # Parámetros por defecto para renderizar la página en caso de error (no-AJAX)
+        error_params = {
+            'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!'),
+            'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.'),
+            'play_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_button', '¡Jugar ahora!'),
+        }
+
+        # Validar que se haya ingresado un PIN
         if not pin:
-            return request.render('theme_ninja_quiz.homepage_template', {
-                'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!'),
-                'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.'),
-                'play_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_button', '¡Jugar ahora!'),
-                'error_message': 'Por favor, ingrese un PIN.'
-            })
+            if is_ajax:
+                return {'success': False, 'error': 'Por favor, ingrese un PIN.'}
+            error_params['error_message'] = 'Por favor, ingrese un PIN.'
+            return request.render('theme_ninja_quiz.homepage_template', error_params)
 
         # Buscar una encuesta con el PIN (usamos session_code del módulo survey)
         survey = request.env['survey.survey'].sudo().search([('session_code', '=', pin)], limit=1)
         if not survey:
-            return request.render('theme_ninja_quiz.homepage_template', {
-                'homepage_title': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!'),
-                'homepage_paragraph': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.'),
-                'play_button': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_button', '¡Jugar ahora!'),
-                'error_message': 'PIN inválido. Por favor, intenta de nuevo.'
-            })
+            if is_ajax:
+                return {'success': False, 'error': 'PIN inválido. Por favor, intenta de nuevo.'}
+            error_params['error_message'] = 'PIN inválido. Por favor, intenta de nuevo.'
+            return request.render('theme_ninja_quiz.homepage_template', error_params)
 
         # Crear o buscar un user_input para el participante
         user_input = request.env['survey.user_input'].sudo().search([
@@ -50,8 +56,11 @@ class NinjaQuizController(http.Controller):
                 'partner_id': request.env.user.partner_id.id if request.env.user != request.env.ref('base.public_user') else False,
             })
 
-        # Redirigir a la página de juego con el token
-        return request.redirect(f'/play/{survey.id}?token={user_input.access_token}')
+        # Preparar la URL de redirección
+        redirect_url = f'/play/{survey.id}?token={user_input.access_token}'
+        if is_ajax:
+            return {'success': True, 'redirect': redirect_url}
+        return request.redirect(redirect_url)
 
     @http.route('/play/<int:survey_id>', type='http', auth='public', website=True)
     def play_page(self, survey_id, token=None, **kwargs):
