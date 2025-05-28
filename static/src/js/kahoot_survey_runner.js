@@ -12,6 +12,8 @@ export class KahootSurveyRunner extends Component {
                     <p class="feedback-message incorrect" t-out="state.configParams.invalid_token"/>
                     <a href="/" class="btn-subscribe" t-out="state.configParams.back_to_home"/>
                 </t>
+
+                
                 <t t-elif="!state.surveyExists">
                     <p class="feedback-message" t-out="formatText('survey_not_found', state.surveyId)"/>
                     <a href="/" class="btn-subscribe" t-out="state.configParams.back_to_home"/>
