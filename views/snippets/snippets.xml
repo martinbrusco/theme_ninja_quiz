@@ -1,0 +1,13 @@
+<odoo>
+    <template id="theme_ninja_quiz_snippet_definitions" inherit_id="website.snippets" name="Ninja Quiz Snippet Options">
+        <xpath expr="//div[@id='snippet_structure']/div[hasclass('o_panel_body')]" position="inside">
+            <t t-snippet="theme_ninja_quiz.s_quiz_home_template"
+               t-thumbnail="/theme_ninja_quiz/static/src/img/snippet_home_thumb.png"/>
+        </xpath>
+
+        <xpath expr="//div[@id='snippet_feature']/div[hasclass('o_panel_body')]" position="inside">
+            <t t-snippet="theme_ninja_quiz.s_quiz_play_template"
+               t-thumbnail="/theme_ninja_quiz/static/src/img/snippet_play_thumb.png"/>
+        </xpath>
+    </template>
+</odoo>

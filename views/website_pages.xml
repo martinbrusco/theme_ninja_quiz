@@ -1,0 +1,19 @@
+<odoo>
+    <template id="theme_ninja_quiz_homepage" name="Ninja Quiz - Homepage">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <t t-call="theme_ninja_quiz.s_quiz_home_template">
+                    <t t-set="error_message" t-value="error_message if error_message else None"/>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="theme_ninja_quiz_playpage_container" name="Ninja Quiz - Play Page">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <t t-call="theme_ninja_quiz.s_quiz_play_template"/>
+            </div>
+        </t>
+    </template>
+</odoo>

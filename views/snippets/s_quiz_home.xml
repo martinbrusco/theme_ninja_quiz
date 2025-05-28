@@ -1,0 +1,26 @@
+<odoo>
+    <template id="s_quiz_home_template" name="Ninja Quiz Inicio">
+        <section class="s_ninja_quiz_home_snippet py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-5 col-xl-4 text-center">
+                        <h1 class="title mb-3" t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!')"/>
+                        <p class="custom-paragraph mb-4" t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Participa en nuestro quiz y pon a prueba tus conocimientos.')"/>
+                        
+                        <t t-if="error_message">
+                            <div class="alert alert-danger" role="alert" t-esc="error_message"/>
+                        </t>
+
+                        <div class="pin-input-container">
+                            <form action="/quiz/validate_pin" method="POST" class="d-grid gap-2">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="text" class="form-control form-control-lg pin-input text-center fw-bold" name="pin" placeholder="Ingresa el PIN del juego" required="true" autofocus="autofocus" style="font-size: 1.5rem;"/>
+                                <button type="submit" class="btn btn-primary btn-lg join-button w-100">Entrar</button>
+                            </form>
+                        </div>
+                        </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>

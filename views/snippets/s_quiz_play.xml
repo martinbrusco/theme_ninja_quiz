@@ -1,0 +1,31 @@
+<odoo>
+    <template id="s_quiz_play_template" name="Ninja Quiz Jugar">
+        <section class="s_ninja_quiz_play_snippet py-5">
+            <div class="container">
+                <div class="ninja-quiz-card p-4 p-md-5 shadow rounded" style="background-color: white;">
+                    <h1 class="title text-center mb-4" 
+                        t-out="play_page_title_from_controller or request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_page_title', '¡Ninja Quiz!')"/>
+                    
+                    <t t-if="token_valid_for_page">
+                        <div id="kahoot-survey-runner-placeholder" 
+                             t-att-data-survey-id="survey_id"      
+                             t-att-data-survey-exists="survey_exists_str"  t-att-data-token="token_str">
+                             <p class="text-center text-muted">Cargando el juego...</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-warning text-center" role="alert">
+                            <h4 class="alert-heading">¡Acceso no permitido!</h4>
+                            <p>Para jugar, primero ingresa un PIN válido en la página de inicio o asegúrate de tener un token de acceso válido para esta sesión.</p>
+                            <hr/>
+                            <p class="mb-0">Si crees que esto es un error, intenta volver a ingresar el PIN.</p>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="/" class="btn btn-primary btn-lg">Volver al Inicio</a>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>
