@@ -12,8 +12,6 @@ class NinjaQuizController(http.Controller):
         qcontext = {}
         if error_message:
             qcontext['error_message'] = error_message
-        # Renderiza la página 'theme_ninja_quiz_homepage' definida en website_pages.xml
-        # Esta página a su vez llama al snippet s_quiz_home_template
         return request.render("theme_ninja_quiz.theme_ninja_quiz_homepage", qcontext)
 
     @http.route('/quiz/validate_pin', type='http', auth='public', methods=['POST'], website=True, csrf=True)
@@ -31,7 +29,6 @@ class NinjaQuizController(http.Controller):
                 error_message = 'PIN inválido. Por favor, intenta de nuevo.'
 
         if error_message:
-            # Re-renderiza la página de inicio (que usa el snippet) pasándole el mensaje de error.
             return request.render('theme_ninja_quiz.theme_ninja_quiz_homepage', {
                 'error_message': error_message
             })
@@ -43,72 +40,56 @@ class NinjaQuizController(http.Controller):
             ('survey_id', '=', survey.id),
             ('access_token', '!=', False),
             ('partner_id', '=', partner_id),
-            ('state', '=', 'in_progress'), # Considera si quieres permitir reanudar encuestas no completadas
+            ('state', '=', 'in_progress'),
         ], order='create_date desc', limit=1)
 
-        if not user_input: 
-            user_input_vals = {
-                'survey_id': survey.id,
-                'state': 'in_progress', # Siempre se crea en progreso
-            }
+        if not user_input or user_input.state == 'done':
+            user_input_vals = {'survey_id': survey.id, 'state': 'in_progress'}
             if partner_id:
                 user_input_vals['partner_id'] = partner_id
             user_input = request.env['survey.user_input'].sudo().create(user_input_vals)
-        elif user_input.state == 'done': # Si la encontrada está hecha, crea una nueva.
-             user_input_vals = {
-                'survey_id': survey.id,
-                'state': 'in_progress',
-            }
-             if partner_id:
-                user_input_vals['partner_id'] = partner_id
-             user_input = request.env['survey.user_input'].sudo().create(user_input_vals)
-
 
         return request.redirect(f'/play/{survey.id}?token={user_input.access_token}')
 
     @http.route('/play/<int:survey_id>', type='http', auth='public', website=True)
     def play_page(self, survey_id, token=None, **kwargs):
-        survey_record = request.env['survey.survey'].sudo().browse(survey_id) # Usar browse para mejor rendimiento si el ID es válido
-        survey_exists = survey_record.exists()
+        survey_record = request.env['survey.survey'].sudo().browse(int(survey_id))
+        survey_exists_bool = survey_record.exists()  
         token_is_valid_for_game = False
 
-        if survey_exists and token:
+        if survey_exists_bool and token:
             user_input = request.env['survey.user_input'].sudo().search([
                 ('survey_id', '=', survey_id),
                 ('access_token', '=', token),
             ], limit=1)
             if user_input:
                 if user_input.state == 'done':
-                    # Opcional: Si la encuesta ya está completada con este token,
-                    # podrías redirigir a una página de resultados o mostrar un mensaje.
-                    # Por ahora, lo consideramos no válido para *iniciar* el juego de nuevo.
                     token_is_valid_for_game = False 
                     _logger.info(f"Play page: Attempt to play already completed survey. Survey ID: {survey_id}, Token: {token}")
-                else: # 'new' o 'in_progress'
+                else:
                     token_is_valid_for_game = True
         
-        _logger.info(f"Play page context: survey_id={survey_id}, survey_exists={survey_exists}, token={token}, token_valid_for_game={token_is_valid_for_game}")
+       
+        survey_exists_string_value = str(survey_exists_bool).lower()
+
+        _logger.info(f"Play page context: survey_id={survey_id}, survey_exists_for_log={survey_exists_bool}, survey_exists_str_to_template={survey_exists_string_value}, token={token}, token_valid_for_game={token_is_valid_for_game}")
 
         qcontext = {
-            'survey_id': survey_id, # Para data-survey-id
-            'survey_exists_str': str(survey_exists).lower(), # Para data-survey-exists
-            'token_str': token, # Para data-token
-            'token_valid_for_page': token_is_valid_for_game, # Para la condición t-if en el snippet
+            'survey_id': survey_id,
+            'survey_exists_str': survey_exists_string_value, 
+            'token_str': token, 
+            'token_valid_for_page': token_is_valid_for_game,
             'play_page_title_from_controller': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_page_title', '¡Ninja Quiz!'),
         }
-        # Renderiza la página contenedora 'theme_ninja_quiz_playpage_container'
         return request.render('theme_ninja_quiz.theme_ninja_quiz_playpage_container', qcontext)
 
     @http.route('/components', type='http', auth="public", website=True)
     def components(self, **kw):
-        # Esta página debería estar definida en website_pages.xml o similar
-        # y llamar a tu plantilla theme_ninja_quiz.components_library
-        # Si theme_ninja_quiz.components_library es una página completa con website.layout, está bien.
         return request.render("theme_ninja_quiz.components_library", {})
 
 
 class NinjaQuizSurveyController(http.Controller):
-
+  
     @http.route('/survey/submit', type='json', auth='public', website=True, methods=['POST'])
     def survey_submit(self, survey_id, question_id, answer_id, access_token):
         try:
@@ -133,7 +114,7 @@ class NinjaQuizSurveyController(http.Controller):
                 existing_line.sudo().write({
                     'suggested_answer_id': int(answer_id),
                     'answer_type': 'suggestion',
-                    'skipped': False # Marcar como no saltada si se responde
+                    'skipped': False
                 })
             else:
                 request.env['survey.user_input.line'].sudo().create({
@@ -174,11 +155,8 @@ class NinjaQuizSurveyController(http.Controller):
                 _logger.warning(f"Survey with ID {survey_id} not found during get_survey_data.")
                 survey_not_found_msg = request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.survey_not_found', 'Encuesta no encontrada.')
                 return {'success': False, 'error': survey_not_found_msg % survey_id}
-
-            questions_domain = [('survey_id', '=', survey_model.id)]
-            # Filtrar preguntas ya respondidas en este user_input si es necesario para un modo "kahoot" donde no se repiten
-            # O manejar la lógica de "ya respondida" en el frontend/OWL
             
+            questions_domain = [('survey_id', '=', survey_model.id)]
             questions_data = request.env['survey.question'].sudo().search_read(
                 domain=questions_domain,
                 fields=["id", "title", "question_type", "suggested_answer_ids", "is_scored_question", "explanation"],
@@ -210,14 +188,10 @@ class NinjaQuizSurveyController(http.Controller):
                 }
                 formatted_questions.append(formatted_question)
             
-            # No es un error si no hay preguntas, el frontend debe manejarlo.
-            # if not formatted_questions:
-            #     _logger.info(f"No questions found for survey ID {survey_id} in get_survey_data.")
-
             return {
                 'success': True,
                 'surveyId': survey_model.id,
-                'surveyTitle': survey_model.title, # Título de la encuesta
+                'surveyTitle': survey_model.title,
                 'questions': formatted_questions
             }
         except Exception as e:
