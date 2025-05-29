@@ -23,7 +23,7 @@ odoo.define('@theme_ninja_quiz/js/lib/mountComponent', ['@odoo/owl', '@theme_nin
 
             const surveyIdAttr = placeholder.dataset.surveyId;
             const tokenAttr = placeholder.dataset.token;
-            const surveyExistsAttr = placeholder.dataset.surveyExists;
+            const surveyExistsAttr = placeholder.dataset.surveyExists; // Esperamos 'true' o 'false' como string
 
             if (surveyIdAttr && tokenAttr && typeof surveyExistsAttr !== 'undefined') {
                 console.log("MOUNTCOMPONENT.JS: (Log 6 - TryMount) Placeholder tiene surveyId, token y surveyExists. surveyExistsAttr:", surveyExistsAttr);
@@ -32,6 +32,7 @@ odoo.define('@theme_ninja_quiz/js/lib/mountComponent', ['@odoo/owl', '@theme_nin
                     console.log("MOUNTCOMPONENT.JS: (Log 7 - TryMount) Intentando llamar a mount(KahootSurveyRunner, placeholder)...");
                     placeholder.dataset.owlMounting = 'true'; 
                     try {
+                        // Verificación simplificada: solo chequear si KahootSurveyRunner es una función (las clases lo son)
                         if (typeof KahootSurveyRunner !== 'function') { 
                              console.error("MOUNTCOMPONENT.JS: (Log 7b - TryMount) ¡KahootSurveyRunner NO es una función/clase válida!", KahootSurveyRunner);
                              delete placeholder.dataset.owlMounting;
@@ -41,7 +42,7 @@ odoo.define('@theme_ninja_quiz/js/lib/mountComponent', ['@odoo/owl', '@theme_nin
                         const surveyProps = {
                             surveyId: parseInt(surveyIdAttr),
                             token: tokenAttr,
-                            surveyExists: surveyExistsAttr.toLowerCase() === 'true'
+                            surveyExists: surveyExistsAttr.toLowerCase() === 'true' // Convertir a booleano
                         };
                         console.log("MOUNTCOMPONENT.JS: (Log 7c - TryMount) Props a pasar:", surveyProps);
 

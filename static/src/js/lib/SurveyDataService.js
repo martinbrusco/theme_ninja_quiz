@@ -17,7 +17,6 @@ odoo.define('@theme_ninja_quiz/js/lib/SurveyDataService', ['@web/core/network/rp
                     console.error("SURVEY_DATA_SERVICE.JS: Invalid response structure from /survey/get_data", response);
                     throw new Error("Respuesta inválida del servidor al obtener preguntas.");
                 }
-                // No es necesario lanzar error si !response.success aquí, el componente puede manejarlo
                 return response; 
 
             } catch (error) {

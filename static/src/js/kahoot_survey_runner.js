@@ -9,23 +9,23 @@ odoo.define('@theme_ninja_quiz/js/kahoot_survey_runner', ['@odoo/owl', '@theme_n
             <div class="survey-runner">
                 <t t-if="state.configParamsLoaded">
                     <t t-if="!state.tokenValid">
-                        <p class="feedback-message incorrect" t-out="state.configParams.invalid_token || 'Token no válido o expirado.'"/>
-                        <a href="/" class="btn-subscribe" t-out="state.configParams.back_to_home || 'Volver al Inicio'"/>
+                        <p class="feedback-message incorrect" t-out="(state.configParams &amp;&amp; state.configParams.invalid_token) || 'Token no válido o expirado.'"/>
+                        <a href="/" class="btn-subscribe" t-out="(state.configParams &amp;&amp; state.configParams.back_to_home) || 'Volver al Inicio'"/>
                     </t>
                     <t t-elif="!state.surveyExists">
                         <p class="feedback-message" t-out="formatText('survey_not_found', state.surveyId || 'IDdesconocido')"/>
-                        <a href="/" class="btn-subscribe" t-out="state.configParams.back_to_home || 'Volver al Inicio'"/>
+                        <a href="/" class="btn-subscribe" t-out="(state.configParams &amp;&amp; state.configParams.back_to_home) || 'Volver al Inicio'"/>
                     </t>
                     <t t-elif="state.isError">
                         <p class="feedback-message incorrect" t-out="state.feedbackMessage || 'Ha ocurrido un error.'"/>
-                         <a href="/" class="btn-subscribe" t-out="state.configParams.back_to_home || 'Volver al Inicio'"/>
+                         <a href="/" class="btn-subscribe" t-out="(state.configParams &amp;&amp; state.configParams.back_to_home) || 'Volver al Inicio'"/>
                     </t>
                     <t t-elif="state.isLoading &amp;&amp; state.questions.length === 0">
-                        <p t-out="state.feedbackMessage || state.configParams.loading_questions || 'Cargando preguntas...'"/>
+                        <p t-out="state.feedbackMessage || (state.configParams &amp;&amp; state.configParams.loading_questions) || 'Cargando preguntas...'"/>
                     </t>
                     <t t-elif="state.questions.length === 0 &amp;&amp; !state.isLoading">
-                        <p class="feedback-message" t-out="state.feedbackMessage || state.configParams.feedback_no_questions || 'No hay preguntas disponibles para esta encuesta.'"/>
-                        <a href="/" class="btn-subscribe" t-out="state.configParams.back_to_home || 'Volver al Inicio'"/>
+                        <p class="feedback-message" t-out="state.feedbackMessage || (state.configParams &amp;&amp; state.configParams.feedback_no_questions) || 'No hay preguntas disponibles para esta encuesta.'"/>
+                        <a href="/" class="btn-subscribe" t-out="(state.configParams &amp;&amp; state.configParams.back_to_home) || 'Volver al Inicio'"/>
                     </t>
                     <t t-else="">
                         <div class="answer-counter">
@@ -47,7 +47,7 @@ odoo.define('@theme_ninja_quiz/js/kahoot_survey_runner', ['@odoo/owl', '@theme_n
                                 <div class="progress-fill" t-att-style="'width:' + (state.timeLeft / 15 * 100) + '%'"/>
                             </div>
                         </div>
-                        <h3 class="question-title fade-in" t-key="state.currentIndex" t-out="state.currentQuestion ? state.currentQuestion.title : state.configParams.loading_question"/>
+                        <h3 class="question-title fade-in" t-key="state.currentIndex" t-out="state.currentQuestion ? state.currentQuestion.title : (state.configParams &amp;&amp; state.configParams.loading_question)"/>
                         <ul class="options-list fade-in" t-key="state.currentIndex">
                             <t t-foreach="state.currentQuestion ? state.currentQuestion.options : []" t-as="option" t-key="option.id">
                                 <li t-att-class="'option-' + option_index">
@@ -84,8 +84,17 @@ odoo.define('@theme_ninja_quiz/js/kahoot_survey_runner', ['@odoo/owl', '@theme_n
                 console.log("KAHOOT_SURVEY_RUNNER.JS: Props object IS defined. Keys:", Object.keys(props));
                 console.log("KAHOOT_SURVEY_RUNNER.JS: Props content --> surveyId:", props.surveyId, "token:", props.token, "surveyExists:", props.surveyExists);
             } else {
-                console.error("KAHOOT_SURVEY_RUNNER.JS: ¡ERROR CRÍTICO! Props son undefined o null en setup(). No se puede continuar.");
-                this.state = useState({ isError: true, feedbackMessage: "Error interno: Props no recibidas por el componente.", configParamsLoaded: true, isLoading: false, questions:[] });
+                console.error("KAHOOT_SURVEY_RUNNER.JS: ¡ERROR CRÍTICO! Props son undefined o null en setup().");
+                this.state = useState({ 
+                    isError: true, 
+                    feedbackMessage: "Error interno: Props no recibidas por el componente.", 
+                    configParamsLoaded: true, 
+                    isLoading: false, 
+                    questions:[],
+                    surveyId: null, token: null, surveyExists: false, tokenValid: false, 
+                    currentQuestion: null, currentIndex: 0, selectedOption: null, timeLeft:0,
+                    configParams: {}, isProcessing: false, feedbackTimeout: null
+                });
                 return; 
             }
 
@@ -147,11 +156,11 @@ odoo.define('@theme_ninja_quiz/js/kahoot_survey_runner', ['@odoo/owl', '@theme_n
                     
                     if (this.state.tokenValid) { 
                         console.log("KAHOOT_SURVEY_RUNNER.JS: onMounted - Token considerado válido. Attempting to load questions...");
-                        this.state.feedbackMessage = this.state.configParams.loading_questions || "Cargando preguntas...";
+                        this.state.feedbackMessage = (this.state.configParams && this.state.configParams.loading_questions) || "Cargando preguntas...";
                         this.state.isLoading = true; 
                         await this.loadQuestions();
                     } else { 
-                        this.state.feedbackMessage = this.state.configParams.invalid_token || "Token inválido (lógica interna onMounted).";
+                        this.state.feedbackMessage = (this.state.configParams && this.state.configParams.invalid_token) || "Token inválido (lógica interna onMounted).";
                         this.state.isLoading = false;
                         this.state.isError = true;
                     }

@@ -15,8 +15,8 @@
                     </t>
                     <t t-else="">
                         <div class="alert alert-warning text-center" role="alert">
-                            <h4 class="alert-heading">¡Acceso no permitido!</h4>
-                            <p>Para jugar, primero ingresa un PIN válido en la página de inicio o asegúrate de tener un token de acceso válido para esta sesión.</p>
+                            <h4 class="alert-heading">Token no válido o expirado.</h4>
+                            <p>Para jugar, primero ingresa un PIN válido en la página de inicio.</p>
                             <hr/>
                             <p class="mb-0">Si crees que esto es un error, intenta volver a ingresar el PIN.</p>
                         </div>

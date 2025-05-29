@@ -54,7 +54,7 @@ class NinjaQuizController(http.Controller):
     @http.route('/play/<int:survey_id>', type='http', auth='public', website=True)
     def play_page(self, survey_id, token=None, **kwargs):
         survey_record = request.env['survey.survey'].sudo().browse(int(survey_id))
-        survey_exists_bool = survey_record.exists()  
+        survey_exists_bool = survey_record.exists() # Esto devuelve True o False
         token_is_valid_for_game = False
 
         if survey_exists_bool and token:
@@ -66,11 +66,10 @@ class NinjaQuizController(http.Controller):
                 if user_input.state == 'done':
                     token_is_valid_for_game = False 
                     _logger.info(f"Play page: Attempt to play already completed survey. Survey ID: {survey_id}, Token: {token}")
-                else:
+                else: # 'new' o 'in_progress'
                     token_is_valid_for_game = True
         
-       
-        survey_exists_string_value = str(survey_exists_bool).lower()
+        survey_exists_string_value = str(survey_exists_bool).lower() # 'true' o 'false'
 
         _logger.info(f"Play page context: survey_id={survey_id}, survey_exists_for_log={survey_exists_bool}, survey_exists_str_to_template={survey_exists_string_value}, token={token}, token_valid_for_game={token_is_valid_for_game}")
 
@@ -89,7 +88,7 @@ class NinjaQuizController(http.Controller):
 
 
 class NinjaQuizSurveyController(http.Controller):
-  
+
     @http.route('/survey/submit', type='json', auth='public', website=True, methods=['POST'])
     def survey_submit(self, survey_id, question_id, answer_id, access_token):
         try:
