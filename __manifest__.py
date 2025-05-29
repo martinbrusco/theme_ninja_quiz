@@ -1,33 +1,65 @@
+# -*- coding: utf-8 -*-
 {
-    "name": "Theme Ninja Quiz",
-    "description": "Un tema que emula una página de ingreso de PIN para un quiz",
-    "category": "Theme/Creative",
-    "version": "1.2", 
-    "author": "Martin Brusco",
-    "license": "LGPL-3",
-    "depends": ["website", "survey"],
-    "data": [
-        "data/config.xml",
-        "views/layout.xml",
-        "views/footer.xml",
-        "views/components.xml", 
-        "views/survey_views.xml",
-        "views/snippets/s_quiz_home.xml",  
-        "views/snippets/s_quiz_play.xml",  
-        "views/snippets/snippets.xml",     
-        "views/website_pages.xml",      
+    'name': "Ninja Quiz Theme Extension",
+    'summary': """
+        Extiende la funcionalidad de Encuestas para crear quizzes interactivos
+        tipo Kahoot con acceso por PIN y feedback en tiempo real.""",
+    'description': """
+        Módulo para Odoo 17 que permite:
+        - Crear quizzes basados en el módulo Survey.
+        - Acceso a quizzes mediante un PIN único.
+        - Interfaz de juego interactiva con Owl Framework.
+        - Preguntas cronometradas.
+        - Feedback instantáneo por pregunta.
+        - Explicaciones detalladas para las respuestas.
+        - Barra de progreso visual.
+        - Textos del frontend configurables desde el backend.
+    """,
+    'author': "Tu Nombre/Empresa",
+    'website': "https://www.tuwebsite.com",
+    'category': 'Website/Survey',
+    'version': '2.0.0',
+    'license': 'LGPL-3', # O la licencia que prefieras
+    'depends': [
+        'base',
+        'website',
+        'survey', # Dependencia fundamental
     ],
-    "assets": {
-        "web.assets_frontend": [
-            "theme_ninja_quiz/static/src/scss/custom.scss",
-            # OWL component and related JS for KahootSurveyRunner
-            "theme_ninja_quiz/static/src/js/lib/SurveyDataService.js",
-            "theme_ninja_quiz/static/src/js/lib/StateManager.js", 
-            "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js", 
-            "theme_ninja_quiz/static/src/js/lib/mountComponent.js", 
+    'data': [
+        # Archivos de seguridad (si los hubiera, ej. ir.model.access.csv)
+        # 'security/ir.model.access.csv',
+
+        # Vistas de Modelos (Backend)
+        'views/survey_survey_views.xml',
+        'views/survey_question_views.xml',
+        # 'views/survey_user_input_views.xml', # Si necesitas extender vistas de user_input
+
+        # Plantillas QWeb del Sitio Web (Frontend)
+        'views/templates_quiz_pages.xml',
+
+        # Definición de Assets (JS/CSS/Owl Templates)
+        'views/assets.xml',
+
+        # Datos de demostración (opcional)
+        # 'data/survey_quiz_demo_data.xml',
+    ],
+    'assets': {
+        'web.assets_frontend': [
+            # Owl Framework (ya es parte de Odoo 17, pero si necesitaras algo específico)
+            # CSS (si tienes estilos personalizados)
+            # 'theme_ninja_quiz/static/src/css/quiz_styles.css',
+
+            # JavaScript y Plantillas Owl
+            # El orden puede ser importante si hay dependencias entre los JS
+            'theme_ninja_quiz/static/src/js/survey_data_service.js',
+            'theme_ninja_quiz/static/src/js/kahoot_survey_runner.js',
+            'theme_ninja_quiz/static/src/js/mount_component.js',
+            # Las plantillas XML de Owl se declaran en assets.xml como 'web.assets_qweb'
+            # o directamente en el componente JS si son pequeñas.
+            # Para archivos XML separados, se declaran en 'web.assets_qweb' dentro de assets.xml
         ],
     },
-    "application": False,
-    "auto_install": False,
-    "installable": True,
+    'installable': True,
+    'application': True, # Si es una aplicación principal
+    'auto_install': False,
 }
