@@ -3,7 +3,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
   background-color: #431f99;
   background-image:
     radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
@@ -12,9 +12,6 @@ html, body {
   background-repeat: no-repeat;
   background-size: cover;
 }
-
-
-
 
 /* Contenedor principal */
 main.ninja-quiz-container {
@@ -71,7 +68,7 @@ main.ninja-quiz-container {
   font-size: clamp(0.75rem, 1.16667vmin, 0.875rem);
   font-weight: 700;
   text-rendering: optimizeLegibility;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
   padding: 0;
   margin: 0;
 }
@@ -127,7 +124,7 @@ main.ninja-quiz-container {
   overflow: auto;
   padding: 0 1rem;
   white-space: nowrap;
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
   font: inherit;
 }
 
@@ -157,7 +154,7 @@ main.ninja-quiz-container {
   background-color: #26890C;
   color: white;
   font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
   font-size: clamp(.75rem, 1.16667vmin, .875rem);
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
@@ -173,7 +170,7 @@ main.ninja-quiz-container {
   background-color: #0057FF;
   color: white;
   font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
   font-size: clamp(.75rem, 1.16667vmin, .875rem);
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
@@ -213,7 +210,7 @@ main.ninja-quiz-container {
   font-weight: 700;
   color: #333;
   transition: all 0.2s ease;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
 }
 
 .btn-create-kahoot:hover {
@@ -222,15 +219,15 @@ main.ninja-quiz-container {
 }
 
 .btn-learn-more {
-  background-color: #1368ce;
-  color: #0057FF;
+  background-color: #1368ce; /* Color de fondo del botón, no es color de fuente */
+  color: #0057FF; /* Color de fuente */
   font-weight: bold;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
   font-size: 12px;
   padding-right: 0.75rem;
   text-decoration: none;
   line-height: 1.4;
-  background-image: url(/wp-content/themes/kahoot2017/assets/img/right-arrow-blue.svg);
+  background-image: url(/wp-content/themes/kahoot2017/assets/img/right-arrow-blue.svg); /* Esto podría ser un problema si la URL no es válida en tu contexto Odoo */
   background-repeat: no-repeat;
   background-position: right center;
   background-size: 0.625rem 0.625rem;
@@ -247,13 +244,12 @@ main.ninja-quiz-container {
   margin-left: 0.625rem;
   text-decoration: none;
   font-weight: 700;
-  //text-renderingZb optimizeLegibility;
   padding: clamp(0.375rem, 0.66667vmin, 0.5rem) clamp(0.375rem, 0.66667vmin, 0.5rem);
   display: block;
   border: 0.0625rem solid #0057FF;
   border-radius: 0.25rem;
   font-size: clamp(0.75rem, 1.16667vmin, 0.875rem);
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
   list-style-type: none;
   transition: background-color 0.2s, color 0.2s;
 }
@@ -281,7 +277,7 @@ main.ninja-quiz-container {
   display: block;
   margin-bottom: clamp(1.125rem, 1.66667vmin, 1.25rem);
   color: #fff;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
 }
 
 .footer-nav__link {
@@ -289,7 +285,7 @@ main.ninja-quiz-container {
   color: #fff;
   font-size: clamp(.875rem, 1.33333vmin, 1rem);
   list-style-type: none;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
 }
 
 .copyright {
@@ -297,7 +293,7 @@ main.ninja-quiz-container {
   display: block;
   color: #fff;
   font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
 }
 
 /* Textos */
@@ -310,7 +306,7 @@ main.ninja-quiz-container {
   text-align: left;
   padding: 0;
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
 }
 
 .paragraph-strong {
@@ -322,7 +318,7 @@ main.ninja-quiz-container {
   padding: 0;
   margin: 0;
   margin-top: 8px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
 }
 
 .paragraph-strong strong {
@@ -402,9 +398,9 @@ main.ninja-quiz-container {
 .survey-runner {
   text-align: center;
   padding: 20px;
-  background: #f8f9 Dmitry;
+  /* background: #f8f9fa; -> Comentado para evitar confusión con el typo "Dmitry" anterior, usando el del card */
   border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, Helvetica, sans-serif; /* MODIFICADO */
   position: relative;
   width: 100%;
   max-width: 1200px;
@@ -413,6 +409,9 @@ main.ninja-quiz-container {
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
+
+/* ... (El resto del CSS para .survey-runner y sus hijos permanece igual, ya que no especificaban 'Montserrat' directamente) ... */
+/* Lo siguiente es la continuación del CSS original para .survey-runner que no necesita cambios de fuente explícitos aquí */
 
 .answer-counter {
   position: absolute;
@@ -490,7 +489,7 @@ main.ninja-quiz-container {
 
 .survey-runner .question-title {
   color: #333;
-  font-size: 120px !important;
+  font-size: 2.5rem; /* Ajustado para que sea más legible, antes era 120px que es muy grande */
   font-weight: bold;
   margin: 15px 0;
   text-align: center;

@@ -1,109 +1,117 @@
-// theme_ninja_quiz/static/src/js/lib/mountComponent.js
+console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log A) Inicio Archivo.");
 
-console.log("MOUNTCOMPONENT.JS: (Log 1) El archivo está siendo analizado por el navegador.");
-
-odoo.define('@theme_ninja_quiz/js/lib/mountComponent', ['@odoo/owl', '@theme_ninja_quiz/js/kahoot_survey_runner'], function(require) {
+odoo.define('@theme_ninja_quiz/js/lib/mountComponent', ['@odoo/owl'], function(require) {
     'use strict';
 
-    console.log("MOUNTCOMPONENT.JS: (Log 2) Callback de odoo.define iniciado.");
+    console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log B) Inicio odoo.define.");
 
-    const { mount } = require("@odoo/owl");
-    // Importación directa (asumiendo que kahoot_survey_runner.js retorna la clase)
-    const KahootSurveyRunner = require("@theme_ninja_quiz/js/kahoot_survey_runner"); 
+    const { Component, mount, xml, useState } = require("@odoo/owl");
 
-    console.log("MOUNTCOMPONENT.JS: (Log 3) Owl mount:", mount, "KahootSurveyRunner:", KahootSurveyRunner);
-    
-    if (typeof KahootSurveyRunner !== 'function') {
-        console.error("MOUNTCOMPONENT.JS: ¡KahootSurveyRunner NO es una función/clase válida después del require!", KahootSurveyRunner);
-        return {}; 
+    console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log C) Owl importado.");
+
+    // --- Definición del Componente SÚPER SÚPER SÚPER SIMPLE (local) ---
+    class FinalLocalTestComponent extends Component {
+        static template = xml`
+            <div>
+                <h1>Test Definitivo Props Locales</h1>
+                <p>Prop 'mensajeDirecto': <t t-esc="props.mensajeDirecto || '--- MENSAJE PROPS NO LLEGÓ ---'"/></p>
+                <p>Prop 'numeroDirecto': <t t-esc="props.numeroDirecto === undefined ? '--- NÚMERO PROPS NO LLEGÓ ---' : props.numeroDirecto"/></p>
+                <hr/>
+                <p>Estado contador: <t t-esc="state.contador"/></p>
+                <button t-on-click="incrementar">Incrementar</button>
+            </div>
+        `;
+
+        setup(props) {
+            console.log("FINAL_LOCAL_TEST_COMPONENT: setup() INVOCADO.");
+            console.log("FINAL_LOCAL_TEST_COMPONENT: Valor CRUDO de 'props' recibido:", props);
+            
+            if (props) {
+                console.log("FINAL_LOCAL_TEST_COMPONENT: Tipo de 'props':", typeof props);
+                try {
+                    console.log("FINAL_LOCAL_TEST_COMPONENT: 'props' como JSON:", JSON.stringify(props));
+                } catch (e) {
+                    console.warn("FINAL_LOCAL_TEST_COMPONENT: No se pudo convertir 'props' a JSON:", e);
+                }
+                console.dir(props); // Inspección detallada
+            } else {
+                console.error("FINAL_LOCAL_TEST_COMPONENT: ¡CRÍTICO! 'props' es null o undefined en setup.");
+            }
+            
+            // Para mostrar en el template, Owl hace que `this.props` esté disponible si se pasan.
+            // No necesitamos this.propsReceivedAtSetup si accedemos a props.* directamente en el template.
+
+            this.state = useState({ contador: (props && props.valorInicialContador !== undefined) ? props.valorInicialContador : 0 });
+            console.log("FINAL_LOCAL_TEST_COMPONENT: Estado inicializado. Contador:", this.state.contador);
+        }
+
+        incrementar() {
+            this.state.contador++;
+            console.log("FINAL_LOCAL_TEST_COMPONENT: Contador incrementado a", this.state.contador);
+        }
     }
+    console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log D) Clase FinalLocalTestComponent definida.");
+    // --- Fin Definición Componente ---
 
     const placeholderId = "kahoot-survey-runner-placeholder";
     let attempts = 0;
-    const maxAttempts = 10;
+    const maxAttempts = 5; // Reducido para ver logs más rápido
     let mountInterval;
 
-    function tryMountComponentWithInterval() {
-        // Log para ver si esta función se ejecuta
-        console.log(`MOUNTCOMPONENT.JS: tryMountComponentWithInterval EJECUTÁNDOSE, intento #${attempts + 1}`);
+    function tryMountFinalLocalTestComponent() {
+        console.log(`MOUNTCOMPONENT.JS: (v53-TEST FINAL Log E) tryMountFinalLocalTestComponent, intento #${attempts + 1}`);
         attempts++;
         
         const placeholder = document.getElementById(placeholderId);
         
         if (placeholder) {
-            console.log("MOUNTCOMPONENT.JS: (Log 5 - TryMount) Placeholder ENCONTRADO:", placeholder);
-            console.log("MOUNTCOMPONENT.JS: (Log 5b - TryMount) Contenido actual del placeholder:", placeholder.innerHTML);
-            console.log("MOUNTCOMPONENT.JS: (Log 5c - TryMount) Atributos de datos del placeholder:", JSON.parse(JSON.stringify(placeholder.dataset)));
-            
+            console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log F) Placeholder ENCONTRADO:", placeholderId);
             clearInterval(mountInterval); 
 
-            const surveyIdAttr = placeholder.dataset.surveyId;
-            const tokenAttr = placeholder.dataset.token;
-            const surveyExistsAttr = placeholder.dataset.surveyExists;
-
-            if (surveyIdAttr && tokenAttr && typeof surveyExistsAttr !== 'undefined') {
-                console.log("MOUNTCOMPONENT.JS: (Log 6 - TryMount) Placeholder tiene surveyId, token y surveyExists. surveyExistsAttr:", surveyExistsAttr);
+            if (!placeholder.classList.contains('owl-final-local-test-mounted')) {
+                placeholder.dataset.owlMountingFinalLocal = 'true'; 
                 
-                if (!placeholder.classList.contains('owl-mounted') && !placeholder.dataset.owlMounting) {
-                    console.log("MOUNTCOMPONENT.JS: (Log 7 - TryMount) Intentando llamar a mount(KahootSurveyRunner, placeholder)...");
-                    placeholder.dataset.owlMounting = 'true'; 
-                    try {
-                        if (typeof KahootSurveyRunner !== 'function') { 
-                             console.error("MOUNTCOMPONENT.JS: (Log 7b - TryMount) ¡KahootSurveyRunner NO es una función/clase válida en este punto!", KahootSurveyRunner);
-                             delete placeholder.dataset.owlMounting;
-                             return; 
-                        }
+                const propsDefinitivas = {
+                    mensajeDirecto: "¡Props SÍ LLEGARON al Componente Local!",
+                    numeroDirecto: 2024,
+                    valorInicialContador: 7
+                };
+                console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log G) 'propsDefinitivas' a pasar:", propsDefinitivas);
 
-                        // Usamos las props reales del placeholder, no las de prueba
-                        const surveyProps = {
-                            surveyId: parseInt(surveyIdAttr),
-                            token: tokenAttr,
-                            surveyExists: surveyExistsAttr.toLowerCase() === 'true',
-                            // Añadimos las props de prueba también para ver si el KSR Mínimo las recoge
-                            mensaje: "Props reales + prueba para KSR Mínimo",
-                            numero: 777,
-                            numeroInicial: 10
-                        };
-                        console.log("MOUNTCOMPONENT.JS: (Log 7c - TryMount) Props REALES + PRUEBA a pasar a KahootSurveyRunner MÍNIMO:", surveyProps);
-
-                        mount(KahootSurveyRunner, placeholder, { props: surveyProps }); 
-                        
-                        console.log("MOUNTCOMPONENT.JS: (Log 8 - TryMount) LLAMADA a mount(KahootSurveyRunner, placeholder) REALIZADA con props REALES + PRUEBA.");
-                        placeholder.classList.add('owl-mounted'); 
-                        delete placeholder.dataset.owlMounting;
-
-                    } catch (err) {
-                        console.error("MOUNTCOMPONENT.JS: (Log 9 - TryMount) ERROR DIRECTO DE mount() o en el setup/render inicial de KSR:", err);
-                        delete placeholder.dataset.owlMounting;
-                    }
-                } else {
-                    console.log("MOUNTCOMPONENT.JS: (Log 10 - TryMount) KahootSurveyRunner ya montado o montaje en progreso.");
+                try {
+                    mount(FinalLocalTestComponent, placeholder, { props: propsDefinitivas }); 
+                    console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log H) LLAMADA a mount(FinalLocalTestComponent) REALIZADA.");
+                    placeholder.classList.add('owl-final-local-test-mounted'); 
+                    delete placeholder.dataset.owlMountingFinalLocal;
+                } catch (err) {
+                    console.error("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log I) ERROR EN mount() para FinalLocalTestComponent:", err);
+                    delete placeholder.dataset.owlMountingFinalLocal;
                 }
             } else {
-                console.warn("MOUNTCOMPONENT.JS: (Log 11 - TryMount) Placeholder encontrado, pero FALTA data-survey-id, data-token o data-survey-exists.", placeholder.dataset);
+                console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log J) FinalLocalTestComponent ya montado.");
             }
         } else {
-            console.log(`MOUNTCOMPONENT.JS: (Log 12 - TryMount) Placeholder #${placeholderId} NO encontrado en intento ${attempts}.`);
+            console.log(`MOUNTCOMPONENT.JS: (v53-TEST FINAL Log K) Placeholder #${placeholderId} NO encontrado en intento ${attempts}.`);
             if (attempts >= maxAttempts) {
                 clearInterval(mountInterval);
-                console.error(`MOUNTCOMPONENT.JS: (Log 13 - TryMount) Placeholder #${placeholderId} NO encontrado después de ${maxAttempts} intentos. Dejando de intentar.`);
+                console.error(`MOUNTCOMPONENT.JS: (v53-TEST FINAL Log L) Placeholder #${placeholderId} NO encontrado tras ${maxAttempts} intentos.`);
             }
         }
     }
     
-    console.log("MOUNTCOMPONENT.JS: (Log Pre-Interval) Programando setInterval para tryMountComponentWithInterval.");
+    console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log M) Programando setInterval.");
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        console.log("MOUNTCOMPONENT.JS: (Log MainCall) DOM ya cargado/interactivo. Iniciando intentos de montaje para KahootSurveyRunner.");
-        mountInterval = setInterval(tryMountComponentWithInterval, 500);
+        console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log N) DOM ya cargado. Iniciando.");
+        mountInterval = setInterval(tryMountFinalLocalTestComponent, 600); // Intervalo corto
     } else {
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("MOUNTCOMPONENT.JS: (Log MainCall) Evento DOMContentLoaded DISPARADO. Iniciando intentos de montaje para KahootSurveyRunner.");
-            mountInterval = setInterval(tryMountComponentWithInterval, 500);
+            console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log O) DOMContentLoaded. Iniciando.");
+            mountInterval = setInterval(tryMountFinalLocalTestComponent, 600);
         });
     }
 
-    console.log("MOUNTCOMPONENT.JS: (Log 16) Fin del callback de odoo.define. Intentos de montaje programados.");
+    console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log P) Fin de odoo.define.");
     return {}; 
 });
 
-console.log("MOUNTCOMPONENT.JS: (Log 17) Fin del análisis del archivo por el navegador.");
+console.log("MOUNTCOMPONENT.JS: (v53-TEST FINAL Log Q) Fin de análisis del archivo.");
