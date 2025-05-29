@@ -8,13 +8,13 @@ class NinjaQuizController(http.Controller):
 
     @http.route('/', type='http', auth="public", website=True)
     def homepage(self, **kw):
-        error_message = kw.get('error_message') 
+        error_message = kw.get('error_message')
         qcontext = {}
         if error_message:
             qcontext['error_message'] = error_message
         return request.render("theme_ninja_quiz.theme_ninja_quiz_homepage", qcontext)
 
-    @http.route('/quiz/validate_pin', type='http', auth='public', methods=['POST'], website=True, csrf=True)
+    @http.route('/quiz/validate_pin', type='http', auth='public', methods=['POST'], website=True, csrf=False)
     def validate_pin(self, **kwargs):
         pin = kwargs.get('pin')
         error_message = None
@@ -23,7 +23,7 @@ class NinjaQuizController(http.Controller):
             error_message = 'Por favor, ingrese un PIN.'
         
         survey = None
-        if pin: 
+        if pin:
             survey = request.env['survey.survey'].sudo().search([('session_code', '=', pin)], limit=1)
             if not survey:
                 error_message = 'PIN inválido. Por favor, intenta de nuevo.'
@@ -64,19 +64,21 @@ class NinjaQuizController(http.Controller):
             ], limit=1)
             if user_input:
                 if user_input.state == 'done':
-                    token_is_valid_for_game = False 
+                    token_is_valid_for_game = False
                     _logger.info(f"Play page: Attempt to play already completed survey. Survey ID: {survey_id}, Token: {token}")
                 else: # 'new' o 'in_progress'
                     token_is_valid_for_game = True
         
-        survey_exists_string_value = str(survey_exists_bool).lower() # 'true' o 'false'
+        # --- LÍNEA MODIFICADA AQUÍ ---
+        survey_exists_string_value = 'true' if survey_exists_bool else 'false'
+        # --- FIN DE LA MODIFICACIÓN ---
 
         _logger.info(f"Play page context: survey_id={survey_id}, survey_exists_for_log={survey_exists_bool}, survey_exists_str_to_template={survey_exists_string_value}, token={token}, token_valid_for_game={token_is_valid_for_game}")
 
         qcontext = {
             'survey_id': survey_id,
-            'survey_exists_str': survey_exists_string_value, 
-            'token_str': token, 
+            'survey_exists_str': survey_exists_string_value,
+            'token_str': token,
             'token_valid_for_page': token_is_valid_for_game,
             'play_page_title_from_controller': request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_page_title', '¡Ninja Quiz!'),
         }
