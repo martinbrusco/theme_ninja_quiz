@@ -1,14 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="layout" inherit_id="website.layout" name="Ninja Quiz Layout">
-        <xpath expr="//title" position="replace">
-            <title t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.layout_title', 'Ninja Quiz')"/>
-        </xpath>
-        <xpath expr="//div[@id='footer']" position="replace">
-            <div id="footer"></div>
-        </xpath>
-        <xpath expr="//link[@rel='preload' and contains(@href, 'fontawesome')]" position="replace">
-            <!-- No reemplazamos con nada, simplemente eliminamos -->
+    <template id="layout" name="Ninja Quiz Layout" inherit_id="website.layout">
+        <xpath expr="//head" position="inside">
+            <t t-call-assets="theme_ninja_quiz.assets"/>
         </xpath>
     </template>
 </odoo>

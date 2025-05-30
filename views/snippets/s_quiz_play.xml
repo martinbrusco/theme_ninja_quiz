@@ -1,16 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="theme_ninja_quiz_playpage_container" name="Ninja Quiz Jugar">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <t t-call-assets="web.assets_common"/>
+                <!-- No necesitamos t-call-assets para theme_ninja_quiz.assets, ya que está en __manifest__.py -->
+            </t>
+            <section id="s_ninja_quiz" class="oe_structure">
+                <div class="content">
+                    <t t-call="theme_ninja_quiz.s_quiz_play_template"/>
+                </div>
+            </section>
+        </t>
+    </template>
+
     <template id="s_quiz_play_template" name="Ninja Quiz Jugar">
         <section class="s_ninja_quiz_play_snippet py-5">
             <div class="container">
                 <div class="ninja-quiz-card p-4 p-md-5 shadow rounded" style="background-color: white;">
-                    <h1 class="title text-center mb-4" 
-                        t-out="play_page_title_from_controller or request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_page_title', '¡Ninja Quiz!')"/>
-                    
+                    <h2 class="title text-center mb-4" t-out="play_page_title_from_controller or request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_page_title', '¡Ninja Quiz!')"/>
                     <t t-if="token_valid_for_page">
-                        <div id="kahoot-survey-runner-placeholder" 
-                             t-att-data-survey-id="survey_id"      
-                             t-att-data-survey-exists="survey_exists_str"  t-att-data-token="token_str">
-                             <p class="text-center text-muted">Cargando el juego...</p>
+                        <script>console.log('Placeholder rendered in DOM');</script>
+                        <div id="kahoot-survey-runner-placeholder" t-att-data-survey-id="survey_id" t-att-data-survey-exists="survey_exists_str" t-att-data-token="token_str">
+                            <p class="text-center text-muted">Cargando el juego...</p>
                         </div>
                     </t>
                     <t t-else="">
@@ -21,7 +33,7 @@
                             <p class="mb-0">Si crees que esto es un error, intenta volver a ingresar el PIN.</p>
                         </div>
                         <div class="text-center mt-3">
-                            <a href="/" class="btn btn-primary btn-lg">Volver al Inicio</a>
+                            <a href="/" class="btn btn-primary">Volver al Inicio</a>
                         </div>
                     </t>
                 </div>

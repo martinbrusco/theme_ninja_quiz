@@ -1,74 +1,86 @@
-odoo.define('@theme_ninja_quiz/js/lib/SurveyDataService', ['@web/core/network/rpc_service'], function (require) {
+odoo.define('@theme_ninja_quiz/js/lib/SurveyDataService', ['@web'], function (require) {
     'use strict';
 
     const { jsonrpc } = require("@web/core/network/rpc_service");
 
     class SurveyDataService {
         async getQuestions(surveyId, token) {
-            console.log("SURVEY_DATA_SERVICE.JS: getQuestions called with surveyId:", surveyId, "token:", token);
+            if (!surveyId || !token) {
+                console.warn('SURVEY_DATA_SERVICE.JS: Invalid surveyId or token', { surveyId, token });
+                return { success: false, error: 'Missing survey ID or token' };
+            }
+            console.log(`SURVEY_DATA_SERVICE.JS: Fetching questions for surveyId=${surveyId}, token=${token}`);
             try {
                 const response = await jsonrpc("/survey/get_data", {
-                    survey_id: surveyId,
+                    survey_id: parseInt(surveyId, 10),
                     access_token: token
                 });
-                console.log("SURVEY_DATA_SERVICE.JS: Response from /survey/get_data:", JSON.parse(JSON.stringify(response)));
-                
-                if (!response || typeof response.success === 'undefined') {
-                    console.error("SURVEY_DATA_SERVICE.JS: Invalid response structure from /survey/get_data", response);
-                    throw new Error("Respuesta inválida del servidor al obtener preguntas.");
-                }
-                return response; 
+                console.log('SURVEY_DATA_SERVICE.JS: Response from /survey/get_data:', response);
 
+                if (!response || typeof response.success === 'undefined') {
+                    console.error('SURVEY_DATA_SERVICE.JS: Invalid response structure', response);
+                    return { success: false, error: 'Invalid server response' };
+                }
+                return response;
             } catch (error) {
-                console.error("SURVEY_DATA_SERVICE.JS: Error in getQuestions() rpc call:", error);
-                throw error; 
+                console.error('SURVEY_DATA_SERVICE.JS: Error fetching questions:', error);
+                return { success: false, error: error.message || 'Failed to fetch questions' };
             }
         }
 
         async submitAnswer(surveyId, questionId, answerId, token) {
-            console.log("SURVEY_DATA_SERVICE.JS: submitAnswer called with surveyId:", surveyId, "questionId:", questionId, "answerId:", answerId, "token:", token);
+            if (!surveyId || !questionId || !answerId || !token) {
+                console.warn('SURVEY_DATA_SERVICE.JS: Invalid parameters', { surveyId, questionId, answerId, token });
+                return { success: false, error: 'Missing required parameters' };
+            }
+            console.log(`SURVEY_DATA_SERVICE.JS: Submitting answer: surveyId=${surveyId}, questionId=${questionId}, answerId=${answerId}, token=${token}`);
             try {
                 const response = await jsonrpc("/survey/submit", {
-                    survey_id: surveyId,
-                    question_id: questionId,
-                    answer_id: answerId, 
+                    survey_id: parseInt(surveyId, 10),
+                    question_id: parseInt(questionId, 10),
+                    answer_id: parseInt(answerId, 10),
                     access_token: token
                 });
-                console.log("SURVEY_DATA_SERVICE.JS: Response from /survey/submit:", response);
-                return response;
+                console.log('SURVEY_DATA_SERVICE.JS: Response from /survey/submit:', response);
+                return response || {};
             } catch (error) {
-                console.error("SURVEY_DATA_SERVICE.JS: Error in submitAnswer() rpc call:", error);
-                throw error;
+                console.error('SURVEY_DATA_SERVICE.JS: Error submitting answer:', error);
+                return { success: false, error: 'Failed to submit answer' };
             }
         }
 
         async validateToken(surveyId, token) {
-            console.log("SURVEY_DATA_SERVICE.JS: validateToken called with surveyId:", surveyId, "token:", token);
+            if (!surveyId || !token) {
+                console.warn('SURVEY_DATA_SERVICE.JS: Invalid surveyId or token', { surveyId, token });
+                return { success: false };
+            }
+            console.log(`SURVEY_DATA_SERVICE.JS: Validating token for surveyId=${surveyId}, token=${token}`);
             try {
                 const response = await jsonrpc("/survey/validate_token", {
-                    survey_id: surveyId,
-                    access_token: token 
+                    survey_id: parseInt(surveyId, 10),
+                    access_token: token
                 });
-                console.log("SURVEY_DATA_SERVICE.JS: Response from /survey/validate_token:", response);
-                return response.success; 
+                console.log('SURVEY_DATA_SERVICE.JS: Response from /survey/validate_token:', response);
+                return { success: response.valid || false };
             } catch (error) {
-                console.error("SURVEY_DATA_SERVICE.JS: Error in validateToken() rpc call:", error);
-                return false; 
+                console.error('SURVEY_DATA_SERVICE.JS: Error validating token:', error);
+                return { success: false };
             }
         }
 
         async getConfigParams() {
-            console.log("SURVEY_DATA_SERVICE.JS: getConfigParams called");
+            console.log('SURVEY_DATA_SERVICE.JS: Fetching config parameters');
             try {
-                const response = await jsonrpc("/survey/get_config_params");
-                console.log("SURVEY_DATA_SERVICE.JS: Response from /survey/get_config_params:", response);
-                return response;
+                const response = await jsonrpc("/survey/get_config_params", {});
+                console.log('SURVEY_DATA_SERVICE.JS: Response from /survey/get_config_params:', response);
+                return response || {};
             } catch (error) {
-                console.error("SURVEY_DATA_SERVICE.JS: Error in getConfigParams() rpc call:", error);
-                return {}; 
+                console.error('SURVEY_DATA_SERVICE.JS: Error fetching config params:', error);
+                return {};
             }
         }
     }
 
+    console.log('SURVEY_DATA_SERVICE.JS: SurveyDataService defined');
     return { SurveyDataService };
 });

@@ -80,11 +80,11 @@
     <!-- XML template texts -->
     <record id="homepage_title" model="ir.config_parameter">
         <field name="key">theme_ninja_quiz.homepage_title</field>
-        <field name="value">¡Bienvenido a Ninja Quiz!</field>
+        <field name="value">¡Ninja Quiz!</field>
     </record>
     <record id="homepage_paragraph" model="ir.config_parameter">
         <field name="key">theme_ninja_quiz.homepage_paragraph</field>
-        <field name="value">Participa en nuestro quiz y pon a prueba tus conocimientos.</field>
+        <field name="value">Pon a prueba tus conocimientos.</field>
     </record>
     <record id="play_button" model="ir.config_parameter">
         <field name="key">theme_ninja_quiz.play_button</field>
