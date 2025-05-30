@@ -13,7 +13,7 @@ class NinjaQuiz(http.Controller):
             'error_message': error_message,
         })
 
-    @http.route('/quiz/validate_pin', type='http', auth='public', website=True, methods=['POST'], csrf=True)
+    @http.route('/quiz/validate_pin', type='http', auth='public', website=True, methods=['POST'], csrf=False)
     def validate_pin(self, **post):
         pin = post.get('pin')
         _logger.info(f"Validating PIN: {pin}")
