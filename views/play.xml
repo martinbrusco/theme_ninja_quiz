@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="play_page_template" name="Ninja Quiz Play">
         <t t-call="theme_ninja_quiz.layout">
@@ -19,4 +19,4 @@
             </footer>
         </t>
     </template>
-</odoo>
+</odoo> -->
