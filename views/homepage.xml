@@ -4,10 +4,6 @@
                 <h1 class="title" t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Ninja Quiz!')"/>
                 <p class="custom-paragraph" t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_paragraph', 'Pon a prueba tus conocimientos.')"/>
 
-                <div t-if="error_message" class="alert alert-danger" role="alert">
-                    <t t-esc="error_message"/>
-                </div>
-
                 <div class="pin-input-container" style="max-width: 350px; margin:auto;">
                     <form action="/quiz/validate_pin" method="POST">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
@@ -15,9 +11,6 @@
                         <button type="submit" class="btn btn-primary join-button w-100">Entrar</button>
                     </form>
                 </div>
-           <!--      <div class="text-center mt-3">
-                     <a href="/components" class="btn btn-secondary">Ver componentes</a>
-                </div> -->
             </div>
         </section>
     </template>
