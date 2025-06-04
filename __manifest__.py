@@ -1,31 +1,18 @@
 {
     'name': 'Theme Ninja Quiz',
-    'description': '!Vamos que esta si va!',
-    'version': '1.0',
-    'category': 'Theme/Creative',
-    'depends': ['website', 'survey', 'web'],
+    'description': 'Tema para Ninja Quiz',
+    'version': '17.0.1.0.0',
+    'category': 'Theme',
+    'type': 'theme',
+    'depends': ['ninja_quiz_auxiliar', 'website'],
     'data': [
-        'data/config.xml',
-        'views/snippets/snippets.xml',
-        'views/snippets/s_quiz_home.xml',  # Define theme_ninja_quiz_homepage
-        'views/snippets/s_quiz_play.xml',
-        'views/snippets/footer.xml',
-        'views/components.xml',
-        'views/kahoot_template.xml',
-        'views/layout.xml',
-        'views/survey_views.xml',
-        'views/website_pages.xml',
-        'views/homepage.xml',
+        'views/homepage_template.xml',
+        'views/play_page_template.xml',
+        'views/components_library.xml',
     ],
     'assets': {
-        'web.assets_common': [
-            'theme_ninja_quiz/static/src/scss/custom.scss',
-            'theme_ninja_quiz/static/src/js/lib/SurveyDataService.js',
-            'theme_ninja_quiz/static/src/js/lib/StateManager.js',
-            'theme_ninja_quiz/static/src/js/kahoot_survey_runner.js',
-            'theme_ninja_quiz/static/src/js/lib/mountComponent.js',
+        'web.assets_frontend': [
+            'theme_ninja_quiz/static/src/css/styles.scss',
         ],
     },
-    'application': False,
-    'auto_install': False,
 }

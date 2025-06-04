@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="theme_ninja_quiz.homepage_template">
+        <t t-extend="website.layout">
+            <t t-jquery="body" t-operation="append">
+                <div class="homepage">
+                    <h1><t t-esc="homepage_title"/></h1>
+                    <p><t t-esc="homepage_paragraph"/></p>
+                    <form action="/quiz/validate_pin" method="post">
+                        <input type="text" name="pin" placeholder="Ingrese el PIN"/>
+                        <button type="submit"><t t-esc="play_button"/></button>
+                    </form>
+                    <t t-if="error_message">
+                        <p class="error"><t t-esc="error_message"/></p>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </t>
+</templates>
