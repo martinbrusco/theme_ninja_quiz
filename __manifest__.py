@@ -1,36 +1,18 @@
 {
-    "name": "Theme Ninja Quiz",
-    "description": "Un tema que emula una página de ingreso de PIN para un quiz",
-    "category": "Theme/Creative",
-    "version": "1.0",
-    "author": "Martin Brusco",
-    "license": "LGPL-3",
-    "depends": ["web", "website", "survey"],
-    "data": [
-        "data/config.xml",
-        "views/layout.xml",
-        "views/footer.xml",
-        "views/homepage.xml",
-        "views/components.xml",
-        "views/play.xml",
-        "views/survey_views.xml",
+    'name': 'Theme Ninja Quiz',
+    'description': 'Tema para Ninja Quiz',
+    'version': '17.0.1.0.0',
+    'category': 'Theme',
+    'type': 'theme',
+    'depends': ['ninja_quiz_auxiliar', 'website'],
+    'data': [
+        'views/homepage_template.xml',
+        'views/play_page_template.xml',
+        'views/components_library.xml',
     ],
-    "assets": {
-        "web.assets_frontend": [
-            "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
-            "theme_ninja_quiz/static/src/js/lib/SurveyDataService.js",
-            "theme_ninja_quiz/static/src/js/lib/StateManager.js",
-            "theme_ninja_quiz/static/src/js/lib/mountComponent.js",
-            "theme_ninja_quiz/static/src/scss/custom.scss",
-        ],
-        "website.assets_frontend": [
-            "theme_ninja_quiz/static/src/js/kahoot_survey_runner.js",
-            "theme_ninja_quiz/static/src/js/lib/SurveyDataService.js",
-            "theme_ninja_quiz/static/src/js/lib/StateManager.js",
-            "theme_ninja_quiz/static/src/js/lib/mountComponent.js",
-            "theme_ninja_quiz/static/src/scss/custom.scss",
+    'assets': {
+        'web.assets_frontend': [
+            'theme_ninja_quiz/static/src/css/styles.scss',
         ],
     },
-    "application": False,
-    "auto_install": False,
 }

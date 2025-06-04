@@ -1,691 +1,97 @@
-/* Configuración general de la página */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #431f99;
-  background-image:
-    radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
-    radial-gradient(circle at 80% 70%, #3b1c91 20%, transparent 20%),
-    radial-gradient(circle at 50% 50%, #4b1d98 50%, #431f99 51%);
-  background-repeat: no-repeat;
-  background-size: cover;
+body {
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
 }
 
-
-
-
-/* Contenedor principal */
-main.ninja-quiz-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 16px;
-}
-
-/* Estilos para el contenedor del quiz */
-.ninja-quiz-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
+.kahoot-game-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-}
-
-.ninja-quiz-card {
-  background-color: white;
-  border-radius: 16px;
-  padding: 32px;
-  width: 100%;
-  max-width: 960px;
-  min-height: 80vh;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   text-align: center;
 }
 
-/* Contenedor para el input del PIN */
-.pin-input-container {
-  margin-top: 16px;
-  max-width: 300px;
-  width: 100%;
-}
-
-/* Títulos */
-.title {
-  font-size: 28px;
-  color: #222;
-  margin-bottom: 24px;
-  font-weight: bold;
-}
-
-.mosaic-hero__title {
-  color: #333;
-  font-size: clamp(0.75rem, 1.16667vmin, 0.875rem);
-  font-weight: 700;
-  text-rendering: optimizeLegibility;
-  font-family: 'Montserrat', sans-serif;
-  padding: 0;
-  margin: 0;
-}
-
-/* Inputs */
-.pin-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  text-align: center;
-  outline: none;
-  transition: border-color 0.3s ease;
-  font-weight: bold;
-  color: rgb(51, 51, 51);
-  background-color: rgb(255, 255, 255);
-}
-
-.pin-input:focus {
-  border-color: #7b61ff;
-}
-
-.login-label {
-  box-sizing: inherit;
-  font-weight: bold;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  color: inherit;
-  --real100vh: 100vh;
-  --dynamic100dvh: 100dvh;
-  --sat: env(safe-area-inset-top);
-}
-
-.login-input {
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 40px;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  background-color: #fff;
-  color: #333;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  appearance: none;
-  text-overflow: ellipsis;
-  resize: none;
-  overflow: auto;
-  padding: 0 1rem;
-  white-space: nowrap;
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font: inherit;
-}
-
-/* Botones */
-.join-button {
-  width: 100%;
-  padding: 12px;
-  font-size: 18px;
-  background-color: #2e2e2e;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  margin-top: 8px;
-  height: 48px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px, rgba(0, 0, 0, 0.25) 0px -4px inset;
-}
-
-.join-button:hover {
-  background-color: #1e1e1e;
-}
-
-.btn-subscribe {
-  display: inline-block;
-  background-color: #26890C;
-  color: white;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  text-decoration: none;
-  margin-top: 8px;
-  text-transform: uppercase;
-  width: 100%;
-  text-align: center;
-}
-
-.btn-news {
-  display: inline-block;
-  background-color: #0057FF;
-  color: white;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  text-decoration: none;
-  margin-top: 8px;
-  position: relative;
-  width: 100%;
-  text-align: center;
-}
-
-.notification-bubble {
-  background-color: red;
-  border-radius: 50%;
-  color: white;
-  font-size: 0.75rem;
-  padding: 0.25em 0.5em;
-  position: absolute;
-  top: -8px;
-  right: -8px;
-}
-
-.btn-create-kahoot {
-  max-height: calc(5rem - 1rem);
-  min-width: calc(7.5rem - 1rem);
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 0.25rem;
-  background-color: #ffffff;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  text-decoration: none;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #333;
-  transition: all 0.2s ease;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.btn-create-kahoot:hover {
-  background-color: #f0f0f0;
-  transform: scale(1.03);
-}
-
-.btn-learn-more {
-  background-color: #1368ce;
-  color: #0057FF;
-  font-weight: bold;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  padding-right: 0.75rem;
-  text-decoration: none;
-  line-height: 1.4;
-  background-image: url(/wp-content/themes/kahoot2017/assets/img/right-arrow-blue.svg);
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: 0.625rem 0.625rem;
-  display: inline-block;
-  position: relative;
-  text-align: left;
-  transition: width 0.2s;
-}
-
-.btn-contact-sale {
-  text-transform: uppercase;
-  background-color: #0057FF;
-  color: #fff !important;
-  margin-left: 0.625rem;
-  text-decoration: none;
-  font-weight: 700;
-  //text-renderingZb optimizeLegibility;
-  padding: clamp(0.375rem, 0.66667vmin, 0.5rem) clamp(0.375rem, 0.66667vmin, 0.5rem);
-  display: block;
-  border: 0.0625rem solid #0057FF;
-  border-radius: 0.25rem;
-  font-size: clamp(0.75rem, 1.16667vmin, 0.875rem);
-  font-family: 'Montserrat', sans-serif;
-  list-style-type: none;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.btn-contact-sale:hover {
-  background-color: #ffffff;
-  color: #0057FF !important;
-}
-
-/* Footer */
-.p-footer {
-  color: #fafafa;
-  font-size: 0.875rem;
-  margin-top: 24px;
-  font-weight: 500;
-  text-align: center;
-}
-
-.footer-nav__title {
-  pointer-events: auto;
-  cursor: text;
-  font-size: clamp(.875rem, 1.33333vmin, 1rem);
-  font-weight: 700;
-  text-rendering: optimizeLegibility;
-  display: block;
-  margin-bottom: clamp(1.125rem, 1.66667vmin, 1.25rem);
-  color: #fff;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.footer-nav__link {
-  text-decoration: underline;
-  color: #fff;
-  font-size: clamp(.875rem, 1.33333vmin, 1rem);
-  list-style-type: none;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.copyright {
-  margin-bottom: 0;
-  display: block;
-  color: #fff;
-  font-size: clamp(.75rem, 1.16667vmin, .875rem);
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* Textos */
-.custom-paragraph {
-  font-size: 12px;
-  margin-top: 8px;
-  color: #6e6e6e;
-  line-height: 1.4;
-  font-weight: 400;
-  text-align: left;
-  padding: 0;
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.paragraph-strong {
-  font-size: 12px;
-  color: #6e6e6e;
-  line-height: 1.4;
-  font-weight: 400;
-  text-align: left;
-  padding: 0;
-  margin: 0;
-  margin-top: 8px;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.paragraph-strong strong {
-  font-weight: 700;
-  color: #333;
-}
-
-/* Galería de componentes */
-.components-gallery {
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.gallery-section {
-  padding: 2rem;
-  margin-bottom: 3rem;
-  border-radius: 8px;
-}
-
-.gallery-section .section-title {
-  color: inherit;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid currentColor;
-}
-
-.dark-bg {
-  background: #431f99;
-  background-image:
-    radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
-    radial-gradient(circle at 80% 70%, #3b1c91 20%, transparent 20%),
-    radial-gradient(circle at 50% 50%, #4b1d98 50%, #431f99 51%);
-}
-
-.dark-bg .section-title {
-  color: white;
-}
-
-.light-bg {
+.question-container {
   background: white;
-}
-
-.light-bg .section-title {
-  color: #333;
-}
-
-.component-container {
-  display: inline-block;
-  margin: 1rem;
-  vertical-align: top;
-}
-
-.component-preview {
-  padding: 1.5rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.light-bg .component-preview {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.component-label {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
-  text-align: center;
-  color: #666;
-}
-
-.dark-bg .component-label {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Estilos para el componente survey-runner */
-.survey-runner {
-  text-align: center;
   padding: 20px;
-  background: #f8f9 Dmitry;
   border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
-  position: relative;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.options button {
+  display: block;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.answer-counter {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #333;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.progress-general {
-  margin-bottom: 20px;
-  color: #333;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.progress-bar-general {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  margin-top: 10px;
-}
-
-.progress-segment {
-  width: 20px;
-  height: 5px;
-  border-radius: 2px;
-  background-color: #ccc;
-  position: relative;
-}
-
-.progress-segment.answered {
-  background-color: #ffca28;
-}
-
-.progress-segment.current {
-  background-color: #2196f3;
-}
-
-.progress-segment .answered-icon {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: #333;
-}
-
-.progress-timer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  color: #333;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.progress-bar {
-  width: 100px;
-  height: 5px;
-  background-color: #ccc;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: #2196f3;
-  transition: width 1s linear;
-}
-
-.survey-runner .question-title {
-  color: #333;
-  font-size: 120px !important;
-  font-weight: bold;
-  margin: 15px 0;
-  text-align: center;
-  line-height: 1.1;
-}
-
-.options-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.option-button {
-  position: relative;
-  width: 100%;
-  padding: 20px;
+  padding: 10px;
+  margin: 10px 0;
+  background: #007bff;
+  color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
+}
+
+.options button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.feedback {
   font-weight: bold;
-  color: #333;
-  text-align: left;
-  transition: transform 0.2s ease, opacity 0.3s ease;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  color: #28a745;
 }
 
-.option-shape {
-  position: absolute;
-  left: 20px;
-  width: 30px;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.option-text {
-  margin-left: 60px;
-  text-align: left;
-}
-
-.option-0 .option-button {
-  background-color: #e91e63;
-}
-
-.option-0 .option-shape {
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.option-1 .option-button {
-  background-color: #2196f3;
-}
-
-.option-1 .option-shape {
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-
-.option-2 .option-button {
-  background-color: #ffca28;
-}
-
-.option-2 .option-shape {
-  border-radius: 50%;
-}
-
-.option-3 .option-button {
-  background-color: #4caf50;
-}
-
-.option-3 .option-shape {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-}
-
-.option-button:hover:not(:disabled) {
-  transform: scale(1.05);
-}
-
-.option-button.selected {
-  opacity: 0.8;
-}
-
-.option-button.correct {
-  background-color: #28a745 !important;
-}
-
-.option-button.incorrect {
-  background-color: #dc3545 !important;
-}
-
-.feedback-message {
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  color: #333;
-  background-color: rgba(255, 255, 255, 0.9);
-  animation: slideIn 0.5s ease-in-out;
-}
-
-.feedback-message.correct {
-  background-color: rgba(40, 167, 69, 0.9);
-}
-
-.feedback-message.incorrect {
-  background-color: rgba(220, 53, 69, 0.9);
-}
-
-.explanation {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 5px;
-  color: #333;
-}
-
-.navigation {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  max-width: 800px;
-  margin: 20px auto;
+.feedback.incorrect {
+  color: #dc3545;
 }
 
 .navigation button {
-  background-color: #6b3fa0;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
+  margin: 10px;
   padding: 10px 20px;
+  background: #333;
+  color: white;
+  border: none;
   border-radius: 5px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.navigation button:hover:not(:disabled) {
-  background-color: #ffca28;
-  color: #333;
-  transform: scale(1.05);
+  cursor: pointer;
 }
 
 .navigation button:disabled {
-  background-color: #ccc;
-  color: #666;
+  background: #ccc;
   cursor: not-allowed;
-  animation: none;
 }
 
-.navigation button.pulse {
-  animation: pulse 1.5s infinite;
+.error {
+  color: #dc3545;
 }
 
-/* Animaciones */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.homepage {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.homepage form {
+  margin-top: 20px;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
+.homepage input {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease-in-out;
+.homepage button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.play-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
 }

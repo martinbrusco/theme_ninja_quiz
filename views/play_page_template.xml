@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="theme_ninja_quiz.play_page_template">
+        <t t-call="web.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="play-page">
+                    <div class="container">
+                        <h1><t t-esc="play_page_title"/></h1>
+                        <t t-if="survey_exists == 'true' and token_valid">
+                            <t t-call="ninja_quiz_auxiliar.KahootSurveyRunner">
+                                <t t-set="surveyId" t-value="survey_id"/>
+                                <t t-set="token" t-value="token"/>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <p><t t-esc="survey_not_found"/></p>
+                            <a href="/"><t t-esc="back_to_home"/></a>
+                        </t>
+                        <p><t t-esc="footer_text"/></p>
+                    </div>
+                </section>
+            </t>
+        </div>
+    </t>
+</templates>
