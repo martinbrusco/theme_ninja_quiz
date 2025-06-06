@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <template id="layout" name="Ninja Quiz Layout" inherit_id="website.layout">
-        <xpath expr="//head" position="inside">
-            <t t-call-assets="theme_ninja_quiz.assets"/>
-        </xpath>
-    </template>
-</odoo>

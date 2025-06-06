@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" xml:space="preserve">
-    <t t-name="theme_ninja_quiz.homepage_template">
-        <t t-extend="website.layout">
-            <t t-jquery="body" t-operation="append">
-                <div class="homepage">
-                    <h1><t t-esc="homepage_title"/></h1>
-                    <p><t t-esc="homepage_paragraph"/></p>
-                    <form action="/quiz/validate_pin" method="post">
-                        <input type="text" name="pin" placeholder="Ingrese el PIN"/>
-                        <button type="submit"><t t-esc="play_button"/></button>
-                    </form>
-                    <t t-if="error_message">
-                        <p class="error"><t t-esc="error_message"/></p>
-                    </t>
-                </div>
-            </t>
-        </t>
-    </t>
-</templates>
+<odoo>
+    <template id="homepage_ninja_override" inherit_id="website.homepage" name="Ninja Quiz Homepage">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="oe_structure oe_empty">
+                <main class="ninja-quiz-container">
+                    <div class="ninja-quiz-card">
+                        <h1 class="title" t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.homepage_title', '¡Bienvenido a Ninja Quiz!')"/>
+                        
+                        <t t-if="request.params.get('pin_error') == '1'">
+                            <div class="alert alert-danger mt-3">PIN inválido. Por favor, intenta de nuevo.</div>
+                        </t>
+
+                        <div class="pin-input-container">
+                            <form action="/quiz/validate_pin" method="POST">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="form-group">
+                                    <input type="text" class="pin-input" name="pin" placeholder="Ingresa el PIN del juego" required="true"/>
+                                </div>
+                                <button type="submit" class="join-button">Entrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </xpath>
+    </template>
+</odoo>
