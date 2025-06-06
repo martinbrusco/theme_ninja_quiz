@@ -1,97 +1,193 @@
-body {
-  background-color: #f5f5f5;
-  font-family: Arial, sans-serif;
+/* Configuración general de la página */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #431f99;
+  background-image:
+    radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
+    radial-gradient(circle at 80% 70%, #3b1c91 20%, transparent 20%),
+    radial-gradient(circle at 50% 50%, #4b1d98 50%, #431f99 51%);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.kahoot-game-container {
+/* Contenedor principal */
+main.ninja-quiz-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+/* Estilos para el contenedor del quiz */
+.ninja-quiz-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  text-align: center;
 }
 
-.question-container {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.options button {
-  display: block;
+.ninja-quiz-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 32px;
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  max-width: 960px;
+  min-height: 80vh;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.options button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+/* Contenedor para el input del PIN */
+.pin-input-container {
+  margin-top: 16px;
+  max-width: 300px;
+  width: 100%;
 }
 
-.feedback {
+/* Títulos */
+.title {
+  font-size: 28px;
+  color: #222;
+  margin-bottom: 24px;
   font-weight: bold;
-  color: #28a745;
 }
 
-.feedback.incorrect {
-  color: #dc3545;
+/* Inputs */
+.pin-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.3s ease;
+  font-weight: bold;
+  color: rgb(51, 51, 51);
+  background-color: rgb(255, 255, 255);
 }
 
-.navigation button {
-  margin: 10px;
-  padding: 10px 20px;
-  background: #333;
+.pin-input:focus {
+  border-color: #7b61ff;
+}
+
+/* Botones */
+.join-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background-color: #2e2e2e;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 8px;
+  height: 48px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px, rgba(0, 0, 0, 0.25) 0px -4px inset;
 }
 
-.navigation button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+.join-button:hover {
+  background-color: #1e1e1e;
 }
 
-.error {
-  color: #dc3545;
+.btn-subscribe {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #26890C;
+    color: white;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
 }
 
-.homepage {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
-
-.homepage form {
+/* Feedback messages for play page */
+.feedback-message {
   margin-top: 20px;
-}
-
-.homepage input {
   padding: 10px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
   border-radius: 5px;
+  font-weight: bold;
+  color: #fff;
+  animation: slideIn 0.5s ease-in-out;
 }
 
-.homepage button {
-  padding: 10px 20px;
-  background: #007bff;
-  color: white;
+.feedback-message.incorrect {
+  background-color: rgba(220, 53, 69, 0.9);
+}
+
+.feedback-message.correct {
+  background-color: rgba(40, 167, 69, 0.9);
+}
+
+/* Footer */
+.p-footer {
+  color: #fafafa;
+  font-size: 0.875rem;
+  margin-top: 24px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Estilos para el componente OWL survey-runner */
+.survey-runner {
+    /* Aquí puedes añadir estilos que afecten a todo el componente OWL */
+    width: 100%;
+}
+.question-title {
+  color: #333;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 15px 0;
+}
+.options-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+.option-button {
+  width: 100%;
+  padding: 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  transition: transform 0.2s ease, opacity 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
 }
+.option-shape {
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+}
+.option-0 .option-button { background-color: #e91e63; }
+.option-0 .option-shape { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background-color: white; }
+.option-1 .option-button { background-color: #2196f3; }
+.option-1 .option-shape { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); background-color: white; }
+.option-2 .option-button { background-color: #ffca28; }
+.option-2 .option-shape { border-radius: 50%; background-color: white; }
+.option-3 .option-button { background-color: #4caf50; }
+.option-3 .option-shape { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); background-color: white; }
 
-.play-page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
+/* ... resto de tus estilos ... */

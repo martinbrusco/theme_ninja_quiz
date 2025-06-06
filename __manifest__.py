@@ -1,18 +1,24 @@
 {
     'name': 'Theme Ninja Quiz',
-    'description': 'Tema para Ninja Quiz',
-    'version': '17.0.1.0.0',
-    'category': 'Theme',
-    'type': 'theme',
-    'depends': ['ninja_quiz_auxiliar', 'website'],
+    'description': 'Tema visual para el motor de Quiz Kahoot. Emula la apariencia de Kahoot.',
+    'category': 'Theme/Creative',
+    'version': '17.0.1.0',
+    'author': 'Martin Brusco',
+    'license': 'LGPL-3',
+    'depends': [
+        'quiz_kahoot_functional',
+        'website',
+    ],
     'data': [
+        'views/layout_overrides.xml',
         'views/homepage_template.xml',
-        'views/play_page_template.xml',
-        'views/components_library.xml',
     ],
     'assets': {
         'web.assets_frontend': [
-            'theme_ninja_quiz/static/src/css/styles.scss',
+            'theme_ninja_quiz/static/src/scss/custom.scss',
         ],
     },
+    'installable': True,
+    'application': False,
+    'auto_install': False,
 }
