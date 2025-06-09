@@ -159,7 +159,8 @@ main.ninja-quiz-container {
   padding: 0;
   margin: 20px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* CAMBIO AQUÍ: Se fuerza una parrilla de 2 columnas iguales */
+  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
 }
 .option-button {
@@ -189,5 +190,3 @@ main.ninja-quiz-container {
 .option-2 .option-shape { border-radius: 50%; background-color: white; }
 .option-3 .option-button { background-color: #4caf50; }
 .option-3 .option-shape { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); background-color: white; }
-
-/* ... resto de tus estilos ... */
