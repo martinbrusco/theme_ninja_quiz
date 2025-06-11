@@ -1,16 +1,15 @@
 {
     'name': 'Theme Ninja Quiz',
     'description': 'Tema visual para el motor de Quiz Kahoot. Emula la apariencia de Kahoot.',
+    'type': 'theme', 
     'category': 'Theme/Creative',
     'version': '17.0.1.0',
     'author': 'Martin Brusco',
     'license': 'LGPL-3',
     'depends': [
         'quiz_kahoot_functional',
-        'website',
     ],
     'data': [
-        'views/layout_overrides.xml',
         'views/homepage_template.xml',
     ],
     'assets': {

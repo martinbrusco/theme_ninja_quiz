@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
+    <template id="layout_ninja" inherit_id="website.layout" name="Ninja Quiz Base Layout">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="o_footer_desaturated"/>
+        </xpath>
+    </template>
+
+    <template id="play_page_override" inherit_id="quiz_kahoot_functional.play_page_template" name="Styled Play Page">
+        <xpath expr="//t[@t-call='website.layout']" position="replace">
+            <t t-call="theme_ninja_quiz.layout_ninja">
+                <main class="ninja-quiz-container">
+                    <div class="ninja-quiz-card">
+                        <h1 class="title" t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.play_page_title', '¡Ninja Quiz!')"/>
+                        <t t-if="token_valid">
+                            <div id="kahoot-survey-runner-placeholder"
+                                 t-att-data-survey-id="survey_id"
+                                 t-att-data-survey-exists="survey_exists"
+                                 t-att-data-token="token"/>
+                        </t>
+                        <t t-else="">
+                            <p class="feedback-message incorrect">¡Token inválido! Por favor, ingresa un PIN válido en la página principal.</p>
+                            <a href="/" class="btn-subscribe">Volver al inicio</a>
+                        </t>
+                    </div>
+                </main>
+                <footer class="mt-3 text-center">
+                    <p class="p-footer" t-out="request.env['ir.config_parameter'].sudo().get_param('theme_ninja_quiz.footer_text', 'Crea tu propio Quiz como un Ninja')"/>
+                </footer>
+            </t>
+        </xpath>
+    </template>
+
     <template id="homepage_ninja_override" inherit_id="website.homepage" name="Ninja Quiz Homepage">
         <xpath expr="//div[@id='wrap']" position="replace">
             <div id="wrap" class="oe_structure oe_empty">
@@ -25,4 +57,5 @@
             </div>
         </xpath>
     </template>
+
 </odoo>
