@@ -1,4 +1,4 @@
-/* Configuración general de la página */
+
 html, body {
   height: 100%;
   margin: 0;
@@ -6,9 +6,9 @@ html, body {
   font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #431f99;
   background-image:
-    radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
-    radial-gradient(circle at 80% 70%, #3b1c91 20%, transparent 20%),
-    radial-gradient(circle at 50% 50%, #4b1d98 50%, #431f99 51%);
+      radial-gradient(circle at 20% 30%, #4c21a9 20%, transparent 20%),
+      radial-gradient(circle at 80% 70%, #3b1c91 20%, transparent 20%),
+      radial-gradient(circle at 50% 50%, #4b1d98 50%, #431f99 51%);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -34,7 +34,7 @@ main.ninja-quiz-container {
 }
 
 .ninja-quiz-card {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 16px;
   padding: 32px;
   width: 100%;
@@ -105,15 +105,15 @@ main.ninja-quiz-container {
 }
 
 .btn-subscribe {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #26890C;
-    color: white;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    text-decoration: none;
-    border-radius: 4px;
-    text-align: center;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #26890C;
+  color: white;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  border-radius: 4px;
+  text-align: center;
 }
 
 /* Feedback messages for play page */
@@ -145,8 +145,7 @@ main.ninja-quiz-container {
 
 /* Estilos para el componente OWL survey-runner */
 .survey-runner {
-    /* Aquí puedes añadir estilos que afecten a todo el componente OWL */
-    width: 100%;
+  width: 100%;
 }
 .question-title {
   color: #333;
@@ -159,7 +158,6 @@ main.ninja-quiz-container {
   padding: 0;
   margin: 20px 0;
   display: grid;
-  /* CAMBIO AQUÍ: Se fuerza una parrilla de 2 columnas iguales */
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
 }
@@ -190,25 +188,3 @@ main.ninja-quiz-container {
 .option-2 .option-shape { border-radius: 50%; background-color: white; }
 .option-3 .option-button { background-color: #4caf50; }
 .option-3 .option-shape { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); background-color: white; }
-
-.progress-segment {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin: 2px;
-  &.past .answered-icon {
-      color: #28a745; /* Verde para ✅ */
-  }
-  &.past .answered-icon::after {
-      content: attr(data-symbol);
-  }
-  &.current .answered-icon {
-      color: #ffc107; /* Amarillo para ❓ */
-  }
-  &.future .answered-icon {
-      visibility: hidden;
-  }
-}
-.answered-icon {
-  font-size: 16px;
-}
