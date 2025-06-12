@@ -190,3 +190,25 @@ main.ninja-quiz-container {
 .option-2 .option-shape { border-radius: 50%; background-color: white; }
 .option-3 .option-button { background-color: #4caf50; }
 .option-3 .option-shape { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); background-color: white; }
+
+.progress-segment {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+  &.past .answered-icon {
+      color: #28a745; /* Verde para ✅ */
+  }
+  &.past .answered-icon::after {
+      content: attr(data-symbol);
+  }
+  &.current .answered-icon {
+      color: #ffc107; /* Amarillo para ❓ */
+  }
+  &.future .answered-icon {
+      visibility: hidden;
+  }
+}
+.answered-icon {
+  font-size: 16px;
+}
