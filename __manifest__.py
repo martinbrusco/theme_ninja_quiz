@@ -15,7 +15,7 @@
     'assets': {
         'web.assets_frontend': [
             'theme_ninja_quiz/static/src/scss/custom.scss',
-            'theme_ninja_quiz/static/src/scss/snippets.scss', 
+            'theme_ninja_quiz/static/src/scss/snippets.scss',
         ],
     },
     'installable': True,
