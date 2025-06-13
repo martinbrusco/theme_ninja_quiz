@@ -188,3 +188,134 @@ main.ninja-quiz-container {
 .option-2 .option-shape { border-radius: 50%; background-color: white; }
 .option-3 .option-button { background-color: #4caf50; }
 .option-3 .option-shape { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); background-color: white; }
+
+/* quiz_kahoot_functional/static/src/css/quiz.css */
+.survey-runner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.progress-timer {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.progress-timer span {
+  display: block;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.timer-bar {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  height: 25px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 1s linear, background-color 0.3s ease;
+  background-color: #28a745;
+}
+
+.feedback-message {
+  text-align: center;
+  margin: 15px 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.feedback-message.correct {
+  color: #28a745;
+}
+
+.feedback-message.incorrect {
+  color: #ff4d4d;
+}
+
+.option-button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s, transform 0.2s;
+  background-color: #f8f9fa;
+  text-align: left;
+}
+
+.option-button:hover:not(:disabled) {
+  background-color: #e2e6ea;
+  transform: scale(1.02);
+}
+
+.option-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.option-button.selected {
+  font-weight: bold;
+  background-color: #d1e7dd;
+}
+
+.progress-bar-general {
+  display: flex;
+  margin-top: 10px;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 10px;
+  margin: 0 2px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-segment.past {
+  background-color: #6c757d;
+}
+
+.progress-segment.current {
+  background-color: #007bff;
+}
+
+.progress-segment.future {
+  background-color: #e0e0e0;
+}
+
+.answered-icon {
+  font-size: 0.8em;
+}
+
+.question-title {
+  font-size: 1.5em;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.options-list {
+  list-style: none;
+  padding: 0;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
